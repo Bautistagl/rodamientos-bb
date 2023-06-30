@@ -1,0 +1,15 @@
+:root {
+  --max-width: 1100px;
+  
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+.inputs input{
+  display: flex;
+  height: 40px;
+  margin: 5px;
+}
