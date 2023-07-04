@@ -4,7 +4,7 @@ import React from 'react'
 const Navbar = () => {
   return (
     <nav className='navbar'>
-        <Image alt='' width={100}  height={60} src='/rodamientosbb.png'/>
+        <Image style={{marginLeft:'30px'}} alt='' width={100}  height={60} src='/rodamientosbb.png'/>
         <div className='botones' >
             <span className='boton'> PRODUCTOS </span>
             <span className='boton'> SERVICIOS </span>

@@ -11,7 +11,7 @@
     display: flex;
     color: #063970;
     font-weight: bolder;
-    margin-left: 300px;
+    margin-left: 10%;
     cursor: pointer;
     
 }
@@ -25,11 +25,13 @@
 }
 .inicio-sesion{
     display: flex;
+    position: absolute;
     color: #063970;
     font-weight: bolder;
-    margin-left: 100px;
     cursor: pointer;
     padding: 20px;
+    margin-right: 40px;
+    right: 0;
 }
 .icono-sesion{
     height: 30px;
