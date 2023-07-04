@@ -1,26 +1,120 @@
 .card-productos{
     display: flex;
-    flex-direction: column;
-    width: 350px;
-    height: 240px;
+    flex-direction: row;
+    width: 360px;
+    height: 300px;
     border: 2px solid black;
     border-radius: 5px;
     margin: 20px;
+    background-color: rgb(255, 255, 255);
+    text-decoration: none !important;
+    
 }
 .card-productos span{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .contenedor-cards{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-
+    display:flex;
+    width: 100%;
+    background-color: white;
+    height: 300px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 .titulo{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 5px;
+   
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bolder;
+}
+.titulo2{
+    font-size: 1.5rem;
+    margin: 5px;
+   
+}
+.titulo3{
+    font-size: 1.5rem;
+    margin: 5px;
+   
 }
 .extras{
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin: 5px;
+    
+}
+.titulo3 span{
+    color: rgb(101, 188, 101);
+    font-weight: bolder;
+    text-decoration: underline;
+}
+.extras2{
+    font-size: 1.2rem;
+    margin: 5px;
+}
+.fondo-busqueda{
+    height: 100vh;
+   
+    background-image: url("/fondo1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.fondo-busqueda span{
+    font-size: 1.5rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-top: 5px;
+}
+.fondo-busqueda input{
+    height: 40px;
+    width: 500px;
+    margin-left: 40px;
+    font-size: 1.5rem;
+}
+.barra-busqueda{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    
+}
+.titulo2 span{
+    font-weight: bolder;
+   
+}
+.contenedor-textos span{
+    font-size: 1.2rem;
+    text-decoration: underline;
+    margin: 3px;
+}
+.textos-completo{
+    display: flex;
+    width: 100%;
+
+}
+.codigo-medidas{
+    margin-left: 50px;
+    margin-top: 40px;
+}
+.contenedor-propiedades{
+    margin-left: 50px;
+}
+.propiedades{
+    margin-top: 20px;
+}
+.propiedades-principales{
+    margin-top: 40px;
+}
+.propiedades-principales span{
+    margin-right: 170px;
+}
+.propiedades span{
+    font-size: 2rem;
+}
+.prueba{
+    display: flex;
+    flex-direction: column;
 }

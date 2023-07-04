@@ -1,0 +1,38 @@
+.navbar{
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+}
+.botones{
+    display: flex;
+    color: #063970;
+    font-weight: bolder;
+    margin-left: 300px;
+    cursor: pointer;
+    
+}
+.boton{
+    padding: 20px;
+
+}
+
+.botones :hover{
+    background-color: #06397071;
+}
+.inicio-sesion{
+    display: flex;
+    color: #063970;
+    font-weight: bolder;
+    margin-left: 100px;
+    cursor: pointer;
+    padding: 20px;
+}
+.icono-sesion{
+    height: 30px;
+    margin-right: 10px;
+    margin-top: -6px;
+}

@@ -1,0 +1,73 @@
+
+
+.contenedor-singular{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-image: url("/fondo1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.medidas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin: 0;
+    
+}
+.medidas span{
+    width: 100%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+.foto-singular{
+    width: 220px;
+    height: 220px;
+    margin: 20px;
+    margin-top:250px;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 5px;
+    
+   
+}
+.titulo-singular{
+    display: flex;
+    font-size: 2.5rem;
+
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    justify-content: center;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bolder;
+}
+.info-marca{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin-left: 100px;
+    border-radius:5px;
+    height: 140px;
+    border: 2px solid black;
+
+}
+.info-marca span{
+    font-size: 2rem;
+    text-decoration: underline;
+    font-weight: bolder;
+   margin: 10px;
+}
+.marcas{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 50px;
+}

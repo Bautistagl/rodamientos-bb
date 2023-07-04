@@ -1,0 +1,38 @@
+
+.contenedor-footer{
+    display: flex;
+   
+    height: 70px;
+    width: 100%;
+    justify-content: center;
+    background-color:#063970;
+}
+
+.contenedor-footer div{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+}
+
+.contenedor-footer span{
+    display: flex;
+    font-size: 0.6rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+}
+.primer-container-footer{
+    display: flex;
+    flex-direction: column;
+}
+
+.segundo-container span{
+     font-size: 1rem;
+     margin-left: 10px;
+     cursor: pointer;
+}

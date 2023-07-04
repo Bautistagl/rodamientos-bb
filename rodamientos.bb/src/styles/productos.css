@@ -1,0 +1,39 @@
+
+.contenedor-general-productos{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+   
+    width: 90%;
+
+    height: 500px;
+}
+
+.contenedor-productos{
+    display: flex;
+    justify-content: center;
+}
+
+.fondo-productos{
+    background-color: rgba(128, 128, 128, 0.261);
+}
+
+.producto{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.437);
+    border-radius: 10px;
+    background-color: white;
+   
+}
+.producto span{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}

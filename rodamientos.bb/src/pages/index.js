@@ -1,8 +1,9 @@
 
 import {db} from '../firebase'
 import {uid} from 'uid'
-import { set,ref, onValue } from 'firebase/database'
+import { set,ref, onValue,update } from 'firebase/database'
 import { useState,useEffect } from 'react'
+
 
 import "firebase/database";
 import Link from 'next/link';
@@ -89,6 +90,23 @@ const writeData = () => {
   
 }
 
+const actualizarValores = () => {
+  const dbRef = ref(db, '/rulemanes/ 6003 2RS/SKF');
+  const nuevosValores = {
+    imagen: 'skfLogo',
+   
+  };
+
+  update(dbRef, nuevosValores)
+    .then(() => {
+      console.log('Valores actualizados correctamente.');
+    })
+    .catch((error) => {
+      console.error('Error al actualizar los valores:', error);
+    });
+};
+
+
 //read
 useEffect(()=>{
   
@@ -114,6 +132,7 @@ useEffect(()=>{
     <Link href='/busqueda'>
     <button className='boton-busqueda'> Buscar productos </button>
     </Link>
+    <button onClick={actualizarValores}> Actualizar valores</button>
     <Link href='/barraBusqueda'>
     <button className='boton-busqueda'> Barra productos </button>
     </Link>
