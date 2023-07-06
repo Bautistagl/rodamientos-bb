@@ -1,0 +1,21 @@
+.contenedor-mercado{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-content: center;
+    width: 90%;
+}
+.fotos-mercado{
+    display: flex;
+    justify-content: center;
+    margin-left: 50px;
+    margin-bottom: 100px;
+}
+.logo-mercado{
+    
+    margin-top: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

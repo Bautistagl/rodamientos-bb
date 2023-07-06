@@ -6,9 +6,7 @@ const Footer = () => {
     <div className='contenedor-footer'>
         <div className='segundo-container'>
             <Image alt='' src='/whatsapp.png' width={30} height={30}/>    
-            <span> + 54 9 1145678987</span>
-        
-        
+            <span> + 54 9 1137660938</span>
          </div>
 
          <div className='segundo-container'>

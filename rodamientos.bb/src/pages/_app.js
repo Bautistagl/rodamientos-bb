@@ -6,6 +6,8 @@ import '../styles/banner.css'
 import '../styles/servicios.css'
 import '../styles/productos.css'
 import '../styles/footer.css'
+import '../styles/mercadoLibre.css'
+import '../styles/inicioSesion.css'
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />

@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
-import firebase from 'firebase/app';
+
 import { db } from '../firebase';
 import 'firebase/database';
-import { ref, get, child } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import Image from 'next/image';
+
+import Navbar from '@/components/Navbarbautista';
+
 
 export default function CatalogPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
+  const [logeado, setLogeado] = useState(false)
 
   useEffect(() => {
+
+    
+    
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
     const getCatalogData = async () => {
@@ -34,7 +41,7 @@ export default function CatalogPage() {
   }, []);
 
   const handleSearch = (event) => {
-    const term = event.target.value;
+    const term = event.target.value.toUpperCase();
     setSearchTerm(term);
 
     // Realiza la búsqueda en los datos del catálogo
@@ -84,8 +91,11 @@ export default function CatalogPage() {
   const groupedResults = groupByCodigo1(searchResults);
 
   return (
+    <div>
+      <Navbar/>
+
     <div className="fondo-busqueda">
-      <>s</>
+      <>.</>
       <div className="barra-busqueda">
         <span>Buscar producto por código:</span>
         <input
@@ -113,9 +123,9 @@ export default function CatalogPage() {
             <div className="codigo-medidas">
               <div className="titulo-singular">{codigo1}</div>
               <div className="medidas">
-                <span>Interior: {groupedResults[codigo1][0].medidas.interior}mm</span>
-                <span>Exterior: {groupedResults[codigo1][0].medidas.exterior}mm</span>
-                <span>Altura: {groupedResults[codigo1][0].medidas.altura}mm</span>
+                <span>Interior: {groupedResults[codigo1][0].medidas.interior} 10 mm</span>
+                <span>Exterior: {groupedResults[codigo1][0].medidas.exterior}10 mm</span>
+                <span>Altura: {groupedResults[codigo1][0].medidas.altura}10 mm</span>
               </div>
             </div>
             <div className="contenedor-propiedades">
@@ -144,6 +154,9 @@ export default function CatalogPage() {
           </div>
         </div>
       ))}
+    
+    </div>
+    
     </div>
   );
 

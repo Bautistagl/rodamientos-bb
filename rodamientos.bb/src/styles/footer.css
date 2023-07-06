@@ -1,11 +1,13 @@
 
 .contenedor-footer{
+    flex-shrink: 0;
     display: flex;
-   
+    justify-content: center;
+    align-items: center;
     height: 70px;
     width: 100%;
-    justify-content: center;
-    background-color:#063970;
+    background-color: #063970;
+    color: white;
 }
 
 .contenedor-footer div{

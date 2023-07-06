@@ -90,9 +90,9 @@ const writeData = () => {
 }
 
 const actualizarValores = () => {
-  const dbRef = ref(db, '/rulemanes/ 6003 2RS/SKF');
+  const dbRef = ref(db, '/rulemanes/ 629 2RS/HCH');
   const nuevosValores = {
-    imagen: 'skfLogo',
+    imagen: 'hchLogo',
    
   };
 

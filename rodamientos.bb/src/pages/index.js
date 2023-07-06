@@ -1,6 +1,7 @@
 
 import Banner from "@/components/Bannerbautista"
 import Footer from "@/components/Footerbautista"
+import MercadoLibre from "@/components/MercadoLibrebautista"
 import Navbar from "@/components/Navbarbautista"
 import Productos from "@/components/Productosbautista"
 import Servicios from "@/components/Serviciosbautista"
@@ -15,6 +16,7 @@ export default function Home() {
             <Banner/>
             <Productos/>
             <Servicios/>
+            <MercadoLibre/>
             <Footer/>
 
 
