@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 
-import { db } from '../firebase';
+import { db,auth } from '../firebase';
 import 'firebase/database';
-import { ref, get } from 'firebase/database';
+import { ref, get, child,update } from 'firebase/database';
+import { onAuthStateChanged } from 'firebase/auth'
 import Image from 'next/image';
+
 
 import Navbar from '@/components/Navbarbautista';
 
@@ -11,8 +13,91 @@ import Navbar from '@/components/Navbarbautista';
 export default function CatalogPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [catalogData, setCatalogData] = useState([]);
-  const [logeado, setLogeado] = useState(false)
+  const [catalogData, setCatalogData] = useState([]); 
+  const [user, setUser] =useState(null)
+  const [rol,setRol] = useState('')
+  const [nuevoPrecio, setNuevoPrecio] = useState("");
+
+
+  // const actualizarItems = () => {
+  //   const dbRef2 = ref(db,`/rulemanes/ 6001 2RS/HCH `);
+  //   const nuevosValores = {
+  //     precio:1000,
+  //   };
+
+  //   update(dbRef2, nuevosValores)
+  //   .then(() => {
+  //     console.log('Valores actualizados correctamente.');
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error al actualizar los valores:', error);
+  //   });
+      
+  // }
+  const actualizarItems = (codigo, marca,precio) => {
+    const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
+    const nuevosValores = {
+      precio: `${precio}`
+    };
+   
+  
+    // Verificar si el producto existe antes de realizar la actualización
+    get(dbRef2)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          update(dbRef2, nuevosValores)
+            .then(() => {
+              console.log('Valores actualizados correctamente.');
+            })
+            .catch((error) => {
+              console.error('Error al actualizar los valores:', error);
+            });
+        } else {
+          console.error('Error: El producto no existe.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener el producto:', error);
+      });
+  };
+
+
+
+
+  const usuarioRef = ref(db, 'usuarios');
+
+  const getRolUsuario = async () => {
+    // Esperar a que se resuelva la promesa del cambio de estado de autenticación
+    await new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        // Una vez que se resuelve la promesa, se ejecuta el código restante
+        resolve();
+        // Desuscribirse del evento para evitar llamadas innecesarias
+        unsubscribe();
+      });
+    });
+  
+    const userId = auth.currentUser ? auth.currentUser.uid : null;
+    if (userId) {
+      const userRef = child(usuarioRef, userId);
+      get(userRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+           setRol(snapshot.val().rol);
+          } else {
+            console.log('No hay nada');
+          }
+        })
+        .catch((error) => {
+          console.log('Error al leer los productos:', error);
+        });
+    } else {
+      console.log('No se ha iniciado sesión');
+    }
+  };
+  
+ 
+
 
   useEffect(() => {
 
@@ -38,6 +123,7 @@ export default function CatalogPage() {
     };
 
     getCatalogData();
+    getRolUsuario();
   }, []);
 
   const handleSearch = (event) => {
@@ -63,6 +149,7 @@ export default function CatalogPage() {
       // Busca en cada propiedad del producto
       Object.values(product).forEach((value) => {
         var filtro = value.codigo1;
+      
 
         if (filtro.includes(term)) {
           // Agrega el producto a los resultados si encuentra coincidencia
@@ -89,6 +176,11 @@ export default function CatalogPage() {
   }
 
   const groupedResults = groupByCodigo1(searchResults);
+
+  
+  const handleChange = (event) => {
+    setNuevoPrecio(event.target.value);
+  };
 
   return (
     <div>
@@ -133,6 +225,7 @@ export default function CatalogPage() {
                 <span>MARCA</span>
                 <span>PRECIO</span>
                 <span>STOCK</span>
+               
               </div>
 
               {groupedResults[codigo1].map((producto, marcaIndex) => (
@@ -142,12 +235,23 @@ export default function CatalogPage() {
                     alt=""
                     src={`/${producto.imagen}.png`}
                     width={200}
-                    height={30}
+                    height={20}
                   />
+                  
                   <span style={{ marginRight: '110px' }}>${producto.precio}</span>
                   <span style={{ color: producto.stock === 'Disponible' ? 'green' : 'red' }}>
                     {producto.stock}
-                  </span>
+                  </span> 
+                  {/* <input
+                  className='input-precio'
+                   type="text"
+                   placeholder="Nuevo Precio"
+                   value={nuevoPrecio}
+                   onChange={handleChange}
+                  />
+                  <button onClick={()=>{actualizarItems(producto.codigo1,producto.marca,nuevoPrecio)}}> Actualizar Precio </button> */}
+
+               
                 </div>
               ))}
             </div>

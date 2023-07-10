@@ -17,6 +17,7 @@ const IniciarSesion = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/barraBusqueda');
+
     } catch (error) {
       setError(error.message);
       alert('Email o contraseña incorrectas')
@@ -24,7 +25,6 @@ const IniciarSesion = () => {
   };
   
   const chequearUsuario = () =>{
-
       return onAuthStateChanged(auth,(user) =>{
               if(user) {
                   console.log(user.email)

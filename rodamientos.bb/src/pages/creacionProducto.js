@@ -93,7 +93,7 @@ const actualizarValores = () => {
   const dbRef = ref(db, '/rulemanes/ 629 2RS/HCH');
   const nuevosValores = {
     imagen: 'hchLogo',
-   
+    
   };
 
   update(dbRef, nuevosValores)

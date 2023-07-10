@@ -37,3 +37,10 @@
     margin-top: auto;
     margin-bottom: auto;
 }
+.input-precio{
+    font-size: 1rem !important;
+    width: 100px !important;
+    height: 20px !important;
+    margin-right: 10px;
+    
+}
