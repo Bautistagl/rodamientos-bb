@@ -1,0 +1,84 @@
+.tabla-edicion{
+    display: grid;
+    grid-template-columns: auto auto auto;
+
+}
+.barra-busqueda-edicion{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    
+}
+
+.edicion-cards{
+    display: flex;
+    margin: 20px;
+    
+}
+
+.textos-edicion{
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    width: 350px;
+    height: 240px;
+}
+
+.propiedades-edicion{
+    display: flex;
+}
+.titulo-edicion{
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    width: 100%;
+    text-decoration: underline;
+}
+.propiedades-edicion span{
+    width: 50px;
+    margin-top: 10px;
+    margin-right: 20px !important;
+}
+.propiedades-edicion select{
+   
+    width: 100px;
+    height: 30px;
+    margin: 2px;
+    margin-right: 20px !important;
+}
+.propiedades-edicion input{
+    display: flex;
+    height: 20px;
+    width: 70px !important;
+    margin: 2px;
+    margin-left: -50px;
+}
+.propiedades-edicion ::placeholder{
+    color: black;
+    opacity: 0.6;
+
+}
+.marca-edicion{
+    display: flex;
+    width: 100px;
+    margin-top: 3px;
+    font-weight: bold;
+    margin-left: -40px;
+    
+}
+.propiedades-principales-edicion{
+    display: flex;
+    margin-left: -40px;
+}
+.propiedades-principales-edicion span{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+.propiedades-edicion input{
+width: 120px;
+margin-left: -10px;
+margin-right: 10px;
+
+}

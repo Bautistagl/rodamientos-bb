@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword,onAuthStateChanged, signOut } from "firebase/auth";
 import {auth} from '../firebase'
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2'
 
 const IniciarSesion = () => {
 
@@ -20,7 +21,12 @@ const IniciarSesion = () => {
 
     } catch (error) {
       setError(error.message);
-      alert('Email o contraseña incorrectas')
+      Swal.fire({
+        
+        text: 'Email o contraseña incorrecta!',
+        icon: 'error',
+        confirmButtonText: 'Volver'
+      })
     }
   };
   

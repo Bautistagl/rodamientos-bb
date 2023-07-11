@@ -7,7 +7,7 @@ const Servicios = () => {
         <div className='titulo-servicios'> Marcas mas populares </div>
         <div className='imagenes-servicios'>
             <Image className='foto-servicios' src='/skfLogo.png' alt='' width={250} height={80}/>
-            <Image className='foto-servicios' src='/nskLogo.jpg' alt='' width={250} height={80}/>
+            <Image className='foto-servicios' src='/nskLogo.png' alt='' width={250} height={80}/>
             <Image className='foto-servicios' src='/ntnLogo.png' alt='' width={250} height={80}/>
             <Image className='foto-servicios' src='/hchLogo.png' alt='' width={250} height={80}/>
 

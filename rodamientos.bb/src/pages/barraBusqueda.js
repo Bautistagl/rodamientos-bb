@@ -5,7 +5,7 @@ import 'firebase/database';
 import { ref, get, child,update } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth'
 import Image from 'next/image';
-
+import Swal from 'sweetalert2'
 
 import Navbar from '@/components/Navbarbautista';
 
@@ -101,7 +101,12 @@ export default function CatalogPage() {
 
   useEffect(() => {
 
-    
+    { auth.currentUser === null ?  Swal.fire({
+      icon: 'error',
+      title:'Usted no ha iniciado sesion',
+      text: 'Si aun no tiene cuenta, pida la suya por nuestro Whatsapp!',
+      footer: '<a href="https://wa.me/1137660938">Quiero una cuenta!</a>'
+    }) : ''}
     
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
@@ -264,96 +269,5 @@ export default function CatalogPage() {
     </div>
   );
 
-  // return (
-  //   <div className="fondo-busqueda">
-  //     <div>.</div>
-  //     <div className="barra-busqueda">
-  //       <span> Buscar producto por codigo:</span>
-  //       <input
-  //         type="text"
-  //         value={searchTerm}
-  //         onChange={handleSearch}
-  //         placeholder="CÓDIGO"
-  //       />
-  //     </div>
-  //       <>
-  //           {searchResults.length == 4 ? (
-  //             <>
-              
-  //               <div className="contenedor-cards">
-  //                 <Image
-  //                   style={{
-  //                     marginTop: 'auto',
-  //                     marginBottom: 'auto',
-  //                     marginLeft: '20px',
-  //                   }}
-  //                   alt=""
-  //                   src="/rodamiento.webp"
-  //                   width={200}
-  //                   height={200}
-  //                 />
-  //                 <div className="textos-completo">
-  //                   <div className="codigo-medidas">
-  //                     <div className="titulo-singular"> {searchResults[0].codigo1} </div>
-  //                     <div className="medidas">
-  //                       <span>Interior: 12mm </span>
-  //                       <span>Exterior: 28mm</span>
-  //                       <span>Altura: 8mm</span>
-  //                     </div>
-  //                   </div>
-  //                   <div className="contenedor-propiedades">
-  //                     <div className="propiedades-principales">
-  //                       <span> MARCA </span>
-  //                       <span> PRECIO </span>
-  //                       <span> STOCK </span>
-  //                     </div>
 
-  //                     <div className="propiedades">
-  //                       <Image
-  //                         style={{ marginRight: '40px' }}
-  //                         alt=""
-  //                         src="/hchLogo.png"
-  //                         width={200}
-  //                         height={30}
-  //                       />
-  //                       <span style={{ marginRight: '110px' }}> ${searchResults[1].precio} </span>
-  //                       <span style={{ color: 'green' }}> {searchResults[1].stock} </span>
-  //                     </div>
-
-  //                     <div className="propiedades">
-  //                       <Image
-  //                         style={{ marginRight: '40px' }}
-  //                         alt=""
-  //                         src="/nskLogo.jpg"
-  //                         width={200}
-  //                         height={30}
-  //                       />
-  //                       <span style={{ marginRight: '110px' }}>${searchResults[2].precio}</span>
-  //                       <span style={{ color: 'green' }}> {searchResults[2].stock} </span>
-  //                     </div>
-
-  //                     <div className="propiedades">
-  //                       <Image
-  //                         style={{ marginRight: '40px' }}
-  //                         alt=""
-  //                         src="/skfLogo.png"
-  //                         width={200}
-  //                         height={30}
-  //                       />
-  //                       <span style={{ marginRight: '110px' }}> ${searchResults[3].precio} </span>
-  //                       <span style={{ color: 'red' }}> {searchResults[3].stock} </span>
-  //                     </div>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </>
-  //           ) : (
-  //             ''
-  //           )}
-    
-  //       </>
-    
-  //     {/* Muestra los resultados de búsqueda */}
-  //   </div>
-  // );
 }

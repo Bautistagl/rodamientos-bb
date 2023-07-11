@@ -8,6 +8,8 @@ import '../styles/productos.css'
 import '../styles/footer.css'
 import '../styles/mercadoLibre.css'
 import '../styles/inicioSesion.css'
+import '../styles/registro.css'
+import '../styles/edicionProducto.css'
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />
