@@ -10,57 +10,13 @@ import Swal from 'sweetalert2'
 import Navbar from '@/components/Navbarbautista';
 
 
-export default function CatalogPage() {
+export default function BusquedaCodigo() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]); 
   const [user, setUser] =useState(null)
   const [rol,setRol] = useState('')
   const [nuevoPrecio, setNuevoPrecio] = useState("");
-
-
-  // const actualizarItems = () => {
-  //   const dbRef2 = ref(db,`/rulemanes/ 6001 2RS/HCH `);
-  //   const nuevosValores = {
-  //     precio:1000,
-  //   };
-
-  //   update(dbRef2, nuevosValores)
-  //   .then(() => {
-  //     console.log('Valores actualizados correctamente.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error al actualizar los valores:', error);
-  //   });
-      
-  // }
-  const actualizarItems = (codigo, marca,precio) => {
-    const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-    const nuevosValores = {
-      precio: `${precio}`
-    };
-   
-  
-    // Verificar si el producto existe antes de realizar la actualización
-    get(dbRef2)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          update(dbRef2, nuevosValores)
-            .then(() => {
-              console.log('Valores actualizados correctamente.');
-            })
-            .catch((error) => {
-              console.error('Error al actualizar los valores:', error);
-            });
-        } else {
-          console.error('Error: El producto no existe.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error al obtener el producto:', error);
-      });
-  };
-
 
 
 
@@ -100,13 +56,15 @@ export default function CatalogPage() {
 
 
   useEffect(() => {
-
-    { auth.currentUser === null ?  Swal.fire({
-      icon: 'error',
-      title:'Usted no ha iniciado sesion',
-      text: 'Si aun no tiene cuenta, pida la suya por nuestro Whatsapp!',
-      footer: '<a href="https://wa.me/1137660938">Quiero una cuenta!</a>'
-    }) : ''}
+    
+    // { auth.currentUser === null ?  Swal.fire({
+    //   icon: 'error',
+    //   title:'Usted no ha iniciado sesion',
+    //   text: 'Si aun no tiene cuenta, pida la suya por nuestro Whatsapp!',
+    //   confirmButtonText:'<a href="/"  style="color:white"}> Volver </a>',
+    //   footer: '<a href="https://wa.me/1137660939">Quiero una cuenta!</a>',
+    
+    // }) : ''}
     
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
@@ -238,7 +196,7 @@ export default function CatalogPage() {
                   <Image
                     style={{ marginRight: '40px' }}
                     alt=""
-                    src={`/${producto.imagen}.png`}
+                    src={ producto.imagen === '' ? '/TEST.jpg' :`/${producto.imagen}.png`}
                     width={200}
                     height={20}
                   />

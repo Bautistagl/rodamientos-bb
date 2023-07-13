@@ -10,6 +10,7 @@ import '../styles/mercadoLibre.css'
 import '../styles/inicioSesion.css'
 import '../styles/registro.css'
 import '../styles/edicionProducto.css'
+import '../styles/inicioProducto.css'
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />

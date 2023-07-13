@@ -5,7 +5,8 @@
     margin-right: auto;
     justify-content: center;
     align-content: center;
-    width: 90%;
+   
+    width: 100%;
 }
 .fotos-mercado{
     display: flex;
@@ -14,7 +15,6 @@
     margin-bottom: 100px;
 }
 .logo-mercado{
-    
     margin-top: 80px;
     margin-left: 20px;
     margin-right: 20px;

@@ -15,13 +15,14 @@
 }
 .contenedor-cards{
     display:flex;
-    width: 100%;
+    width: 100vw;
     background-color: white;
     height: 250px;
-    border-top: 2px solid black;
+    border: 2px solid black;
     border-bottom: 2px solid black;
     margin-bottom: 20px;
     margin-top: 20px;
+
 }
 .titulo{
     font-size: 1.5rem;
@@ -59,6 +60,8 @@
 .fondo-busqueda{
     min-height: 100vh;
     height: 100%;
+    width: 100%;
+    min-width: 100vw;
    
     background-image: url("/fondo1.jpg");
     background-repeat: no-repeat;
@@ -95,7 +98,7 @@
 }
 .textos-completo{
     display: flex;
-    width: 100%;
+    
     
 }
 .codigo-medidas{
@@ -103,9 +106,12 @@
     margin-top: 10px;
 }
 .contenedor-propiedades{
+   
     margin-left: 50px;
+    
 }
 .propiedades{
+    width: 100%;
     margin-top: 20px;
 }
 .propiedades-principales{
@@ -116,11 +122,16 @@
     font-size: 1.2rem;
 }
 .propiedades span{
-    width: 100%;
+  
     font-size: 1.2rem;
     margin-left: 10px;
 }
 .prueba{
     display: flex;
     flex-direction: column;
+}
+.custom-confirm-button{
+    background-color: white;
+    color: white;
+    text-decoration: none;
 }

@@ -14,12 +14,12 @@ export default function Home() {
         <div className="contenedor-landing">
             <Navbar/>
             <Banner/>
-            <Productos/>
+            <div className="fondo-index"> 
             <Servicios/>
+            <Productos/>
             <MercadoLibre/>
+            </div>
             <Footer/>
-
-
         </div>
 
     )

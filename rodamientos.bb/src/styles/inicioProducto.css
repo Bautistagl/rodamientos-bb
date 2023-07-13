@@ -1,0 +1,137 @@
+
+
+.fondo-inicioProducto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: 100%;
+   
+    background-image: url("/fondo1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.logo-inicio{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-radius: 10px;
+}
+
+/* button {
+    width: 450px;
+    background-color: white;
+    background-image: linear-gradient(
+    to right,
+    #1740a6,
+    #1740a6 50%,
+    #000000 50%
+  );
+  background-size: 200% 100%;
+  background-position: -100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+  font-size: 2rem;
+  cursor: pointer;
+  border: 4px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+
+}
+button:hover::before {
+    width: 100%;
+  }
+  
+  button:hover {
+    background-position: 0;
+   }
+   button:before {
+    content: '';
+    background: #121313;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+  } */
+
+
+  .botonera  button {
+    background-color: white;
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid #4f4f4f;
+    border-radius: 10px;
+    transition: all 0.2s ease-in;
+    position: relative;
+    overflow: hidden;
+    font-size: 2rem;
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    z-index: 1;
+    cursor: pointer;
+   }
+ 
+   
+   .botonera button:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+   }
+   
+   .botonera button:after {
+    content: "";
+    position: absolute;
+    left: 55%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+    top: 180%;
+    width: 160%;
+    height: 190%;
+    background-color: #2160bd;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+   }
+   
+   .botonera button:hover {
+    color: #ffffff;
+    border: 2px solid #2160bd;
+   }
+   
+   .botonera button:hover:before {
+    top: -35%;
+    background-color: #2160bd;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+   }
+   
+   .botonera button:hover:after {
+    top: -45%;
+    background-color: #2160bd;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+   }
+
+   
+  .botonera{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 50px;
+    height: 300px;
+    margin-top: -100px;
+    
+  }

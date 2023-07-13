@@ -68,9 +68,7 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
-        setCuit('')
-        setEmail('')
-        setPassword('')
+       
         try{
             await createUser(email , password,cuit)
         } catch (e) {
@@ -81,6 +79,7 @@ const SignUp = () => {
 
     useEffect(()=>{
         getRolUsuario()
+        
 
     },[])
 

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 const IniciarSesion = () => {
 
   const router = useRouter();
-
+  
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -17,7 +17,7 @@ const IniciarSesion = () => {
   const loginUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/barraBusqueda');
+      router.push('/inicioProductos');
 
     } catch (error) {
       setError(error.message);

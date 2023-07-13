@@ -61,12 +61,12 @@ getRolUsuario()
       </Link>
         <div className='botones' >
           
-            <span className='boton'> <Link href='/barraBusqueda'> PRODUCTOS </Link>  </span>
+            <span className='boton'> <Link href='/inicioProductos'> PRODUCTOS </Link>  </span>
             <span className='boton'> SERVICIOS </span>
             <span className='boton'> INDUSTRIAS </span>
-            <span className='boton'> SOPORTE </span>
             {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
-            {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
+            {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> NUEVOS PRODUCTOS </Link> </span> :''}
+            {/* {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''} */}
         </div>
         { auth.currentUser !== null ? <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png'/>
