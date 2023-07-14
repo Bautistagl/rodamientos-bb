@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Outfit&family=Roboto:wght@300;400&display=swap');
 
 body{
   margin: 0;
   font-family: 'Roboto', sans-serif;
   
+}
+span{
+  font-family: 'Outfit', sans-serif !important;
 }
 a{
   text-decoration: none;

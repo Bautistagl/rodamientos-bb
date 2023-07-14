@@ -107,7 +107,7 @@
 }
 .codigo-medidas{
     margin-left: 50px;
-    margin-top: 10px;
+    margin-top: 14px;
 }
 .contenedor-propiedades{
    
@@ -115,20 +115,27 @@
     
 }
 .propiedades{
-    width: 100%;
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    
     margin-top: 20px;
 }
 .propiedades-principales{
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
     margin-top: 10px;
+    margin-left: -0px;
 }
 .propiedades-principales span{
-    margin-right: 170px;
-    font-size: 1.2rem;
+    display: flex;
+    margin-right: 140px;
+    font-size: 1.5rem;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
 }
 .propiedades span{
-  
     font-size: 1.2rem;
-    margin-left: 10px;
 }
 .prueba{
     display: flex;
