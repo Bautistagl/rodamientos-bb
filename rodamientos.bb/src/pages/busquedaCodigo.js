@@ -151,9 +151,14 @@ export default function BusquedaCodigo() {
 
     <div className="fondo-busqueda">
       <>.</>
+      
+      
+
       <div className="barra-busqueda">
-        <span>Buscar producto por código:</span>
+        {/* <span>Buscar producto por código:</span> */}
+        <Image className='icono-busqueda' width={30} height={30} alt='' src='/iconoBusqueda.png'/>
         <input
+          className='input-busqueda'
           type="text"
           value={searchTerm}
           onChange={handleSearch}

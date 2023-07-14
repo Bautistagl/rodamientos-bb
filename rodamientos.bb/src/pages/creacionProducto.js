@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import 'firebase/database';
 import Link from 'next/link';
 import Navbar from '@/components/Navbarbautista';
+import Image from 'next/image';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -181,13 +182,16 @@ const dbRef = ref(db)
     <div className='creacion-fondo'>
      
       <Navbar/>
+      <div className='contenedor-principal-inputs'>
+        <h1> Nuevo producto</h1>
+      
       <div className="inputs">
-        {/* <input type='text' placeholder='modelo' value={modelo} onChange={handleModelo}/> */}
+
         <div className='contenedor-input'> 
           <span> Codigo Principal:</span>
         <input
           type="text"
-          placeholder="codigo1"
+          placeholder="Codigo1"
           value={codigo1}
           onChange={handleCodigo1}
         />
@@ -198,7 +202,7 @@ const dbRef = ref(db)
           <span> Descripcion:</span>
         <input
           type="text"
-          placeholder="descripcion"
+          placeholder="Descripcion"
           value={descripcion}
           onChange={handleDescripcion}
         />
@@ -207,7 +211,7 @@ const dbRef = ref(db)
           <span> Precio</span>
         <input
           type="text"
-          placeholder="precio"
+          placeholder="Precio"
           value={precio}
           onChange={handlePrecio}
         />
@@ -216,7 +220,7 @@ const dbRef = ref(db)
           <span> Stock </span>
         <input
           type="text"
-          placeholder="stock"
+          placeholder="Stock"
           value={stock}
           onChange={handleStock}
         />
@@ -225,7 +229,7 @@ const dbRef = ref(db)
           <span> Marca:</span>
         <input
           type="text"
-          placeholder="marca"
+          placeholder="Marca"
           value={marca}
           onChange={handleMarca}
         />
@@ -237,7 +241,7 @@ const dbRef = ref(db)
         </span>
         <input
           type="text"
-          placeholder="ALTURA"
+          placeholder="Altura"
           value={altura}
           onChange={handleAltura}
         />
@@ -246,7 +250,7 @@ const dbRef = ref(db)
         <span> Interior:</span> 
         <input
           type="text"
-          placeholder="INTERIOR"
+          placeholder="Interior"
           value={interior}
           onChange={handleInterior}
         />
@@ -255,15 +259,16 @@ const dbRef = ref(db)
           <span>  Exterior:</span>
         <input
           type="text"
-          placeholder="EXTERIOR"
+          placeholder="Exterior"
           value={exterior}
           onChange={handleExterior}
         />
         </div>
      
       
+      <button className='button-31' onClick={writeData}> Crear Producto </button>
       </div>
-      <button className='crear-producto' onClick={writeData}> Crear Producto </button>
+      </div>
 
       {/* {rulemanes.map( ruleman=>(
         <h1 key={ruleman.uuid}> {ruleman.altura}</h1>

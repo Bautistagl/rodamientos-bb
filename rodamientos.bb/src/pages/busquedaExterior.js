@@ -143,8 +143,9 @@ export default function BusquedaExterior() {
     <div className="fondo-busqueda">
       <>.</>
       <div className="barra-busqueda">
-        <span>Buscar producto por Exterior en mm:</span>
+      <Image className='icono-busqueda' width={30} height={30} alt='' src='/iconoBusqueda.png'/>
         <input
+          className='input-busqueda'
           type="text"
           value={searchTerm}
           onChange={handleSearch}

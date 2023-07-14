@@ -1,3 +1,5 @@
+
+
 .card-productos{
     display: flex;
     flex-direction: row;
@@ -83,6 +85,8 @@
 .barra-busqueda{
     display: flex;
     justify-content: center;
+    text-align: center;
+    align-content: center;
     margin-top: 50px;
     margin-bottom: 50px;
     
@@ -134,4 +138,16 @@
     background-color: white;
     color: white;
     text-decoration: none;
+}
+.input-busqueda{
+    
+    border-radius: 5px;
+}
+
+.icono-busqueda{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    margin-right: -30px;
 }
