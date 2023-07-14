@@ -146,15 +146,66 @@ const dbRef = ref(db)
     })
   };
 
-  const actualizarValores = () => {
-    const dbRef = ref(db, '/rulemanes/ 629 2RS/HCH');
+  const actualizarEconomica = () => {
+    const dbRef = ref(db, '/rulemanes/ 6306 2RS/Economica');
     const nuevosValores = {
-      imagen: 'hchLogo',
+      interior:"30",
+      exterior:"72",
+      altura:"19",
     };
 
     update(dbRef, nuevosValores)
       .then(() => {
-        console.log('Valores actualizados correctamente.');
+        alert('Valores actualizados correctamente.');
+      })
+      .catch((error) => {
+        console.error('Error al actualizar los valores:', error);
+      });
+  };
+
+  // const actualizarHCH = () => {
+  //   const dbRef = ref(db, '/rulemanes/ 6306 2RS/HCH');
+  //   const nuevosValores = {
+  //     interior:"17",
+  //     exterior:"47",
+  //     altura:47"
+  //   };
+
+  //   update(dbRef, nuevosValores)
+  //     .then(() => {
+  //       alert('Valores actualizados correctamente.');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error al actualizar los valores:', error);
+  //     });
+  // };
+  const actualizarNSK = () => {
+    const dbRef = ref(db, '/rulemanes/ 6306 2RS/NSK-NTN');
+    const nuevosValores = {
+      interior:"30",
+      exterior:"72",
+      altura:"19",
+    };
+
+    update(dbRef, nuevosValores)
+      .then(() => {
+        alert('Valores actualizados correctamente.');
+      })
+      .catch((error) => {
+        console.error('Error al actualizar los valores:', error);
+      });
+  };
+  const actualizarSKF = () => {
+    const dbRef = ref(db, '/rulemanes/ 6306 2RS/SKF');
+    const nuevosValores = {
+      interior:"30",
+      exterior:"72",
+      altura:"19",
+    };
+
+    update(dbRef, nuevosValores)
+      .then(() => {
+        alert('Valores actualizados correctamente.');
       })
       .catch((error) => {
         console.error('Error al actualizar los valores:', error);
@@ -180,8 +231,8 @@ const dbRef = ref(db)
 
   return (
     <div className='creacion-fondo'>
-     
-      <Navbar/>
+
+       <Navbar/>
       <div className='contenedor-principal-inputs'>
         <h1> Nuevo producto</h1>
       
@@ -272,7 +323,7 @@ const dbRef = ref(db)
 
       {/* {rulemanes.map( ruleman=>(
         <h1 key={ruleman.uuid}> {ruleman.altura}</h1>
-      ))} */}
+      ))} */} 
     </div>
   );
 }

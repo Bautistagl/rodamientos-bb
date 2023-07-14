@@ -112,12 +112,14 @@ export default function BusquedaCodigo() {
       // Busca en cada propiedad del producto
       Object.values(product).forEach((value) => {
         var filtro = value.codigo1;
-      
+        
+        if(filtro) {
 
-        if (filtro.includes(term)) {
-          // Agrega el producto a los resultados si encuentra coincidencia
-
-          results.push(value);
+          if (filtro.includes(term)) {
+            // Agrega el producto a los resultados si encuentra coincidencia
+  
+            results.push(value);
+          }
         }
       });
     });
