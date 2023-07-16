@@ -12,6 +12,7 @@ const SignUp = () => {
     const [rol, setRol] = useState('')
     const [cuit, setCuit] = useState('')
     const [error, setError] = useState('')
+    const [admin,setAdmin] = useState('')
     
     
   const usuarioRef = ref(db, 'usuarios');
@@ -79,14 +80,14 @@ const SignUp = () => {
 
     useEffect(()=>{
         getRolUsuario()
-        
+        setAdmin(window.localStorage.getItem('email'))
 
     },[])
 
     return (
     <div className='fondo-registro'>
      <>.</>
-     {rol === 'admin' ? 
+     {admin === 'rodamientosbb@admin.com' ? 
      <> 
         <div className='titulo-registro'> Alta de Usuario </div>
         <form className='form-registro' onSubmit={handleSubmit}> 

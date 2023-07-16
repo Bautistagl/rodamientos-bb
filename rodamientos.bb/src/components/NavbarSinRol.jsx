@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import {auth, db} from '../firebase'
 import { child, get, ref } from 'firebase/database'
 
-const Navbar = () => {
+const NavbarSinRol = () => {
  const [logeado,setLogeado] = useState(false)
  const [user, setUser] =useState({})
  const [rol,setRol] = useState('')
@@ -64,9 +64,9 @@ getRolUsuario()
             <span className='boton'> <Link href='/inicioProductos'> PRODUCTOS </Link>  </span>
             <span className='boton'> SERVICIOS </span>
             <span className='boton'> INDUSTRIAS </span>
-            {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
-            {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> NUEVOS PRODUCTOS </Link> </span> :''}
-            {rol === 'admin' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
+            <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> 
+            <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> NUEVOS PRODUCTOS </Link> </span> 
+            <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span>
         </div>
         { auth.currentUser !== null ? <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png'/>
@@ -88,4 +88,4 @@ getRolUsuario()
   )
 }
 
-export default Navbar
+export default NavbarSinRol

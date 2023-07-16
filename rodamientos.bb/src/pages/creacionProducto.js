@@ -13,8 +13,8 @@ export default function Home() {
 
   // const [modelo, setModelo] = useState("")
   const [codigo1, setCodigo1] = useState('');
-  // const [codigo2, setCodigo2] = useState("")
-  // const [codigo3, setCodigo3] = useState("")
+  const [codigo2, setCodigo2] = useState("")
+  const [codigo3, setCodigo3] = useState("")
   const [medidas, setMedidas] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [precio, setPrecio] = useState('');
@@ -29,12 +29,12 @@ export default function Home() {
   //   const handleModelo =(e) =>{
   //     setModelo(e.target.value)
   // }
-  // const handleCodigo2 =(e) =>{
-  //   setCodigo2(e.target.value)
-  // }
-  // const handleCodigo3 =(e) =>{
-  //   setCodigo3(e.target.value)
-  // }
+  const handleCodigo2 =(e) =>{
+    setCodigo2(e.target.value)
+  }
+  const handleCodigo3 =(e) =>{
+    setCodigo3(e.target.value)
+  }
   const handleCodigo1 = (e) => {
     setCodigo1(e.target.value);
   };
@@ -97,7 +97,9 @@ const dbRef = ref(db)
           timerProgressBar: true,
           showConfirmButton: false
         });
-        setCodigo1('')
+          setCodigo1('')
+          setCodigo2('')
+          setCodigo3('')
           setAltura('')
           setExterior('')
           setInterior('')
@@ -110,8 +112,8 @@ const dbRef = ref(db)
           uuid,
           // modelo,
           codigo1,
-          // codigo2,
-          // codigo3,
+          codigo2,
+          codigo3,
           altura,
           exterior,
           interior,
@@ -245,6 +247,26 @@ const dbRef = ref(db)
           placeholder="Codigo1"
           value={codigo1}
           onChange={handleCodigo1}
+        />
+        </div>
+
+        <div className='contenedor-input'> 
+          <span> Codigo 2:</span>
+        <input
+          type="text"
+          placeholder="Codigo2"
+          value={codigo2}
+          onChange={handleCodigo2}
+        />
+        </div>
+
+        <div className='contenedor-input'> 
+          <span> Codigo 3:</span>
+        <input
+          type="text"
+          placeholder="Codigo3"
+          value={codigo3}
+          onChange={handleCodigo3}
         />
         </div>
    

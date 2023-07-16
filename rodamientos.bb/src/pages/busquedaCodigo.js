@@ -79,7 +79,12 @@ export default function BusquedaCodigo() {
           }
         })
         .catch((error) => {
-          console.log('Error al leer los productos:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Debe iniciar sesión para ver los productos',
+            
+            footer: '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>'
+          })
         });
 
       //   setCatalogData(snapshot.val());
@@ -111,14 +116,42 @@ export default function BusquedaCodigo() {
 
       // Busca en cada propiedad del producto
       Object.values(product).forEach((value) => {
-        var filtro = value.codigo1;
+        var filtro  = value.codigo1;
+        var filtro2 = value.codigo2
+        var filtro3 = value.codigo3
         
-        if(filtro) {
+        if(filtro ) {
 
-          if (filtro.includes(term)) {
+          if (filtro.includes(term) ) {
             // Agrega el producto a los resultados si encuentra coincidencia
-  
+            
             results.push(value);
+          }
+        }
+        
+        if(filtro2) {
+
+          if (filtro2.includes(term) ) {
+            // Agrega el producto a los resultados si encuentra coincidencia
+            if(results.includes(value)){
+             
+            } else{
+
+              results.push(value);
+            }
+          }
+        }
+
+        if(filtro3) {
+
+          if (filtro3.includes(term) ) {
+            // Agrega el producto a los resultados si encuentra coincidencia
+            if(results.includes(value)){
+             
+            } else{
+
+              results.push(value);
+            }
           }
         }
       });
@@ -172,7 +205,7 @@ export default function BusquedaCodigo() {
           />
         </div>
 
-        {Object.keys(groupedResults).map((codigo1, index) => (
+        {Object.keys(groupedResults).map((codigo1,index) => (
           <div className="contenedor-cards" key={index}>
             <Image
               style={{
@@ -188,6 +221,7 @@ export default function BusquedaCodigo() {
             <div className="textos-completo">
               <div className="codigo-medidas">
                 <div className="titulo-singular">{codigo1}</div>
+                {/* <div className="titulo-singular">{codigo2 ? codigo2 :''}</div> */}
                 <div className="medidas">
                   <span>
                     INTERIOR: {groupedResults[codigo1][0].interior} mm

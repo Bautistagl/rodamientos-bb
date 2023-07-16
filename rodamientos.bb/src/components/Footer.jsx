@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const Footer = () => {
@@ -6,7 +7,7 @@ const Footer = () => {
     <div className='contenedor-footer'>
         <div className='segundo-container'>
             <Image alt='' src='/whatsapp.png' width={30} height={30}/>    
-            <span> + 54 9 1137660938</span>
+            <span> <Link href='https://wa.me/1137660939'> + 54 9 1137660939 </Link></span>
          </div>
 
          <div className='segundo-container'>

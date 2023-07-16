@@ -15,6 +15,7 @@ export default function EdicionProducto() {
   const [user, setUser] = useState(null);
   const [rol, setRol] = useState('');
   const [nuevoPrecio, setNuevoPrecio] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
 
 
   const nuevoPrecioRef = useRef('');
@@ -23,6 +24,7 @@ export default function EdicionProducto() {
     const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
     const nuevosValores = {
       precio: `${nuevoPrecioRef.current}`,
+      stock: selectedOption,
     };
   
     // Verificar si el producto existe antes de realizar la actualización
@@ -177,59 +179,75 @@ export default function EdicionProducto() {
 
       <div className="fondo-busqueda">
         <>.</>
-        {rol === 'admin' ? 
-        
-        <div> 
+        {rol === 'admin' ? (
+          <div>
             <div className="barra-busqueda-edicion">
-          <span>Buscar producto por código:</span>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="CÓDIGO"
-          />
-        </div>
-        <div className="tabla-edicion">
-          {Object.keys(groupedResults).map((codigo1, index) => (
-            <div className="edicion-cards" key={index}>
-              <div className="textos-edicion">
-                <div className="titulo-edicion">{codigo1}</div>
-
-                <div className="contenedor-propiedades">
-                  <div className="propiedades-principales-edicion">
-                    <span style={{ marginRight: '30px' }}>MARCA</span>
-                    <span style={{ marginRight: '70px', marginBottom: '20px' }}>
-                      PRECIO
-                    </span>
-                    <span>STOCK</span>
-                  </div>
-
-                  {groupedResults[codigo1].map((producto, marcaIndex) => (
-                    <div className="propiedades-edicion" key={marcaIndex}>
-                     
-                      <div className="marca-edicion"> {producto.marca}</div>
-                      <input 
-                      
-                      onChange={handleChange}
-                      placeholder={producto.precio} />
-
-                      <select >
-                        <option value="disponible"> Disponible </option>
-                        <option value="no-disponible">No Disponible </option>
-                      </select>
-                    
-                  <button style={{marginRight:'5px'}} onClick={()=>{actualizarItems(producto.codigo1,producto.marca,nuevoPrecio)}}> OK </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <span>Buscar producto por código:</span>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearch}
+                placeholder="CÓDIGO"
+              />
             </div>
-          ))}
-        </div>
-        </div>
-        
-        : ''}
-        
+            <div className="tabla-edicion">
+              {Object.keys(groupedResults).map((codigo1, index) => (
+                <div className="edicion-cards" key={index}>
+                  <div className="textos-edicion">
+                    <div className="titulo-edicion">{codigo1}</div>
+
+                    <div className="contenedor-propiedades">
+                      <div className="propiedades-principales-edicion">
+                        <span style={{ marginRight: '30px' }}>MARCA</span>
+                        <span
+                          style={{ marginRight: '70px', marginBottom: '20px' }}>
+                          PRECIO
+                        </span>
+                        <span>STOCK</span>
+                      </div>
+
+                      {groupedResults[codigo1].map((producto, marcaIndex) => (
+                        <div className="propiedades-edicion" key={marcaIndex}>
+                          <div className="marca-edicion"> {producto.marca}</div>
+                          <input
+                            onChange={handleChange}
+                            placeholder={producto.precio}
+                          />
+
+                          <select
+                            value={selectedOption}
+                            onChange={(e) => setSelectedOption(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="No disponible">No disponible</option>
+                            <option value="Consultar">Consultar</option>
+                          </select>
+
+                          <button
+                            style={{ marginRight: '5px' }}
+                            onClick={() => {
+                              actualizarItems(
+                                producto.codigo1,
+                                producto.marca,
+                                nuevoPrecio
+                              );
+                            }}>
+                            {' '}
+                            OK{' '}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ const IniciarSesion = () => {
   const loginUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      window.localStorage.setItem('email',email)
       router.push('/inicioProductos');
 
     } catch (error) {
@@ -98,11 +99,11 @@ const IniciarSesion = () => {
       <span className='sinCuenta'> No tiene una cuenta? Solicitela por nuestro Whatsapp!</span>
       <div className='contenedor-flex'>
             <Image style={{marginLeft:'10px',marginTop:'30px',marginRight:'10px'}} alt='' src='/whatsapp.png' width={30} height={30}/>    
-            <span style={{cursor:'pointer',textDecoration:'underline'}}> + 54 9 1137660938</span>
+            <span style={{cursor:'pointer',textDecoration:'underline'}}> <Link href='https://wa.me/1137660939'> + 54 9 1137660939 </Link> </span>
          </div>
         </div>
       </div>
-      <button onClick={terminarSesion}> Cerrar sesion</button>
+  
     </div>
   );
 };
