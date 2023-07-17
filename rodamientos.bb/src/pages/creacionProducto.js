@@ -56,13 +56,6 @@ export default function Home() {
     setDescripcion(e.target.value);
   };
 
-  const handleStock = (e) => {
-    setStock(e.target.value);
-  };
-
-  const handleImagen = (e) => {
-    setImagen(e.target.value);
-  };
 
   const handleAltura = (e) => {
      setAltura(e.target.value);
@@ -104,6 +97,7 @@ const dbRef = ref(db)
           setAltura('')
           setExterior('')
           setInterior('')
+          setImagen('')
           setDescripcion('')
           setPrecio('')
           setMarca('')
@@ -138,6 +132,7 @@ const dbRef = ref(db)
           setAltura('')
           setExterior('')
           setInterior('')
+          setImagen('')
           setDescripcion('')
           setPrecio('')
           setMarca('')
@@ -296,12 +291,31 @@ const dbRef = ref(db)
           </div>
         <div className='contenedor-input'> 
           <span> Stock </span>
-        <input
-          type="text"
-          placeholder="Stock"
-          value={stock}
-          onChange={handleStock}
-        />
+          <select
+                            value={stock}
+                            onChange={(e) => setStock(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="No disponible">No disponible</option>
+                            <option value="Consultar">Consultar</option>
+                          </select>
+          </div>
+
+          <div className='contenedor-input'> 
+          <span> Imagen Marca </span>
+          <select
+                            value={imagen}
+                            onChange={(e) => setImagen(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="eco">IMPORTADA</option>
+                            <option value="hchLogo">HCH</option>
+                            <option value="nskLogo">NSK-NTN</option>
+                            <option value="skfLogo">SKF</option>
+                          </select>
           </div>
         <div className='contenedor-input'> 
           <span> Marca:</span>
