@@ -47,7 +47,7 @@ export default function BusquedaInterior() {
     };
 
     getCatalogData();
-    getRolUsuario();
+  
   }, []);
 
   const handleSearch = (event) => {
@@ -102,9 +102,7 @@ export default function BusquedaInterior() {
   const groupedResults = groupByCodigo1(searchResults);
 
   
-  const handleChange = (event) => {
-    setNuevoPrecio(event.target.value);
-  };
+
 
   return (
     <div>
