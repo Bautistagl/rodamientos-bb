@@ -41,7 +41,12 @@ export default function BusquedaExterior() {
           }
         })
         .catch((error) => {
-          console.log('Error al leer los productos:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Debe iniciar sesión para ver los productos',
+            
+            footer: '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>'
+          })
         });
 
       //   setCatalogData(snapshot.val());
