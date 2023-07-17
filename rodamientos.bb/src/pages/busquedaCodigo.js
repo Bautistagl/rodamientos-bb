@@ -233,7 +233,7 @@ export default function BusquedaCodigo() {
                       alt=""
                       src={
                         producto.imagen === ''
-                          ? '/TEST.jpg'
+                          ? '/importado5.png'
                           : `/${producto.imagen}.png`
                       }
                       width={100}

@@ -16,6 +16,7 @@ export default function EdicionProducto() {
   const [rol, setRol] = useState('');
   const [nuevoPrecio, setNuevoPrecio] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [admin,setAdmin] = useState('')
 
 
   const nuevoPrecioRef = useRef('');
@@ -115,7 +116,7 @@ export default function EdicionProducto() {
     };
 
     getCatalogData();
-    getRolUsuario();
+    setAdmin(window.localStorage.getItem('email'))
   }, []);
 
   const handleSearch = (event) => {
@@ -179,7 +180,7 @@ export default function EdicionProducto() {
 
       <div className="fondo-busqueda">
         <>.</>
-        {rol === 'admin' ? (
+        {admin === 'rodamientosbb@admin.com' ? (
           <div>
             <div className="barra-busqueda-edicion">
               <span>Buscar producto por código:</span>
