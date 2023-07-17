@@ -22,36 +22,7 @@ export default function BusquedaAltura() {
 
   const usuarioRef = ref(db, 'usuarios');
 
-  const getRolUsuario = async () => {
-    // Esperar a que se resuelva la promesa del cambio de estado de autenticación
-    await new Promise((resolve) => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        // Una vez que se resuelve la promesa, se ejecuta el código restante
-        resolve();
-        // Desuscribirse del evento para evitar llamadas innecesarias
-        unsubscribe();
-      });
-    });
-  
-    const userId = auth.currentUser ? auth.currentUser.uid : null;
-    if (userId) {
-      const userRef = child(usuarioRef, userId);
-      get(userRef)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-           setRol(snapshot.val().rol);
-          } else {
-            console.log('No hay nada');
-          }
-        })
-        .catch((error) => {
-          console.log('Error al leer los productos:', error);
-        });
-    } else {
-      console.log('No se ha iniciado sesión');
-    }
-  };
-  
+ 
  
 
 
@@ -77,7 +48,7 @@ export default function BusquedaAltura() {
     };
 
     getCatalogData();
-    getRolUsuario();
+    
   }, []);
 
   const handleSearch = (event) => {

@@ -25,6 +25,7 @@ export default function Home() {
   const [exterior, setExterior] = useState('');
   const [interior, setInterior] = useState('');
   const [rulemanes, setRulemanes] = useState([]);
+  const [admin, setAdmin] =useState('')
 
   //   const handleModelo =(e) =>{
   //     setModelo(e.target.value)
@@ -132,6 +133,8 @@ const dbRef = ref(db)
             showConfirmButton: false
           })
           setCodigo1('')
+          setCodigo2('')
+          setCodigo3('')
           setAltura('')
           setExterior('')
           setInterior('')
@@ -225,6 +228,8 @@ const dbRef = ref(db)
         setRulemanes(...filteredRulemanes);
       }
     });
+
+    setAdmin(window.localStorage.getItem('email'))
   }, [selectedCategory]);
 
   //update

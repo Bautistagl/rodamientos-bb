@@ -5,6 +5,7 @@ import { auth} from '../firebase';
 import {db} from '../firebase'
 import "firebase/database";
 import { set,ref, onValue,update, child, get } from 'firebase/database'
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
     const [email,setEmail] = useState('')
@@ -51,12 +52,19 @@ const SignUp = () => {
     async function createUser ( email , password)  {
        const infoUsuario = await createUserWithEmailAndPassword(auth,email,password,cuit).then((usuarioFirebase)=> {
             const uuid = usuarioFirebase.user.uid
-            
+          
             
             set(ref(db,`usuarios/` + `${uuid}`),{
              cuit,
              email,
              rol:'usuario'
+            })
+            Swal.fire({
+              title: 'Cuenta creada con exito!',
+              icon:'success',
+              timer: 1000, // 3 segundos
+              timerProgressBar: true,
+              
             })
             .catch( function(){
          
@@ -72,9 +80,17 @@ const SignUp = () => {
        
         try{
             await createUser(email , password,cuit)
+            setEmail('')
+            setPassword('')
+            setCuit('')
         } catch (e) {
-            setError(e.message)
-            console.log(e.message)
+           
+            Swal.fire({
+        
+              text: 'Email ya en uso!',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
         }
     }
 

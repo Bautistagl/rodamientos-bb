@@ -22,50 +22,7 @@ export default function BusquedaCodigo() {
 
   const usuarioRef = ref(db, 'usuarios');
 
-  const getRolUsuario = async () => {
-    // Esperar a que se resuelva la promesa del cambio de estado de autenticación
-    await new Promise((resolve) => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        // Una vez que se resuelve la promesa, se ejecuta el código restante
-        resolve();
-        // Desuscribirse del evento para evitar llamadas innecesarias
-        unsubscribe();
-      });
-    });
-  
-    const userId = auth.currentUser ? auth.currentUser.uid : null;
-    if (userId) {
-      const userRef = child(usuarioRef, userId);
-      get(userRef)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-           setRol(snapshot.val().rol);
-          } else {
-            console.log('No hay nada');
-          }
-        })
-        .catch((error) => {
-          console.log('Error al leer los productos:', error);
-        });
-    } else {
-      console.log('No se ha iniciado sesión');
-    }
-  };
-  
- 
-
-
   useEffect(() => {
-    
-    // { auth.currentUser === null ?  Swal.fire({
-    //   icon: 'error',
-    //   title:'Usted no ha iniciado sesion',
-    //   text: 'Si aun no tiene cuenta, pida la suya por nuestro Whatsapp!',
-    //   confirmButtonText:'<a href="/"  style="color:white"}> Volver </a>',
-    //   footer: '<a href="https://wa.me/1137660939">Quiero una cuenta!</a>',
-    
-    // }) : ''}
-    
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
     const getCatalogData = async () => {
@@ -91,7 +48,7 @@ export default function BusquedaCodigo() {
     };
 
     getCatalogData();
-    getRolUsuario();
+    
   }, []);
 
   const handleSearch = (event) => {

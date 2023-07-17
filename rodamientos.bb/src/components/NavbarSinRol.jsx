@@ -9,6 +9,7 @@ const NavbarSinRol = () => {
  const [logeado,setLogeado] = useState(false)
  const [user, setUser] =useState({})
  const [rol,setRol] = useState('')
+ const [admin,setAdmin] = useState('')
 
 
  const terminarSesion = () => {
@@ -48,7 +49,7 @@ const getRolUsuario = async () => {
 };
 
 useEffect(()=>{
-
+setAdmin(window.localStorage.getItem('email'))
 getRolUsuario()
 }, [])
 

@@ -31,17 +31,7 @@ const IniciarSesion = () => {
     }
   };
   
-  const chequearUsuario = () =>{
-      return onAuthStateChanged(auth,(user) =>{
-              if(user) {
-                  console.log(user.email)
-              } 
-              else{
-                  console.log('NO ESTA LOGEADO')
-              }
-      })
 
-  }
 
   const terminarSesion = () => {
 
