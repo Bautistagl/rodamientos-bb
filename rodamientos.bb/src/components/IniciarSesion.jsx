@@ -17,8 +17,14 @@ const IniciarSesion = () => {
   const loginUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.localStorage.setItem('email',email)
-      router.push('/inicioProductos');
+      const timestamp = Date.now();
+      const data = {
+        email: email,
+        timestamp: timestamp
+      }
+      const jsonData = JSON.stringify(data);
+      window.localStorage.setItem('email',jsonData)
+      router.push('/busquedaCodigo');
 
     } catch (error) {
       setError(error.message);

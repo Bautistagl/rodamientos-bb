@@ -11,6 +11,8 @@ import '../styles/inicioSesion.css'
 import '../styles/registro.css'
 import '../styles/edicionProducto.css'
 import '../styles/inicioProducto.css'
+import '../styles/carrousel.css'
+import '../styles/edicionMasiva.css'
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />

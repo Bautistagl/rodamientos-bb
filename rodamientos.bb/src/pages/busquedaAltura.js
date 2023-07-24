@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Swal from 'sweetalert2'
 
 import Navbar from '@/components/Navbarbautista';
+import Link from 'next/link';
 
 
 export default function BusquedaAltura() {
@@ -118,7 +119,12 @@ export default function BusquedaAltura() {
 
       <div className="fondo-busqueda">
         <>.</>
+        <div className='botones-busqueda'>
 
+<button className='button-30'  > <Link href='/busquedaCodigo'> BUSCAR POR CODIGO </Link></button>
+<button className='button-30'><Link href='/busquedaInterior'> BUSCAR POR INTERIOR </Link></button>
+<button className='button-30'> <Link href='/busquedaExterior'> BUSCAR POR EXTERIOR </Link></button>
+</div>
         <div className="barra-busqueda">
           {/* <span>Buscar producto por código:</span> */}
           <Image
@@ -133,7 +139,7 @@ export default function BusquedaAltura() {
             type="text"
             value={searchTerm}
             onChange={handleSearch}
-            placeholder="CÓDIGO"
+            placeholder="ALTURA"
           />
         </div>
 

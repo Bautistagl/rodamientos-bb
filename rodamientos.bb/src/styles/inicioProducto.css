@@ -148,7 +148,7 @@ button:hover::before {
     cursor: pointer;
     display: inline-flex;
     font-family: "JetBrains Mono",monospace;
-    height: 120px;
+    height: 70px;
     justify-content: center;
     line-height: 1;
     list-style: none;
@@ -173,6 +173,13 @@ button:hover::before {
   .button-30:hover {
 
     transform: translateY(-10px);
+  }
+  .botones-busqueda{
+   display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-left: auto;
+   
   }
 /*   
   .button-30:active {

@@ -116,7 +116,13 @@ export default function EdicionProducto() {
     };
 
     getCatalogData();
-    setAdmin(window.localStorage.getItem('email'))
+    if ( window.localStorage.getItem('email')) {
+      const adminData = JSON.parse(window.localStorage.getItem('email'))
+      if(adminData) {
+    
+        setAdmin(adminData.email);
+      }
+    }
   }, []);
 
   const handleSearch = (event) => {

@@ -19,6 +19,7 @@ export default function Home() {
   const [descripcion, setDescripcion] = useState('');
   const [precio, setPrecio] = useState('');
   const [marca, setMarca] = useState('');
+  const [familia,setFamilia] = useState('')
   const [stock, setStock] = useState('');
   const [imagen, setImagen] = useState('');
   const [altura, setAltura] = useState('');
@@ -50,6 +51,9 @@ export default function Home() {
 
   const handleMarca = (e) => {
     setMarca(e.target.value);
+  };
+  const handleFamilia = (e) => {
+    setFamilia(e.target.value);
   };
 
   const handleDescripcion = (e) => {
@@ -98,6 +102,7 @@ const dbRef = ref(db)
           setExterior('')
           setInterior('')
           setImagen('')
+          setFamilia('')
           setDescripcion('')
           setPrecio('')
           setMarca('')
@@ -110,6 +115,7 @@ const dbRef = ref(db)
           codigo2,
           codigo3,
           altura,
+          familia,
           exterior,
           interior,
           descripcion,
@@ -131,6 +137,7 @@ const dbRef = ref(db)
           setCodigo3('')
           setAltura('')
           setExterior('')
+          setFamilia('')
           setInterior('')
           setImagen('')
           setDescripcion('')
@@ -304,6 +311,28 @@ const dbRef = ref(db)
           </div>
 
           <div className='contenedor-input'> 
+          <span> Marca:</span>
+          <select
+                            value={imagen}
+                            onChange={(e) => setMarca(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Economica">IMPORTADA</option>
+                            <option value="HCH">HCH</option>
+                            <option value="NSK-NTN">NSK-NTN</option>
+                            <option value="SKF">SKF</option>
+                            <option value="INA">INA</option>
+                            <option value="DOLZ">DOLZ</option>
+                            <option value="DAYCO">DAYCO</option>
+                            <option value="DBH">DBH</option>
+                            <option value="CORTECO">CORTECO</option>
+                            <option value="TIMKEN">TIMKEN</option>
+                          </select>
+          </div>
+
+
+          <div className='contenedor-input'> 
           <span> Imagen Marca </span>
           <select
                             value={imagen}
@@ -317,15 +346,29 @@ const dbRef = ref(db)
                             <option value="skfLogo">SKF</option>
                           </select>
           </div>
-        <div className='contenedor-input'> 
-          <span> Marca:</span>
-        <input
-          type="text"
-          placeholder="Marca"
-          value={marca}
-          onChange={handleMarca}
-        />
+
+
+          <div className='contenedor-input'> 
+          <span> Familia:</span>
+          <select
+                            value={imagen}
+                            onChange={(e) => setFamilia(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Reten">Reten</option>
+                            <option value="Rodamientos">Rodamientos</option>
+                            <option value="Tensor">Tensor</option>
+                            <option value="Conos">Conos y cubetas</option>
+                            <option value="Automotor">Automotor</option>
+                            <option value="Embrague">Embrague</option>
+                            <option value="Grasas">Grasas</option>
+                            <option value="Crucetas">Crucetas/ tricelas</option>
+                            <option value="Bombas">Bombas de agua</option>
+                            <option value="Homocineticas">Homocineticas</option>
+                          </select>
           </div>
+  
 
         <div className='contenedor-input'> 
         <span>

@@ -1,0 +1,126 @@
+.contenedor-cards-edicion{
+    display:flex;
+    height: 55px;
+    border-bottom: 2px solid black;
+}
+.precio-masiva{
+    display: flex;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    font-size: 1.7rem;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
+}
+.titulo-singular-masivo{
+    display: flex;
+    font-size: 1.7rem;
+    width: 200px;
+    margin-left: 10px
+}
+.propiedades-masivo{
+    display: flex;
+    border-bottom: 2px solid black;
+}
+.propiedades-masivo h2{
+    width: 190px;
+    margin: 10px;
+}
+.precio-masiva span{
+    display: flex;
+    margin-right: 100px;
+    margin-left: 180px;
+}
+.input-masivo{
+    display: flex;
+    height: 50px;
+    font-size: 2rem;
+    width: 200px;
+}
+.boton-masivo{
+    display: flex;
+    height: 50px;
+    font-size: 2rem;
+    margin: 10px;
+}
+.select-masivo{
+    display: flex;
+    height: 50px;
+    margin: 10px;
+    width: 200px;
+}  
+.letras-masivo{
+    font-size: 1.5rem;
+} 
+
+.input-masiva{
+    justify-content: center;
+    color: black;
+    display: flex;
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+    margin: 20px;
+    font-size: 1.5rem;
+    margin-left: 90px;
+}
+
+.input-masiva::placeholder{
+    color: black !important;
+}
+.marca-masivo{
+    display: flex;
+    width: 200px;
+}
+.modal{
+    display: flex;
+    flex-direction: column;
+    width: 45vw;
+    height: 20vh;
+    z-index: 100;
+    margin-left: 20%;
+    margin-top: 10%;
+    position: fixed;
+    background-color: rgb(222, 215, 215);
+    border-radius: 10px;
+    border: 3px solid black;
+    font-size: 1.9rem;
+}
+.contenedor-flex2{
+    display: flex;
+    width: 80%;
+    height: 5vh;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+.boton-modal{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    font-size: 1.5rem;
+    background-color: rgba(0, 128, 0, 0.729);
+    border-radius: 5px;
+    border: 3px solid black;
+}
+.boton-modal2{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    font-size: 1.5rem;
+    background-color: rgba(255, 0, 0, 0.775);
+    border-radius: 5px;
+    border: 3px solid black;
+}
+.textos-modal{
+    display: flex;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}

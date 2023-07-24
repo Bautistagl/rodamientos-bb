@@ -1,5 +1,6 @@
 
 import Banner from "@/components/Bannerbautista"
+import Carrousel from "@/components/Carrouselbautista"
 import Footer from "@/components/Footerbautista"
 import MercadoLibre from "@/components/MercadoLibrebautista"
 import Navbar from "@/components/Navbarbautista"
@@ -16,6 +17,7 @@ export default function Home() {
             <Banner/>
             <div className="fondo-index"> 
             <Servicios/>
+            <Carrousel/>
             <Productos/>
             <MercadoLibre/>
             </div>
