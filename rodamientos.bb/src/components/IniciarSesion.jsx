@@ -48,7 +48,7 @@ const IniciarSesion = () => {
       e.preventDefault()
       setError('')
       try{
-          await loginUser(email , password)
+          await loginUser(email.toLowerCase() , password.toLowerCase())
       } catch (e) {
           setError(e.message)
           console.log(e.message)

@@ -9,9 +9,9 @@ const Carrousel = () => {
             <Image className='img-carrousel' alt='' width={300} height={10} src='/skfLogo.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/ntnLogo.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/hchLogo.png'/>          
-            <Image  className='img-carrousel' alt='' width={300} height={200} src='/corteco2Logo.png'/>
+            <Image  className='img-carrousel' alt='' width={300} height={200} src='/cortecoLogo2.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/dbhLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/timken2Logo.png'/>
+            <Image className='img-carrousel' alt='' width={300} height={10} src='/timkenLogo2.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/inaLogo.png'/>
 
         </div>
@@ -20,9 +20,9 @@ const Carrousel = () => {
             <Image className='img-carrousel' alt='' width={300} height={10} src='/skfLogo.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/ntnLogo.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/hchLogo.png'/>
-            <Image  className='img-carrousel' alt='' width={300} height={200} src='/corteco2Logo.png'/>
+            <Image  className='img-carrousel' alt='' width={300} height={200} src='/cortecoLogo2.png'/>
             <Image className='img-carrousel' alt='' width={300} height={70} src='/dbhLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={200} src='/timken2Logo.png'/>
+            <Image className='img-carrousel' alt='' width={300} height={200} src='/timkenLogo2.png'/>
             <Image className='img-carrousel' alt='' width={300} height={10} src='/inaLogo.png'/>
 
         </div>

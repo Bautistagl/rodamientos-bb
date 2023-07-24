@@ -32,13 +32,16 @@ export default function Home() {
   //     setModelo(e.target.value)
   // }
   const handleCodigo2 =(e) =>{
-    setCodigo2(e.target.value)
+    const valor = e.target.value
+    setCodigo2(valor.toUpperCase())
   }
   const handleCodigo3 =(e) =>{
-    setCodigo3(e.target.value)
+    const valor = e.target.value
+    setCodigo3(valor.toUpperCase())
   }
   const handleCodigo1 = (e) => {
-    setCodigo1(e.target.value);
+    const valor = e.target.value
+    setCodigo1(valor.toUpperCase());
   };
 
   const handleMedidas = (e) => {
@@ -313,7 +316,7 @@ const dbRef = ref(db)
           <div className='contenedor-input'> 
           <span> Marca:</span>
           <select
-                            value={imagen}
+                            value={marca}
                             onChange={(e) => setMarca(e.target.value)}>
                             <option value="" disabled selected>
                               Seleccionar
@@ -323,7 +326,7 @@ const dbRef = ref(db)
                             <option value="NSK-NTN">NSK-NTN</option>
                             <option value="SKF">SKF</option>
                             <option value="INA">INA</option>
-                            <option value="DOLZ">DOLZ</option>
+                            {/* <option value="DOLZ">DOLZ</option> */}
                             <option value="DAYCO">DAYCO</option>
                             <option value="DBH">DBH</option>
                             <option value="CORTECO">CORTECO</option>
@@ -344,6 +347,10 @@ const dbRef = ref(db)
                             <option value="hchLogo">HCH</option>
                             <option value="nskLogo">NSK-NTN</option>
                             <option value="skfLogo">SKF</option>
+                            <option value="dbhLogo">DBH</option>
+                            <option value="cortecoLogo2">CORTECO</option>
+                            <option value="timkenLogo2">TIMKEN</option>
+                            <option value="inaLogo">INA</option>
                           </select>
           </div>
 
@@ -351,7 +358,7 @@ const dbRef = ref(db)
           <div className='contenedor-input'> 
           <span> Familia:</span>
           <select
-                            value={imagen}
+                            value={familia}
                             onChange={(e) => setFamilia(e.target.value)}>
                             <option value="" disabled selected>
                               Seleccionar

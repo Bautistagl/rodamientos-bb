@@ -79,7 +79,7 @@ const SignUp = () => {
         setError('')
        
         try{
-            await createUser(email , password,cuit)
+            await createUser(email.toLowerCase() , password.toLowerCase(),cuit)
             setEmail('')
             setPassword('')
             setCuit('')

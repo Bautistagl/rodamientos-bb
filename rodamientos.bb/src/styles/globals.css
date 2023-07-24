@@ -52,15 +52,19 @@ a{
   
 
 }
+
 .icono-crear{
   display: flex;
   margin: 20px;
 }
 .contenedor-input span{
-  margin-left: 30px;
+  margin-left: 10px;
   margin-bottom: 10px;
   font-weight: bold;
   font-size: 1.2rem;
+}
+.contenedor-input select{
+  height: 30px;
 }
 
 
