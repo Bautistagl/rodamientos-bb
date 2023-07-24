@@ -76,7 +76,7 @@ const SignUp = () => {
             setCuit('')
         } catch (e) {
            
-         alert(e)
+         alert('email en uso')
         }
     }
 
