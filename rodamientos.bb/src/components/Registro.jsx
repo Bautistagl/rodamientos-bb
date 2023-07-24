@@ -8,16 +8,56 @@ import { set,ref, onValue,update, child, get } from 'firebase/database'
 import Swal from 'sweetalert2';
 
 const SignUp = () => {
-    const [email,setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [rol, setRol] = useState('')
-    const [cuit, setCuit] = useState('')
-    const [error, setError] = useState('')
-    const [admin,setAdmin] = useState('')
-    
-    
-  const usuarioRef = ref(db, 'usuarios');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [cuit, setCuit] = useState('');
+  const [admin, setAdmin] = useState('');
 
+  const createUser = async (email, password, cuit) => {
+    try {
+      const userInfo = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = userInfo.user.uid;
+
+      await set(ref(db, `usuarios/${userId}`), {
+        cuit,
+        email,
+        rol: 'usuario'
+      });
+
+      alert('Cuenta creada con éxito');
+    } catch (error) {
+      // Handle specific errors
+      if (error.code === 'auth/email-already-in-use') {
+        alert('El correo electrónico ya está en uso.');
+      } else if (error.code === 'auth/weak-password') {
+        alert('La contraseña es demasiado débil.');
+      } else {
+        // Handle other errors
+        alert('Ha ocurrido un error al crear la cuenta.');
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await createUser(email, password, cuit);
+      
+    } catch (e) {
+      // Handle other errors (e.g., network issues)
+      alert('Ha ocurrido un error al crear la cuenta.');
+    }
+  };
+    
+    
+
+
+
+
+
+
+  const usuarioRef = ref(db, 'usuarios');
   const getRolUsuario = async () => {
     // Esperar a que se resuelva la promesa del cambio de estado de autenticación
     await new Promise((resolve) => {
@@ -49,36 +89,36 @@ const SignUp = () => {
   };
   
     
-    async function createUser ( email , password)  {
-       const infoUsuario = await createUserWithEmailAndPassword(auth,email,password,cuit).then((usuarioFirebase)=> {
-            const uuid = usuarioFirebase.user.uid
+    // async function createUser ( email , password)  {
+    //    const infoUsuario = await createUserWithEmailAndPassword(auth,email,password,cuit).then((usuarioFirebase)=> {
+    //         const uuid = usuarioFirebase.user.uid
           
             
-            set(ref(db,`usuarios/` + `${uuid}`),{
-             cuit,
-             email,
-             rol:'usuario'
-            })
-           alert('Cuenta creada con exito')
+    //         set(ref(db,`usuarios/` + `${uuid}`),{
+    //          cuit,
+    //          email,
+    //          rol:'usuario'
+    //         })
+    //        alert('Cuenta creada con exito')
            
-        });
+    //     });
        
        
-    }
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
+    // }
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
+    //     setError('')
        
-        try{
-            await createUser(email , password,cuit)
-            setEmail('')
-            setPassword('')
-            setCuit('')
-        } catch (e) {
+    //     try{
+    //         await createUser(email , password,cuit)
+    //         setEmail('')
+    //         setPassword('')
+    //         setCuit('')
+    //     } catch (e) {
            
-         alert('email en uso')
-        }
-    }
+    //      alert('email en uso')
+    //     }
+    // }
 
     useEffect(()=>{
         getRolUsuario()
