@@ -37,7 +37,7 @@ function deleteLocalStorageAfterTime() {
   if (item) {
     const data = JSON.parse(item);
     if (data && data.timestamp) {
-      console.log('entra acaaaa')
+    
       const currentTime = new Date().getTime();
       const itemTime = new Date(data.timestamp).getTime();
       const maxAgeInMillis = 240 * 60 * 1000;
@@ -78,6 +78,7 @@ const handleSignOut = () => {
   terminarSesion();
   localStorage.removeItem('email');
   router.push('/')
+  
 };
 
 

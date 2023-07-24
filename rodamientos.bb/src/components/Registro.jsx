@@ -59,17 +59,8 @@ const SignUp = () => {
              email,
              rol:'usuario'
             })
-            Swal.fire({
-              title: 'Cuenta creada con exito!',
-              icon:'success',
-              timer: 1000, // 3 segundos
-              timerProgressBar: true,
-              
-            })
-            .catch( function(){
-         
-             console.log('no se puede')
-           }) 
+           alert('Cuenta creada con exito')
+           
         });
        
        
@@ -79,18 +70,13 @@ const SignUp = () => {
         setError('')
        
         try{
-            await createUser(email.toLowerCase() , password.toLowerCase(),cuit)
+            await createUser(email , password,cuit)
             setEmail('')
             setPassword('')
             setCuit('')
         } catch (e) {
            
-            Swal.fire({
-        
-              text: 'Email ya en uso!',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+         alert(e)
         }
     }
 
