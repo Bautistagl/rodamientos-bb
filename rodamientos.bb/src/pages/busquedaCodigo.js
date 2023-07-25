@@ -234,14 +234,11 @@ export default function BusquedaCodigo() {
 
                 {groupedResults[codigo1].map((producto, marcaIndex) => (
                   <div className="propiedades" key={marcaIndex}>
+                    {console.log(producto.imagen,'ESTA ES LA IMAGEN')}
                     <Image
                       style={{ marginRight: '100px' }}
                       alt=""
-                      src={
-                        producto.imagen === ''
-                          ? '/IMPORTADO5.png'
-                          : `/${producto.imagen}.png`
-                      }
+                      src={`/${producto.imagen}.png`}
                       width={100}
                       height={25}
                     />
