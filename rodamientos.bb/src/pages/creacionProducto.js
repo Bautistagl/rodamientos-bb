@@ -343,7 +343,7 @@ const dbRef = ref(db)
                             <option value="" disabled selected>
                               Seleccionar
                             </option>
-                            <option value="">IMPORTADA</option>
+                            <option value="eco">IMPORTADA</option>
                             <option value="hchLogo">HCH</option>
                             <option value="nskLogo">NSK-NTN</option>
                             <option value="skfLogo">SKF</option>
