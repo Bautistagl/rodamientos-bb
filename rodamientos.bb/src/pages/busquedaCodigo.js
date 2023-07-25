@@ -239,7 +239,7 @@ export default function BusquedaCodigo() {
                       alt=""
                       src={
                         producto.imagen === ''
-                          ? '/importado5.png'
+                          ? '/IMPORTADO5.png'
                           : `/${producto.imagen}.png`
                       }
                       width={100}
