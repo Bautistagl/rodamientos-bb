@@ -146,9 +146,9 @@ export default function BusquedaCodigo() {
         <>.</> 
         <div className='botones-busqueda'>
 
-        <button className='button-30'  > <Link href='/busquedaAltura'> BUSCAR POR ALTURA </Link></button>
         <button className='button-30'><Link href='/busquedaInterior'> BUSCAR POR INTERIOR </Link></button>
         <button className='button-30'> <Link href='/busquedaExterior'> BUSCAR POR EXTERIOR </Link></button>
+        <button className='button-30'  > <Link href='/busquedaAltura'> BUSCAR POR ALTURA </Link></button>
         </div>
         <div className="barra-busqueda">
           {/* <span>Buscar producto por código:</span> */}

@@ -377,6 +377,26 @@ const dbRef = ref(db)
           </div>
   
 
+
+          <div className='contenedor-input'> 
+        <span> Interior:</span> 
+        <input
+          type="text"
+          placeholder="Interior"
+          value={interior}
+          onChange={handleInterior}
+        />
+        </div>
+
+        <div className='contenedor-input'> 
+          <span>  Exterior:</span>
+        <input
+          type="text"
+          placeholder="Exterior"
+          value={exterior}
+          onChange={handleExterior}
+        />
+        </div>
         <div className='contenedor-input'> 
         <span>
           Altura:
@@ -388,24 +408,8 @@ const dbRef = ref(db)
           onChange={handleAltura}
         />
         </div>
-        <div className='contenedor-input'> 
-        <span> Interior:</span> 
-        <input
-          type="text"
-          placeholder="Interior"
-          value={interior}
-          onChange={handleInterior}
-        />
-        </div>
-        <div className='contenedor-input'> 
-          <span>  Exterior:</span>
-        <input
-          type="text"
-          placeholder="Exterior"
-          value={exterior}
-          onChange={handleExterior}
-        />
-        </div>
+        
+        
      
       
       <button className='button-31' onClick={writeData}> Crear Producto </button>
