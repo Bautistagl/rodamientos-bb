@@ -78,9 +78,9 @@ export default function Home() {
 
 
   // filtrar producto
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
+  // const handleCategoryChange = (e) => {
+  //   setSelectedCategory(e.target.value);
+  // };
 
   //write
   const writeData = () => {

@@ -151,7 +151,7 @@ export default function BusquedaCodigo() {
         <button className='button-30'  > <Link href='/busquedaAltura'> BUSCAR POR ALTURA </Link></button>
         </div>
         <div className="barra-busqueda">
-          {/* <span>Buscar producto por código:</span> */}
+      
           <Image
             className="icono-busqueda"
             width={30}
@@ -234,7 +234,7 @@ export default function BusquedaCodigo() {
 
                 {groupedResults[codigo1].map((producto, marcaIndex) => (
                   <div className="propiedades" key={marcaIndex}>
-                    {console.log(producto.imagen,'ESTA ES LA IMAGEN')}
+                   
                     <Image
                       style={{ marginRight: '100px' }}
                       alt=""
