@@ -22,6 +22,7 @@ export default function BusquedaCodigo() {
 
 
   const usuarioRef = ref(db, 'usuarios');
+  
 
   useEffect(() => {
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos

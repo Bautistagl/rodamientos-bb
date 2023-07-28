@@ -10,7 +10,7 @@ import Modal from '@/components/Modalbautista';
 import Navbar from '@/components/Navbarbautista';
 
 export default function EdicionMasiva() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [user, setUser] = useState(null);
@@ -19,6 +19,7 @@ export default function EdicionMasiva() {
   const [porcentaje, setPorcentaje] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false)
   const nuevoPrecioRef = useRef('');
+  const [searchFamily, setSearchFamily] = useState(false);
 
 
   const usuarioRef = ref(db, 'usuarios');
@@ -159,30 +160,81 @@ export default function EdicionMasiva() {
     setPorcentaje(0)
 
     // Realiza la búsqueda en los datos del catálogo
-    const results = searchProducts(term);
+    const results = searchProducts(term,searchFamily);
+    setSearchResults(results);
+  };
+  const handleFamilySearch = (event) => {
+    const family = event.target.value;
+    setSearchFamily(family);
+    setPorcentaje(0);
+  
+    // Realiza la búsqueda en los datos del catálogo
+    const results = searchProducts(searchTerm, family); // Update: pass the searchTerm as well
     setSearchResults(results);
   };
 
-  const searchProducts = (term) => {
+  const searchProducts = (term,family) => {
     if (!catalogData) {
       return [];
     }
 
     const results = [];
+    // const productsArray = Object.values(catalogData);
+    // const results = productsArray.filter((product) => {
+    //   // Check if both filters are selected
+    //   if (term !== '' && family !== '') {
+    //     console.log(product)
+    //     return product.marca === term && product.familia === family;
+    //   }
+  
+    //   // Check if only the 'marca' filter is selected
+    //   if (term !== '' && family==='') {
+    //     console.log(product)
+    //     return product.marca === term;
+    //   }
+  
+    //   // Check if only the 'familia' filter is selected
+    //   if (family !=='' && term === '') {
+    //     console.log(product)
+    //     return product.familia === family;
+    //   }
+  
+    //   // If no filters are selected, return all products
+    //   return false;
+    // });
+  
+    // return results;
+  
 
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
       const product = catalogData[productId];
 
       // Busca en cada propiedad del producto
+      
       Object.values(product).forEach((value) => {
         var filtro = value.marca;
-        if (filtro) {
-          if (filtro === term) {
+        var filtro2 = value.familia
+        if(term !== '' && family !== '') {
+            if (term === filtro && family === filtro2 ) {
+              // Agrega el producto a los resultados si encuentra coincidencia
+              results.push(value);
+            }}
+         if (term !== '' && family === '') {
+          if (filtro === term ) {
             // Agrega el producto a los resultados si encuentra coincidencia
             results.push(value);
           }
+        } 
+        if(term === '' && family !== '') {
+          if( filtro2 === family){
+            results.push(value)
+          }
+        }   
+        if(term === '' && family === '') {
+          results.push()
         }
+        
       });
     });
 
@@ -224,19 +276,36 @@ export default function EdicionMasiva() {
       <div className='contenedor-flex'> 
       <div className='select-masivo'>
         <select className='letras-masivo' value={searchTerm} onChange={handleSearch}>
-          <option value="" disabled defaultValue>
+          <option value=""  defaultValue>
             MARCA
           </option>
           <option value="Economica">Economica</option>
           <option value="HCH">HCH</option>
           <option value="NSK-NTN">NSK-NTN</option>
+          <option value="SKF">SKF</option>
           <option value="INA">INA</option>
           <option value="DOLZ">DOLZ</option>
           <option value="DAYCO">DAYCO</option>
           <option value="DBH">DBH</option>
           <option value="CORTECO">CORTECO</option>
           <option value="TIMKEN">TIMKEN</option>
-          <option value="prueba">PRUEBA</option>
+        </select>
+      </div>
+      <div className='select-masivo'>
+        <select className='letras-masivo' value={searchFamily} onChange={handleFamilySearch}>
+          <option value=""  defaultValue>
+            FAMILIA
+          </option>
+          <option value="Reten">Reten</option>
+                            <option value="Rodamientos">Rodamientos</option>
+                            <option value="Tensor">Tensor</option>
+                            <option value="Conos">Conos y cubetas</option>
+                            <option value="Automotor">Automotor</option>
+                            <option value="Embrague">Embrague</option>
+                            <option value="Grasas">Grasas</option>
+                            <option value="Crucetas">Crucetas/ tricelas</option>
+                            <option value="Bombas">Bombas de agua</option>
+                            <option value="Homocineticas">Homocineticas</option>
         </select>
       </div>
 
