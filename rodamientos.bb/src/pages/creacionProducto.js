@@ -75,7 +75,9 @@ export default function Home() {
   const handleInterior = (e) => {
   setInterior(e.target.value);
 }
-
+function escapeFirebasePath(path) {
+  return path.replace(/[.#$/\[\]]/g, '_');
+}
 
   // filtrar producto
   // const handleCategoryChange = (e) => {
@@ -156,71 +158,9 @@ const dbRef = ref(db)
     })
   };
 
-  const actualizarEconomica = () => {
-    const dbRef = ref(db, '/rulemanes/ 6306 2RS/Economica');
-    const nuevosValores = {
-      interior:"30",
-      exterior:"72",
-      altura:"19",
-    };
 
-    update(dbRef, nuevosValores)
-      .then(() => {
-        alert('Valores actualizados correctamente.');
-      })
-      .catch((error) => {
-        console.error('Error al actualizar los valores:', error);
-      });
-  };
 
-  // const actualizarHCH = () => {
-  //   const dbRef = ref(db, '/rulemanes/ 6306 2RS/HCH');
-  //   const nuevosValores = {
-  //     interior:"17",
-  //     exterior:"47",
-  //     altura:47"
-  //   };
-
-  //   update(dbRef, nuevosValores)
-  //     .then(() => {
-  //       alert('Valores actualizados correctamente.');
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error al actualizar los valores:', error);
-  //     });
-  // };
-  const actualizarNSK = () => {
-    const dbRef = ref(db, '/rulemanes/ 6306 2RS/NSK-NTN');
-    const nuevosValores = {
-      interior:"30",
-      exterior:"72",
-      altura:"19",
-    };
-
-    update(dbRef, nuevosValores)
-      .then(() => {
-        alert('Valores actualizados correctamente.');
-      })
-      .catch((error) => {
-        console.error('Error al actualizar los valores:', error);
-      });
-  };
-  const actualizarSKF = () => {
-    const dbRef = ref(db, '/rulemanes/ 6306 2RS/SKF');
-    const nuevosValores = {
-      interior:"30",
-      exterior:"72",
-      altura:"19",
-    };
-
-    update(dbRef, nuevosValores)
-      .then(() => {
-        alert('Valores actualizados correctamente.');
-      })
-      .catch((error) => {
-        console.error('Error al actualizar los valores:', error);
-      });
-  };
+ 
 
   //read
   useEffect(() => {

@@ -264,7 +264,7 @@ export default function EdicionProducto() {
                           <input
                             className="falso-span-edicion"
                             onChange={handleChange}
-                            placeholder='PRECIO'
+                            placeholder={producto.precio}
                           />
 
                           <select
@@ -280,17 +280,17 @@ export default function EdicionProducto() {
                           <input
                             className="falso-span-edicion"
                             onChange={handleCodigo1}
-                            placeholder='Codigo1'
+                            placeholder={producto.codigo1}
                           />
                           <input
                             className="falso-span-edicion"
                             onChange={handleCodigo2}
-                            placeholder='Codigo2'
+                            placeholder={producto.codigo2}
                           />
                           <input
                             className="falso-span-edicion"
                             onChange={handleCodigo3}
-                            placeholder='Codigo3'
+                            placeholder={producto.codigo3}
                           />
                           <select
                             value={familia}
@@ -312,17 +312,17 @@ export default function EdicionProducto() {
                           <input
                             className="falso-span-edicion"
                             onChange={handleInterior}
-                            placeholder='Interior'
+                            placeholder={producto.interior}
                           />
                           <input
                             className="falso-span-edicion"
                             onChange={handleExterior}
-                            placeholder='Exterior'
+                            placeholder={producto.exterior}
                           />
                           <input
                             className="falso-span-edicion"
                             onChange={handleAltura}
-                            placeholder='Altura'
+                            placeholder={producto.altura}
                           />
 
                           <button
@@ -357,7 +357,7 @@ export default function EdicionProducto() {
                               </div>
 
                               <div className="contenedor-flex2">
-                              <button className="boton-modal" onClick={() => handleConfirmacion(productToDelete.codigo1, productToDelete.marca)}>
+                              <button className="boton-modal" onClick={handleConfirmacion(productToDelete.codigo1, productToDelete.marca)}>
                                   {' '}
                                   Aceptar{' '}
                                 </button>

@@ -185,8 +185,17 @@ export default function BusquedaCodigo() {
             <div className="textos-completo">
               <div className="codigo-medidas">
                 <div className="titulo-singular">{codigo1}</div>
+              
                 {/* <div className="titulo-singular">{codigo2 ? codigo2 :''}</div> */}
                 <div className="medidas">
+                <div className="titulo-singular">{groupedResults[codigo1][0].codigo2}</div>
+                <div className="titulo-singular">{groupedResults[codigo1][0].codigo3}</div>
+                {/* <span>
+                     {groupedResults[codigo1][0].codigo2}
+                  </span>
+                  <span>
+                    {groupedResults[codigo1][0].codigo3} 
+                  </span> */}
                   <span>
                     INTERIOR: {groupedResults[codigo1][0].interior} mm
                   </span>

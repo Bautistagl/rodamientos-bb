@@ -10,7 +10,7 @@ import Modal from '@/components/Modalbautista';
 import Navbar from '@/components/Navbarbautista';
 
 export default function EdicionMasiva() {
-  const [searchTerm, setSearchTerm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [user, setUser] = useState(null);
@@ -19,7 +19,7 @@ export default function EdicionMasiva() {
   const [porcentaje, setPorcentaje] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false)
   const nuevoPrecioRef = useRef('');
-  const [searchFamily, setSearchFamily] = useState(false);
+  const [searchFamily, setSearchFamily] = useState('');
 
 
   const usuarioRef = ref(db, 'usuarios');
