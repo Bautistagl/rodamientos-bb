@@ -63,7 +63,7 @@ export default function BusquedaCodigo() {
   };
   
   const searchProducts = (term) => {
-    if (!catalogData) {
+    if (!catalogData || term === '') {
       return [];
     }
 
