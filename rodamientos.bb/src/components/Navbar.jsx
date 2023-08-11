@@ -1,34 +1,41 @@
-import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, sendPasswordResetEmail, signOut } from 'firebase/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import {auth, db} from '../firebase'
 import { child, get, ref } from 'firebase/database'
 import { useRouter } from 'next/router'
+import Swal from 'sweetalert2'
 
 const Navbar = () => {
-//  const [logeado,setLogeado] = useState(false)
-//  const [user, setUser] =useState({})
-//  const [rol,setRol] = useState('')
-//  const [admin,setAdmin] = useState('')
+
+  const [modal,setModal] = useState(false)
+  const auth = getAuth();
 
 
-//  const terminarSesion = () => {
-//   window.localStorage.setItem('email','')
-//   return signOut(auth)
-// }
-// function limpiarLocalStorage() {
-//   localStorage.clear(); // Esto borrará todos los datos almacenados en el Local Storage
-// }
+  const activarModal = () => {
+    setModal(!modal)
+  }
+  const cambiarContrasena = ()=> {
+    
+    sendPasswordResetEmail(auth, admin)
+      .then(() => {
+        setModal(false)
+        Swal.fire({
+          title: 'Email enviado',
+          icon: 'success',
+          timer: 1000, // 3 segundos
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
 
-
-// useEffect(()=>{
-// setAdmin(window.localStorage.getItem('email'))
-// window.addEventListener('beforeunload', function(event) {
-//   limpiarLocalStorage();
-// });
-
-// }, [])
 const [admin, setAdmin] = useState('');
 const router = useRouter();
 function deleteLocalStorageAfterTime() {
@@ -88,9 +95,26 @@ const handleSignOut = () => {
       <Link href='/'>
         <Image style={{marginLeft:'10px'}} alt='' width={200}  height={60} src='/logo2.jpg'/>
       </Link>
+      {modal ? 
+         <div className='modal-overlay'> 
+         <div className='modal-verdadero'>
+           <span> Se le va a enviar un email para cambiar la contraseña a {admin} </span>
+           <div className='flex'> 
+   
+           <button onClick={() => cambiarContrasena()}> Aceptar </button>
+           <button onClick={() => setModal(false)}> Cancelar</button>
+           </div>
+   
+         </div>
+   
+         </div>
+    : ''}
+     
         <div className='botones' >
           
-            <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span>
+            <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span> 
+            {admin !== ''  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
+            
             
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> CREAR </Link> </span> :''}
