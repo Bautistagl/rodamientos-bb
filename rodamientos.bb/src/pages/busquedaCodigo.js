@@ -53,6 +53,14 @@ export default function BusquedaCodigo() {
     
   }, []);
 
+
+  const familiaImagenes = {
+    Embrague:'/embrague.jpg',
+    Bombas:'/bombaAgua.jpg',
+    Homocineticas:'/correa.jpg',
+
+  }
+
   const handleSearch = (event) => {
     const term = event.target.value.toUpperCase();
     setSearchTerm(term);
@@ -173,17 +181,31 @@ export default function BusquedaCodigo() {
 
         {Object.keys(groupedResults).map((codigo1,index) => (
           <div className="contenedor-cards" key={index}>
-            <Image
+             
+               <>
+                
+               <Image
               style={{
                 marginTop: 'auto',
                 marginBottom: 'auto',
                 marginLeft: '20px',
               }}
               alt=""
-              src="/rodamiento.webp"
+              src={
+                familiaImagenes[
+                  groupedResults[codigo1][0].familia
+                ]
+                  ? familiaImagenes[
+                      groupedResults[codigo1][0].familia
+                    ]
+                  : '/rodamiento.webp'
+
+              }
               width={140}
               height={140}
             />
+               </>
+              
             <div className="textos-completo">
               <div className="codigo-medidas">
                 <div className="titulo-singular">{codigo1}</div>
