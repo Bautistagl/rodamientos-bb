@@ -59,7 +59,9 @@ export default function BusquedaCodigo() {
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
-    setSearchResults(results);
+    const first30 = results.slice(0,100)
+    
+    setSearchResults(first30);
   };
   
   const searchProducts = (term) => {
@@ -179,8 +181,8 @@ export default function BusquedaCodigo() {
               }}
               alt=""
               src="/rodamiento.webp"
-              width={200}
-              height={200}
+              width={140}
+              height={140}
             />
             <div className="textos-completo">
               <div className="codigo-medidas">

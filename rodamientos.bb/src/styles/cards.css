@@ -107,6 +107,11 @@
     
     
 }
+.precio-planilla{
+    font-size: 1.5rem;
+    margin: auto;
+    margin-right: 50px;
+}
 .codigo-medidas{
     margin-left: 50px;
     margin-top: 14px;

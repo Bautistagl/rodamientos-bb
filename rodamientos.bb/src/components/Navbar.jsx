@@ -93,7 +93,7 @@ const handleSignOut = () => {
   return (
     <nav className='navbar'>
       <Link href='/'>
-        <Image style={{marginLeft:'10px'}} alt='' width={200}  height={60} src='/logo2.jpg'/>
+        <Image style={{marginLeft:'10px'}} alt='' width={250}  height={80} src='/logoSuplente.jpg'/>
       </Link>
       {modal ? 
          <div className='modal-overlay'> 
@@ -120,16 +120,17 @@ const handleSignOut = () => {
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> CREAR </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
+            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''}
         </div>
         <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png' />
         {admin !== '' ? (
           <span onClick={handleSignOut}>
-            <Link href='/'>Cerrar Sesion</Link>
+            <Link href='/'>CERRAR SESION</Link>
           </span>
         ) : (
           <Link href='/iniciarSesion'>
-            <span> Iniciar Sesion </span>
+            <span className='inicioSesion' > INICIAR SESION </span>
           </Link>
         )}
       </div>

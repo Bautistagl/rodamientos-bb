@@ -1,25 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
-
+import ExcelJS from 'exceljs';
 import { db, auth } from '../firebase';
 import 'firebase/database';
 import { ref, get, child, update, set } from 'firebase/database';
-import Link from 'next/link';
-import Image from 'next/image';
 import Swal from 'sweetalert2';
-import Modal from '@/components/Modalbautista';
 import Navbar from '@/components/Navbarbautista';
+import Image from 'next/image';
 
-export default function EdicionMasiva() {
+export default function BajarPlanilla1() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
-  const [user, setUser] = useState(null);
-  const [rol, setRol] = useState('');
-  const [nuevoPrecio, setNuevoPrecio] = useState('');
   const [porcentaje, setPorcentaje] = useState(0);
-  const [mostrarModal, setMostrarModal] = useState(false)
   const nuevoPrecioRef = useRef('');
   const [searchFamily, setSearchFamily] = useState('');
+  const [excelBuffer, setExcelBuffer] = useState(null);
 
 
   const usuarioRef = ref(db, 'usuarios');
@@ -70,57 +65,10 @@ export default function EdicionMasiva() {
         });
     });
   };
-  const handleCancelacion = () =>{
-    setMostrarModal(false)
-  };
-  const handleModal = () => {
-    setMostrarModal(true)
-  }
 
-  const handlePorcentaje = (event) => {
-    const porciento = event.target.value;
-    setPorcentaje(porciento / 100 + 1);
-  };
 
-  const actualizarItems = (codigo, marca) => {
-    const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-    const nuevosValores = {
-      precio: `${nuevoPrecioRef.current}`,
-    };
-  
-    // Verificar si el producto existe antes de realizar la actualización
 
-    get(dbRef2)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          if(nuevoPrecioRef.current !== '') {
-            
-            update(dbRef2, nuevosValores)
-              .then(() => {
-                Swal.fire({
-                  title: 'Actualizado',
-                  icon:'success',
-                  timer: 1000, // 3 segundos
-                  timerProgressBar: true,
-                  showConfirmButton: false
-                })
-                nuevoPrecioRef.current = ''
-              })
-              .catch((error) => {
-                console.error('Error al actualizar los valores:', error);
-              });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title:'Ingrese un numero',
-            })
-          }
-          }
-      })
-      .catch((error) => {
-        console.error('Error al obtener el producto:', error);
-      });
-  };
+
   
 
 
@@ -157,7 +105,6 @@ export default function EdicionMasiva() {
   const handleSearch = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
-    setPorcentaje(0)
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term,searchFamily);
@@ -166,7 +113,6 @@ export default function EdicionMasiva() {
   const handleFamilySearch = (event) => {
     const family = event.target.value;
     setSearchFamily(family);
-    setPorcentaje(0);
   
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(searchTerm, family); // Update: pass the searchTerm as well
@@ -234,24 +180,40 @@ export default function EdicionMasiva() {
     nuevoPrecioRef.current = event.target.value;
   };
 
+  const generateExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Rodamientos');
+   
+      // Agrega encabezados
+      sheet.addRow(['Codigo', 'Marca', 'Precio']);
+  
+      // Agrega los datos
+     
+      Object.keys(groupedResults).map(codigo1 => {
+        groupedResults[codigo1].map((producto)=> (
+            sheet.addRow([producto.codigo1,producto.marca,producto.precio])
+        ))
+    
+      });
+     
+      
+  
+      // Guarda el archivo Excel
+      const buffer = await workbook.xlsx.writeBuffer();
+      setExcelBuffer(buffer)
+      // Puedes usar este buffer para descargar el archivo o hacer lo que necesites
+  
+  };
+
+
 
   return (
     <>
     <Navbar/>
-    {mostrarModal ? <div className='modal'>
-        <div className='textos-modal'>  
-          Desea aumentar el precio de los productos ?
-        </div>
-
-        <div className='contenedor-flex2'>
-        <button className='boton-modal' onClick={  handleConfirmacion}> Aceptar </button>
-        <button className='boton-modal2'onClick={  handleCancelacion}> Cancelar </button>
-        </div>
-    </div> : '' }
+ 
      
       <div className='contenedor-flex'> 
-      <div className='select-masivo'>
-        <select className='letras-masivo' value={searchTerm} onChange={handleSearch}>
+      <select className='letras-masivo' value={searchTerm} onChange={handleSearch}>
           <option value=""  defaultValue>
             MARCA
           </option>
@@ -265,9 +227,9 @@ export default function EdicionMasiva() {
           <option value="DBH">DBH</option>
           <option value="CORTECO">CORTECO</option>
           <option value="TIMKEN">TIMKEN</option>
+          
         </select>
-      </div>
-      <div className='select-masivo'>
+     
         <select className='letras-masivo' value={searchFamily} onChange={handleFamilySearch}>
           <option value=""  defaultValue>
             FAMILIA
@@ -282,20 +244,31 @@ export default function EdicionMasiva() {
                             <option value="Crucetas">Crucetas/ tricelas</option>
                             <option value="Bombas">Bombas de agua</option>
                             <option value="Homocineticas">Homocineticas</option>
+         
         </select>
-      </div>
+            
+     
+        <button className='letras-masivo'  onClick={generateExcel}> CARGAR INFO </button>
+           
 
-      <input className='input-masivo' type="text" onChange={handlePorcentaje} placeholder="Porcentaje" />
-      <button className='boton-masivo' onClick={handleModal}> Actualizar productos</button>
+
+           {excelBuffer ? (
+            <button className='letras-masivo'> 
+
+        <a
+          href={`data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${excelBuffer.toString('base64')}`}
+          download="rodamientos.xlsx"
+        >
+          DESCARGAR PLANILLA
+        </a>
+            </button>
+      ) : (
+        <div style={{width:'100%'}}>Generando planilla de Excel...</div>
+      )}
       </div>
+     
       <div className="fondo-busqueda2">
-        <>.</>
-            <div className='propiedades-masivo'> 
-                <h2> CODIGO</h2>
-                <h2> PRECIO</h2>
-                <h2> MARCA </h2>
-            </div>
-        {Object.keys(groupedResults).map((codigo1, index) => (
+      {Object.keys(groupedResults).map((codigo1, index) => (
           <div className="contenedor-cards-edicion" key={index}>
             <div className="textos-completo">
 
@@ -303,10 +276,9 @@ export default function EdicionMasiva() {
               
                 {groupedResults[codigo1].map((producto, marcaIndex) => (
                   <div className='contenedor-flex'  key={marcaIndex}>
-                    <input  className="precio-masiva"
-                            onChange={handleChange}
-                            placeholder={producto.precio}
-                          />
+                    <div className='precio-planilla'>
+                      ${producto.precio}
+                    </div>
                     <Image
                       style={{marginRight:'100px'}}
                       alt=""
@@ -318,18 +290,7 @@ export default function EdicionMasiva() {
                       width={150}
                       height={30}
                     />
-                      <button
-                            style={{ marginRight: '5px', height:'45px' }}
-                            onClick={() => {
-                              actualizarItems(
-                                producto.codigo1,
-                                producto.marca,
-                                nuevoPrecio
-                              );
-                            }}>
-                            {' '}
-                            ACTUALIZAR PRECIO{' '}
-                          </button>
+                  
 
                   </div>
                 ))}
@@ -337,6 +298,10 @@ export default function EdicionMasiva() {
             </div>
          
         ))}
+      
+
+
+     
       </div>
     </>
   );
