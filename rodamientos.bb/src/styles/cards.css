@@ -26,6 +26,17 @@
     margin-top: 20px;
 
 }
+.contenedor-cards2{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100vw;
+    
+    background-color: white;
+    justify-content: center;
+    border: 2px solid black;
+    border-bottom: 2px solid black;
+}
 .titulo{
     font-size: 1.5rem;
     margin: 5px;
@@ -103,9 +114,12 @@
     margin: 3px;
 }
 .textos-completo{
+    display: flex; 
+}
+.textos-completo2{
     display: flex;
-    
-    
+    width: 100%;
+    justify-content: center;
 }
 .precio-planilla{
     font-size: 1.5rem;

@@ -121,6 +121,7 @@ const handleSignOut = () => {
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''}
+            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
         </div>
         <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png' />

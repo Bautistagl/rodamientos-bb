@@ -14,9 +14,8 @@ export default function ExcelUpdater() {
     async function updateDatabaseFromExcel() {
       setStatus('Reading Excel file...');
       try {
-        const response = await fetch('/actualizaciondbh.csv');
+        const response = await fetch('/actualizacion.csv');
         const csvData = await response.text();
-
         const { data } = Papa.parse(csvData, {
           header: true, // Si tu archivo tiene encabezados
         });
