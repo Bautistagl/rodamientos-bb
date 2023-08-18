@@ -29,7 +29,7 @@ export default function ExcelUpdater() {
           // Lógica para actualizar la base de datos de Firebase
           try {
             
-            const dbRef = ref(db,`/rulemanes/ ${codigo}/DBH`)
+            const dbRef = ref(db,`/rulemanes/ ${codigo}/SKF`)
             const uuid = uid();
             const nuevoValor = {
                 precio: nuevoPrecio,
@@ -51,12 +51,12 @@ export default function ExcelUpdater() {
                       });
                 }
              } else {
-              set(ref(db,`/rulemanes/ ${codigo}/DBH`),{
+              set(ref(db,`/rulemanes/ ${codigo}/SKF`),{
                 uuid,
                 codigo1 : codigo.toUpperCase(),
-                marca : 'DBH',
+                marca : 'SKF',
                 precio : nuevoPrecio,
-                imagen: 'dbhLogo'
+                imagen: 'skfLogo'
               }) 
              }
             })

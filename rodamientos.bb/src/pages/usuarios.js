@@ -85,7 +85,7 @@ export default function Usuarios() {
     const results = [];
 
     // Recorre cada producto en el catálogo
-    Object.keys(catalogData).forEach((productId) => {
+    Object.keys(catalogData).forEach((productId,key) => {
       const product = catalogData[productId];
         var filtro = product.email
 
@@ -141,8 +141,8 @@ export default function Usuarios() {
     
         </div>
 
-        {Object.values(searchResults).map((codigo1) => (
-          <div className="contenedor-cards2" >
+        {Object.values(searchResults).map((codigo1,index) => (
+          <div className="contenedor-cards2" key={index} >
              
              
               

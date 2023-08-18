@@ -62,11 +62,13 @@ export default function BusquedaInterior() {
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
-    setSearchResults(results);
+    const first30 = results.slice(0,50)
+    
+    setSearchResults(first30);
   };
 
   const searchProducts = (term) => {
-    if (!catalogData) {
+    if (!catalogData || term === '') {
       return [];
     }
 

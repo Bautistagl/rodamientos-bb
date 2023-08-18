@@ -67,7 +67,7 @@ export default function BusquedaCodigo() {
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
-    const first30 = results.slice(0,100)
+    const first30 = results.slice(0,50)
     
     setSearchResults(first30);
   };
