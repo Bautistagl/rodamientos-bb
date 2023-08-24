@@ -182,7 +182,7 @@ export default function EdicionProducto() {
   };
 
   const searchProducts = (term) => {
-    if (!catalogData) {
+    if (!catalogData || term === '') {
       return [];
     }
 

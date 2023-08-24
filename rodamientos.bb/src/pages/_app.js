@@ -13,7 +13,19 @@ import '../styles/edicionProducto.css'
 import '../styles/inicioProducto.css'
 import '../styles/carrousel.css'
 import '../styles/edicionMasiva.css'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+  <>
+   <Head>
+        <link rel="icon" href="/logoWeb.ico" />
+       
+      </Head>
+  <Component {...pageProps} />
+  
+  </>
+
+  )
+  
 }

@@ -263,7 +263,8 @@ const dbRef = ref(db)
                             </option>
                             <option value="Economica">IMPORTADA</option>
                             <option value="HCH">HCH</option>
-                            <option value="NSK-NTN">NSK-NTN</option>
+                            <option value="NSK-NTN">NSK</option>
+                            <option value="NTN">NTN</option>
                             <option value="SKF">SKF</option>
                             <option value="INA">INA</option>
                             {/* <option value="DOLZ">DOLZ</option> */}
@@ -285,7 +286,8 @@ const dbRef = ref(db)
                             </option>
                             <option value="eco">IMPORTADA</option>
                             <option value="hchLogo">HCH</option>
-                            <option value="nskLogo">NSK-NTN</option>
+                            <option value="nskLogo">NSK</option>
+                            <option value="ntnLogo">NTN</option>
                             <option value="skfLogo">SKF</option>
                             <option value="dbhLogo">DBH</option>
                             <option value="cortecoLogo2">CORTECO</option>
@@ -305,6 +307,7 @@ const dbRef = ref(db)
                             </option>
                             <option value="Reten">Reten</option>
                             <option value="Rodamientos">Rodamientos</option>
+                            <option value="CORREAS">Correas</option>
                             <option value="Tensor">Tensor</option>
                             <option value="Conos">Conos y cubetas</option>
                             <option value="Automotor">Automotor</option>

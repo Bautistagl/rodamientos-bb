@@ -257,7 +257,8 @@ export default function EdicionMasiva() {
           </option>
           <option value="Economica">Economica</option>
           <option value="HCH">HCH</option>
-          <option value="NSK-NTN">NSK-NTN</option>
+          <option value="NSK-NTN">NSK</option>
+          <option value="NTN">NTN</option>
           <option value="SKF">SKF</option>
           <option value="INA">INA</option>
           <option value="DOLZ">DOLZ</option>
@@ -275,6 +276,7 @@ export default function EdicionMasiva() {
           <option value="Reten">Reten</option>
                             <option value="Rodamientos">Rodamientos</option>
                             <option value="Tensor">Tensor</option>
+                            <option value="CORREAS">Correas</option>
                             <option value="Conos">Conos y cubetas</option>
                             <option value="Automotor">Automotor</option>
                             <option value="Embrague">Embrague</option>

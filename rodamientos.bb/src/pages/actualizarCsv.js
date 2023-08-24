@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 
-import { get,ref,set,update } from 'firebase/database';
+import { get,ref,remove,set,update } from 'firebase/database';
 import { db } from '../firebase';
 import { uid } from 'uid';
 
@@ -14,7 +14,7 @@ export default function ExcelUpdater() {
     async function updateDatabaseFromExcel() {
       setStatus('Reading Excel file...');
       try {
-        const response = await fetch('/actualizacion.csv');
+        const response = await fetch('/actualizacionsfk4.csv');
         const csvData = await response.text();
         const { data } = Papa.parse(csvData, {
           header: true, // Si tu archivo tiene encabezados
@@ -22,6 +22,7 @@ export default function ExcelUpdater() {
 
         // Recorrer los registros del archivo Excel
         for (const row of data) {
+          const familias= row['FAMILIA']
           const codigo = row['PRUEBA'];
           const nuevoPrecio = row['PRECIO'];
          
@@ -35,12 +36,17 @@ export default function ExcelUpdater() {
                 precio: nuevoPrecio,
             }
             
-            // Aquí debes realizar la lógica de actualización a tu base de datos de Firebase
-            // Puedes usar firebaseAdmin para interactuar con la Realtime Database
-            // Por ejemplo:
+       
             await get(dbRef)
             .then((snapshot) => {
              if (snapshot.exists()) {
+                // remove(dbRef)
+                //   .then(()=>{
+
+                //   })
+                //   .catch((error) => {
+                //     console.error(error)
+                //   })
                 if(nuevoPrecio !== '') {
                     update(dbRef,nuevoValor)
                      .then(()=> {
@@ -50,13 +56,16 @@ export default function ExcelUpdater() {
                         console.error('Error al actualizar los valores:', error);
                       });
                 }
-             } else {
+             } 
+             else {
               set(ref(db,`/rulemanes/ ${codigo}/SKF`),{
                 uuid,
                 codigo1 : codigo.toUpperCase(),
                 marca : 'SKF',
                 precio : nuevoPrecio,
-                imagen: 'skfLogo'
+                imagen: 'skfLogo',
+                familia:familias
+
               }) 
              }
             })
