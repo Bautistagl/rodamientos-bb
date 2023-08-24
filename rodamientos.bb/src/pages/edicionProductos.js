@@ -62,14 +62,14 @@ export default function EdicionProducto() {
 
   const handleConfirmacion = (codigo, marca) => {
     const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-    console.log(codigo,marca,'ESTO ES CODIGO Y MARCA A BORRAR')
+  
     get(dbRef2)
       .then((snapshot) => {
         if (snapshot.exists()) {
           
           remove(dbRef2)
             .then((data) => {
-              console.log(data,'ESTO ES LA DATA');
+            
               Swal.fire({
                 title: 'Borrado',
                 icon:'success',
