@@ -62,13 +62,14 @@ export default function EdicionProducto() {
 
   const handleConfirmacion = (codigo, marca) => {
     const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-
+    console.log(codigo,marca,'ESTO ES CODIGO Y MARCA A BORRAR')
     get(dbRef2)
       .then((snapshot) => {
         if (snapshot.exists()) {
+          
           remove(dbRef2)
             .then((data) => {
-              console.log(data);
+              console.log(data,'ESTO ES LA DATA');
               Swal.fire({
                 title: 'Borrado',
                 icon:'success',
@@ -76,11 +77,14 @@ export default function EdicionProducto() {
                 timerProgressBar: true,
                 showConfirmButton: false
               })
-              setProductToDelete(null);
+             setProductToDelete(null)
             })
             .catch((error) => {
               alert('Error al actualizar los valores:', error);
             });
+        }
+        else{
+          console.log('no entra en nada')
         }
       })
       .catch((error) => {
@@ -164,7 +168,7 @@ export default function EdicionProducto() {
 
     getCatalogData();
     if (window.localStorage.getItem('email')) {
-      console.log('entra acaaaa');
+      
       const adminData = JSON.parse(window.localStorage.getItem('email'));
       if (adminData) {
         setAdmin(adminData.email);
@@ -270,7 +274,7 @@ export default function EdicionProducto() {
                           <select
                             value={stock}
                             onChange={(e) => setStock(e.target.value)}>
-                            <option value="" disabled selected>
+                            <option value="" disabled >
                               Stock
                             </option>
                             <option value="Disponible">Disponible</option>
@@ -357,7 +361,7 @@ export default function EdicionProducto() {
                               </div>
 
                               <div className="contenedor-flex2">
-                              <button className="boton-modal" onClick={handleConfirmacion(productToDelete.codigo1, productToDelete.marca)}>
+                              <button className="boton-modal" onClick={()=> handleConfirmacion(productToDelete.codigo1, productToDelete.marca)}>
                                   {' '}
                                   Aceptar{' '}
                                 </button>

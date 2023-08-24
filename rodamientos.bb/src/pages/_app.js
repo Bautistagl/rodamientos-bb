@@ -20,7 +20,6 @@ export default function App({ Component, pageProps }) {
   <>
    <Head>
         <link rel="icon" href="/logoWeb.ico" />
-       
       </Head>
   <Component {...pageProps} />
   
