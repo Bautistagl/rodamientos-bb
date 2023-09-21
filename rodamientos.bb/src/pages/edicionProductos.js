@@ -92,10 +92,11 @@ export default function EdicionProducto() {
       });
   };
 
-  const actualizarItems = (codigo, marca) => {
+  const actualizarItems = async (codigo, marca) => {
     const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
+    
     const nuevosValores = {
-      precio: `${nuevoPrecioRef.current}`,
+      precio:nuevoPrecioRef.current,
       stock: stock,
       interior: interior,
       exterior: exterior,
@@ -116,11 +117,11 @@ export default function EdicionProducto() {
 
    // Verificar si el producto existe antes de realizar la actualización
 
-    get(dbRef2)
+   await get(dbRef2)
       .then((snapshot) => {
         if (snapshot.exists()) {
-         
             update(dbRef2, valoresActualizados)
+            
               .then(() => {
                 Swal.fire({
                   title: 'Actualizado',
@@ -182,7 +183,9 @@ export default function EdicionProducto() {
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
-    setSearchResults(results);
+    const first30 = results.slice(0,50)
+    
+    setSearchResults(first30);
   };
 
   const searchProducts = (term) => {

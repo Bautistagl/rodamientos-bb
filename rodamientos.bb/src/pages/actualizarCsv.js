@@ -14,7 +14,7 @@ export default function ExcelUpdater() {
     async function updateDatabaseFromExcel() {
       setStatus('Reading Excel file...');
       try {
-        const response = await fetch('/actualizacionsfk4.csv');
+        const response = await fetch('/csvDBH2.csv');
         const csvData = await response.text();
         const { data } = Papa.parse(csvData, {
           header: true, // Si tu archivo tiene encabezados
@@ -30,7 +30,7 @@ export default function ExcelUpdater() {
           // Lógica para actualizar la base de datos de Firebase
           try {
             
-            const dbRef = ref(db,`/rulemanes/ ${codigo}/SKF`)
+            const dbRef = ref(db,`/rulemanes/ ${codigo}/DBH`)
             const uuid = uid();
             const nuevoValor = {
                 precio: nuevoPrecio,
@@ -58,13 +58,13 @@ export default function ExcelUpdater() {
                 }
              } 
              else {
-              set(ref(db,`/rulemanes/ ${codigo}/SKF`),{
+              set(ref(db,`/rulemanes/ ${codigo}/DBH`),{
                 uuid,
                 codigo1 : codigo.toUpperCase(),
-                marca : 'SKF',
+                marca : 'DBH',
                 precio : nuevoPrecio,
-                imagen: 'skfLogo',
-                familia:familias
+                imagen: 'dbhLogo',
+                familia:'Reten'
 
               }) 
              }

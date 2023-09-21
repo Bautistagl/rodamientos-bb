@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
   return (
   <>
    <Head>
-        <link rel="icon" href="/logoWeb.ico" />
+        <link key="favicon" type="image/x-icon" rel="icon" href="/rodamientosbb.png" />
       </Head>
   <Component {...pageProps} />
   
