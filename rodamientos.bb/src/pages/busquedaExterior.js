@@ -236,6 +236,7 @@ export default function BusquedaExterior() {
                       }}>
                        { producto.stock ? (producto.stock).toUpperCase() : ''}
                     </span>
+                    <span className='span-3'> {producto.descripcion} </span>
                   </div>
                 ))}
               </div>
