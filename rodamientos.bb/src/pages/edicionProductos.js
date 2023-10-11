@@ -131,6 +131,9 @@ export default function EdicionProducto() {
                   showConfirmButton: false,
                 });
                 nuevoPrecioRef.current = '';
+                setInterior('');
+                setExterior('')
+                setAltura('')
               })
               .catch((error) => {
                 console.error('Error al actualizar los valores:', error);
@@ -267,7 +270,7 @@ export default function EdicionProducto() {
 
                       {groupedResults[codigo1].map((producto, marcaIndex) => (
                         <div className="propiedades-edicion" key={marcaIndex}>
-                          <div className="falso-span-edicion"> {producto.marca}</div>
+                          <div className="falso-span-edicion3"> {producto.marca}</div>
                           <input
                             className="falso-span-edicion"
                             onChange={handleChange}
@@ -285,17 +288,17 @@ export default function EdicionProducto() {
                             <option value="Consultar">Consultar</option>
                           </select>
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion2"
                             onChange={handleCodigo1}
                             placeholder={producto.codigo1}
                           />
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion2"
                             onChange={handleCodigo2}
                             placeholder={producto.codigo2}
                           />
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion2"
                             onChange={handleCodigo3}
                             placeholder={producto.codigo3}
                           />

@@ -11,8 +11,10 @@ import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 
 
-export default function BusquedaCodigo() {
-  const [searchTerm, setSearchTerm] = useState('');
+export default function BusquedaAltura() {
+  const [searchAltura, setSearchAltura] = useState(null);
+  const [searchExterior, setSearchExterior] = useState(null);
+  const [searchInterior, setSearchInterior] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]); 
   const [user, setUser] =useState(null)
@@ -22,9 +24,13 @@ export default function BusquedaCodigo() {
 
 
   const usuarioRef = ref(db, 'usuarios');
-  
+
+ 
+ 
+
 
   useEffect(() => {
+    
     const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
     const getCatalogData = async () => {
@@ -53,79 +59,66 @@ export default function BusquedaCodigo() {
     
   }, []);
 
-
-  const familiaImagenes = {
-    Embrague:'/embrague.jpg',
-    Bombas:'/bombaAgua.jpg',
-    Homocineticas:'/correa.jpg',
-
-  }
-
-  const handleSearch = (event) => {
-    const term = event.target.value.toUpperCase();
-    setSearchTerm(term);
+  const handleSearch = () => {
+   
 
     // Realiza la búsqueda en los datos del catálogo
-    const results = searchProducts(term);
+    const results = searchProducts(searchAltura,searchInterior,searchExterior);
     const first30 = results.slice(0,50)
     
     setSearchResults(first30);
   };
-  
-  const searchProducts = (term) => {
-    if (!catalogData || term === '') {
+
+  const searchProducts = (altura, interior, exterior) => {
+    if (!catalogData || (altura === null && interior === null && exterior === null)) {
       return [];
     }
-
+  
     const results = [];
-
+  
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
       const product = catalogData[productId];
-
+  
       // Busca en cada propiedad del producto
       Object.values(product).forEach((value) => {
-        var filtro  = value.codigo1;
-        var filtro2 = value.codigo2
-        var filtro3 = value.codigo3
-        
-        if(filtro ) {
-
-          if (filtro.includes(term) ) {
-            // Agrega el producto a los resultados si encuentra coincidencia
-            
+        var filtroAltura = value.altura;
+        var filtroExterior = value.exterior;
+        var filtroInterior = value.interior;
+  
+        // Filtra los resultados
+        if (altura && interior && exterior) {
+          if (filtroAltura === altura && filtroExterior === exterior && filtroInterior === interior) {
             results.push(value);
           }
-        }
-        
-        if(filtro2) {
-
-          if (filtro2.includes(term) ) {
-            // Agrega el producto a los resultados si encuentra coincidencia
-            if(results.includes(value)){
-             
-            } else{
-
-              results.push(value);
-            }
+        } else if (altura && interior) {
+          if (filtroAltura === altura && filtroInterior === interior) {
+            results.push(value);
           }
-        }
-
-        if(filtro3) {
-
-          if (filtro3.includes(term) ) {
-            // Agrega el producto a los resultados si encuentra coincidencia
-            if(results.includes(value)){
-             
-            } else{
-
-              results.push(value);
-            }
+        } else if (altura && exterior) {
+          if (filtroAltura === altura && filtroExterior === exterior) {
+            results.push(value);
+          }
+        } else if (interior && exterior) {
+          if (filtroInterior === interior && filtroExterior === exterior) {
+            results.push(value);
+          }
+        } else if (altura) {
+          if (filtroAltura === altura) {
+            results.push(value);
+          }
+        } else if (interior) {
+          if (filtroInterior === interior) {
+            results.push(value);
+          }
+        } else if (exterior) {
+          if (filtroExterior === exterior) {
+            results.push(value);
           }
         }
       });
     });
-
+  
     return results;
   };
 
@@ -145,24 +138,17 @@ export default function BusquedaCodigo() {
   const groupedResults = groupByCodigo1(searchResults);
 
   
-  const handleChange = (event) => {
-    setNuevoPrecio(event.target.value);
-  };
+  
 
   return (
     <div>
       <Navbar />
 
       <div className="fondo-busqueda">
-        <>.</> 
-        <div className='botones-busqueda'>
-
-        <button className='button-30'><Link href='/busquedaInterior'> BUSCAR POR INTERIOR </Link></button>
-        <button className='button-30'> <Link href='/busquedaExterior'> BUSCAR POR EXTERIOR </Link></button>
-        <button className='button-30'  > <Link href='/busquedaAltura'> BUSCAR POR ALTURA </Link></button>
-        </div>
-        <div className="barra-busqueda">
+        <>.</>
       
+        <div className="barra-busqueda">
+          {/* <span>Buscar producto por código:</span> */}
           <Image
             className="icono-busqueda"
             width={30}
@@ -170,63 +156,56 @@ export default function BusquedaCodigo() {
             alt=""
             src="/iconoBusqueda.png"
           />
+
+               <input
+            className="input-busqueda"
+            type="text"
+            value={searchInterior}
+            onChange={(e) => setSearchInterior(e.target.value)}
+            placeholder="INTERIOR"
+          />
+            <input
+            className="input-busqueda"
+            type="text"
+            value={searchExterior}
+            onChange={(e) => setSearchExterior(e.target.value)}
+            placeholder="EXTERIOR"
+          />
           <input
             className="input-busqueda"
             type="text"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="CÓDIGO"
+            value={searchAltura}
+            onChange={(e) => setSearchAltura(e.target.value)}
+            placeholder="ALTURA"
           />
+       
         </div>
+        <button onClick={()=>{handleSearch()}}> BUSCAR TODO </button>
 
-        {Object.keys(groupedResults).map((codigo1,index) => (
+        {Object.keys(groupedResults).map((codigo1, index) => (
           <div className="contenedor-cards" key={index}>
-             
-               <>
-                
-               <Image
+            <Image
               style={{
                 marginTop: 'auto',
                 marginBottom: 'auto',
                 marginLeft: '20px',
               }}
               alt=""
-              src={
-                familiaImagenes[
-                  groupedResults[codigo1][0].familia
-                ]
-                  ? familiaImagenes[
-                      groupedResults[codigo1][0].familia
-                    ]
-                  : '/rodamiento.webp'
-
-              }
-              width={80}
-              height={80}
+              src="/rodamiento.webp"
+              width={200}
+              height={200}
             />
-               </>
-              
             <div className="textos-completo">
               <div className="codigo-medidas">
                 <div className="titulo-singular">{codigo1}</div>
-              
-                {/* <div className="titulo-singular">{codigo2 ? codigo2 :''}</div> */}
                 <div className="medidas">
-                <div className="titulo-singular">{groupedResults[codigo1][0].codigo2}</div>
-                <div className="titulo-singular">{groupedResults[codigo1][0].codigo3}</div>
-                {/* <span>
-                     {groupedResults[codigo1][0].codigo2}
+                  <span>
+                    Interior: {groupedResults[codigo1][0].interior} mm
                   </span>
                   <span>
-                    {groupedResults[codigo1][0].codigo3} 
-                  </span> */}
-                  <span>
-                    INTERIOR: {groupedResults[codigo1][0].interior} mm
+                    Exterior: {groupedResults[codigo1][0].exterior} mm
                   </span>
-                  <span>
-                   EXTERIOR: {groupedResults[codigo1][0].exterior} mm
-                  </span>
-                  <span>ALTURA: {groupedResults[codigo1][0].altura} mm</span>
+                  <span>Altura: {groupedResults[codigo1][0].altura} mm</span>
                 </div>
               </div>
               <div className="contenedor-propiedades">
@@ -237,8 +216,8 @@ export default function BusquedaCodigo() {
                       alt=""
                       style={{ marginRight: '10px', marginTop: '-5px' }}
                       src="/tag.png"
-                      width={30}
-                      height={30}
+                      width={40}
+                      height={40}
                     />
                     MARCA
                   </span>
@@ -248,8 +227,8 @@ export default function BusquedaCodigo() {
                       alt=""
                       style={{ marginRight: '10px', marginTop: '-5px' }}
                       src="/iconoPlata.png"
-                      width={30}
-                      height={30}
+                      width={40}
+                      height={40}
                     />{' '}
                     PRECIO
                   </span>
@@ -268,16 +247,19 @@ export default function BusquedaCodigo() {
 
                 {groupedResults[codigo1].map((producto, marcaIndex) => (
                   <div className="propiedades" key={marcaIndex}>
-                   
                     <Image
                       style={{ marginRight: '100px' }}
                       alt=""
-                      src={`/${producto.imagen}.png`}
+                      src={
+                        producto.imagen === ''
+                          ? '/TEST.jpg'
+                          : `/${producto.imagen}.png`
+                      }
                       width={100}
                       height={25}
                     />
 
-                    <span style={{fontWeight:'bold'}} className="span-1">${producto.precio}</span>
+                    <span className="span-1">${producto.precio}</span>
                     <span
                       className="span-2"
                       style={{
@@ -289,9 +271,8 @@ export default function BusquedaCodigo() {
                             ? 'red'
                             : 'rgb(215, 215, 58)',
                       }}>
-                      { producto.stock ? (producto.stock).toUpperCase() : ''}
+                       { producto.stock ? (producto.stock).toUpperCase() : ''}
                     </span>
-                    <span className='span-3'> {producto.descripcion} </span>
                   </div>
                 ))}
               </div>

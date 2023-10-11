@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Swal from 'sweetalert2';
 import Modal from '@/components/Modalbautista';
 import Navbar from '@/components/Navbarbautista';
+import Loader from 'react-loader-spinner';
+
 
 export default function EdicionMasiva() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,12 +22,13 @@ export default function EdicionMasiva() {
   const [mostrarModal, setMostrarModal] = useState(false)
   const nuevoPrecioRef = useRef('');
   const [searchFamily, setSearchFamily] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const usuarioRef = ref(db, 'usuarios');
 
   const handleConfirmacion = async () => {
-    
+    setIsLoading(true);
     const updatedResults = searchResults.map((product) => {
       // Calculate the new price (you can modify this logic as per your requirement)
 
@@ -52,12 +55,15 @@ export default function EdicionMasiva() {
                     timerProgressBar: true,
                     showConfirmButton: false,
                   });
+                  setIsLoading(false);
                   window.location.reload()
                 })
                 .catch((error) => {
-                  console.error('Error al actualizar los valores:', error);
+                 alert('Error al actualizar los valores:', error);
+                  setIsLoading(false);
                 });
             } else {
+              setIsLoading(false);
               Swal.fire({
                 icon: 'error',
                 title: 'Ingrese un numero valido',
@@ -248,6 +254,12 @@ export default function EdicionMasiva() {
         <button className='boton-modal2'onClick={  handleCancelacion}> Cancelar </button>
         </div>
     </div> : '' }
+    {/* {isLoading && (
+      <div className="loader-container">
+        
+        <div>Loading...</div>
+      </div>
+    )} */}
      
       <div className='contenedor-flex'> 
       <div className='select-masivo'>

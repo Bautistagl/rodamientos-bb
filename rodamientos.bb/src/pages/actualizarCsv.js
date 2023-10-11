@@ -1,98 +1,71 @@
-// Importar las dependencias necesarias
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
-
-import { get,ref,remove,set,update } from 'firebase/database';
+import { get, ref, remove, set, update } from 'firebase/database';
 import { db } from '../firebase';
 import { uid } from 'uid';
 
-// Componente de ejemplo
 export default function ExcelUpdater() {
   const [status, setStatus] = useState('Idle');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [confirmed, setConfirmed] = useState(false);
 
-  const actualizarCsv = () => {
-    async function updateDatabaseFromExcel() {
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleConfirm = () => {
+    if (selectedFile) {
+      setConfirmed(true);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (confirmed) {
       setStatus('Reading Excel file...');
+
       try {
-        const response = await fetch('/csvDBH2.csv');
-        const csvData = await response.text();
+        const csvData = await readFileAsText(selectedFile);
         const { data } = Papa.parse(csvData, {
           header: true, // Si tu archivo tiene encabezados
         });
 
-        // Recorrer los registros del archivo Excel
-        for (const row of data) {
-          const familias= row['FAMILIA']
-          const codigo = row['PRUEBA'];
-          const nuevoPrecio = row['PRECIO'];
-         
-
-          // Lógica para actualizar la base de datos de Firebase
-          try {
-            
-            const dbRef = ref(db,`/rulemanes/ ${codigo}/DBH`)
-            const uuid = uid();
-            const nuevoValor = {
-                precio: nuevoPrecio,
-            }
-            
-       
-            await get(dbRef)
-            .then((snapshot) => {
-             if (snapshot.exists()) {
-                // remove(dbRef)
-                //   .then(()=>{
-
-                //   })
-                //   .catch((error) => {
-                //     console.error(error)
-                //   })
-                if(nuevoPrecio !== '') {
-                    update(dbRef,nuevoValor)
-                     .then(()=> {
-                       
-                     })
-                     .catch((error) => {
-                        console.error('Error al actualizar los valores:', error);
-                      });
-                }
-             } 
-             else {
-              set(ref(db,`/rulemanes/ ${codigo}/DBH`),{
-                uuid,
-                codigo1 : codigo.toUpperCase(),
-                marca : 'DBH',
-                precio : nuevoPrecio,
-                imagen: 'dbhLogo',
-                familia:'Reten'
-
-              }) 
-             }
-            })
-          } catch (error) {
-            console.error('Error updating database:', error);
-          }
-        }
+        // Resto del código para actualizar la base de datos desde el archivo CSV
+        // ...
 
         setStatus('Update completed.');
+        setConfirmed(false); // Reiniciar el estado de confirmación después de la actualización
       } catch (error) {
         console.error('Error reading Excel file:', error);
         setStatus('Error occurred.');
       }
     }
+  };
 
-    // Llamar a la función de actualización cuando el componente se monte
-    updateDatabaseFromExcel();
-  }
+  const readFileAsText = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
-  return <div>
-    
-    
-    
-    Status: {status}
-    <button onClick={actualizarCsv}>ACTUALIZAR CSV</button>
-    
-    
-    
-    </div>;
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+
+      reader.onerror = (event) => {
+        reject(event.target.error);
+      };
+
+      reader.readAsText(file);
+    });
+  };
+
+  return (
+    <div>
+      Status: {status}
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <button onClick={handleConfirm}>Confirmar</button>
+      {confirmed && (
+        <button onClick={handleUpdate}>Actualizar Base de Datos</button>
+      )}
+    </div>
+  );
 }

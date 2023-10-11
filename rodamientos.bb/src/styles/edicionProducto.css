@@ -86,7 +86,27 @@
     display: flex;
     width: 7% !important;
     height: 20px !important;
-    font-size: 1.2rem !important;
+    font-size: 0.8rem !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.falso-span-edicion2{
+    display: flex;
+    width: 12% !important;
+    height: 20px !important;
+    font-size: 0.8rem !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.falso-span-edicion3{
+    display: flex;
+    width: 10% !important;
+    height: 20px !important;
+    font-size: 0.8rem !important;
     margin-left: 5px !important;
     margin-right: 5px !important;
     margin-top: 5px !important;
