@@ -171,6 +171,12 @@
     
     border-radius: 5px;
 }
+.input-busqueda2{
+    border-radius: 5px;
+    width: 20vw !important;
+    font-size: 1rem !important;
+    height: 30px !important;
+}
 
 .icono-busqueda{
     display: flex;

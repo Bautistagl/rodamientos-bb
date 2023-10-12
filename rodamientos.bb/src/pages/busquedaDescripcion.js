@@ -124,24 +124,19 @@ export default function BusquedaDescripcion() {
       <div className="fondo-busqueda">
         <>.</>
         <div className='botones-busqueda'>
-
+        <button className='button-30'><Link href='/busquedaCodigo'> BUSCAR POR CODIGO </Link></button>
+        <button className='button-30'><Link href='/busquedaMedidas'> BUSCAR POR MEDIDAS </Link></button>
+     
 
 </div>
         <div className="barra-busqueda">
-          {/* <span>Buscar producto por código:</span> */}
-          <Image
-            className="icono-busqueda"
-            width={30}
-            height={30}
-            alt=""
-            src="/iconoBusqueda.png"
-          />
+       
           <input
             className="input-busqueda"
             type="text"
             value={searchTerm}
             onChange={handleSearch}
-            placeholder="INTERIOR"
+            placeholder="DESCRIPCION"
           />
         </div>
 

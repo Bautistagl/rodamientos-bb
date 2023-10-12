@@ -146,41 +146,51 @@ export default function BusquedaAltura() {
 
       <div className="fondo-busqueda">
         <>.</>
+        <div className='botones-busqueda'>
+        <button className='button-30'><Link href='/busquedaCodigo'> BUSCAR POR CODIGO </Link></button>
+        <button className='button-30'><Link href='/busquedaDescripcion'> BUSCAR POR DESCRIPCION </Link></button>
+     
+
+</div>
       
         <div className="barra-busqueda">
           {/* <span>Buscar producto por código:</span> */}
-          <Image
-            className="icono-busqueda"
-            width={30}
-            height={30}
-            alt=""
-            src="/iconoBusqueda.png"
-          />
+          <div style={{display:'flex',flexDirection:'column'}}> 
 
+            <label>Interior</label>
                <input
-            className="input-busqueda"
+            className="input-busqueda2"
             type="text"
             value={searchInterior}
             onChange={(e) => setSearchInterior(e.target.value)}
-            placeholder="INTERIOR"
+           
           />
+          </div>
+          <div style={{display:'flex',flexDirection:'column'}}>
+            
+          <label>Exterior</label>
             <input
-            className="input-busqueda"
+            className="input-busqueda2"
             type="text"
             value={searchExterior}
             onChange={(e) => setSearchExterior(e.target.value)}
-            placeholder="EXTERIOR"
+            
           />
+          </div>
+          <div style={{display:'flex',flexDirection:'column'}}>
+
+           <label>Altura</label>
           <input
-            className="input-busqueda"
+            className="input-busqueda2"
             type="text"
             value={searchAltura}
             onChange={(e) => setSearchAltura(e.target.value)}
-            placeholder="ALTURA"
+            
           />
+          </div>
        
         </div>
-        <button onClick={()=>{handleSearch()}}> BUSCAR TODO </button>
+        <button className='button-31' onClick={()=>{handleSearch()}}> BUSCAR </button>
 
         {Object.keys(groupedResults).map((codigo1, index) => (
           <div className="contenedor-cards" key={index}>
