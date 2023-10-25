@@ -52,10 +52,11 @@ export default function BusquedaAltura() {
           codigo1,
           precio,
           cantidades,
-          marca,
-          descripcion,
-          
+          marca,  
         };
+        if (descripcion) {
+          productoEnCarrito.descripcion = descripcion;
+        }
 
 
         update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
@@ -65,10 +66,11 @@ export default function BusquedaAltura() {
           codigo1,
           precio,
           cantidades,
-          marca,
-          descripcion,
-          
+          marca,    
         };
+        if (descripcion) {
+          productoEnCarrito.descripcion = descripcion;
+        }
   
         update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
    

@@ -78,7 +78,7 @@ export default function BusquedaCodigo() {
           precio,
           cantidades,
           marca,
-          descripcion,
+          descripcion
           
         };
 

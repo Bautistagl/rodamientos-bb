@@ -173,7 +173,11 @@ const CarritosScreen = () => {
     ) : (
       <h2 style={{display:'flex',margin:'auto', justifyContent:'center', color:'white'}}>No hay productos en el carrito</h2>
     )}
+    <div className='boton-textarea'>
+
+    <textarea  placeholder='Comentarios'></textarea>
     <button onClick={()=>{finalizarCompra()}}> Realizar pedido</button>
+    </div>
     <span style={{opacity:'0'}}>.</span>
     
   </div>

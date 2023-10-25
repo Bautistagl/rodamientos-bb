@@ -135,7 +135,23 @@ useEffect(()=>{
           <button onClick={()=>{aumentarCantidad(producto.nombre)}}> + </button>
         </div>
      
-            <button className='agregar-button' onClick={()=>{agregarProducto(producto,productoCantidad[producto.nombre])}}> Agregar al carrito</button>
+        <button
+            onClick={() => {
+              if (producto.descripcion !== undefined ) {
+                agregarProducto(
+                  producto,
+                  cantidad,
+                  usuario,
+                  producto.marca,
+                  producto.descripcion
+                );
+              } else {
+                agregarProducto(producto, cantidad, usuario, producto.marca,'');
+              }
+            }}>
+            {' '}
+            Agregar
+          </button>
     </div>
   )
 }

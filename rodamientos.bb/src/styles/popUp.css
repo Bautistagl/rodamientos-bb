@@ -90,3 +90,25 @@
     font-weight: bold;
     
 }
+.boton-textarea{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+   
+}
+.boton-textarea textarea{
+    display: flex;
+    width: 40vw;
+    height: 10vh;
+    margin: auto;
+    
+}
+.boton-textarea button{
+    display: flex;
+    width: 20vw;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 10px;
+    height: 50px;
+}
