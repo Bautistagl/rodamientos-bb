@@ -137,8 +137,12 @@
 }
 .propiedades{
     display: grid;
-    grid-template-columns: 10vw 10vw 10vw 25vw;
+    grid-template-columns: 10vw 10vw 10vw 25vw 5vw;
     margin-top: 20px;
+}
+.propiedades button{
+    font-size: 0.7rem;
+    font-weight: bold;
 }
 .propiedades-principales{
     display: grid;
@@ -187,4 +191,30 @@
 }
 .span-3{
     font-size: 0.8rem !important;
+}
+.info-carrito{
+    display: flex;
+}
+.card2 li{
+    list-style-type: none;
+  
+   
+    
+}
+.info-carrito span{
+    text-align: center;
+    min-width: 12vw;
+    justify-content: center;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+  
+}
+.info-carrito h3{
+    min-width: 12vw;
+    text-align: center;
+}
+.info-carrito button{
+    margin: auto;
+    height: 30px;
 }

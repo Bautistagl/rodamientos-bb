@@ -2,26 +2,122 @@ import { useState, useEffect } from 'react';
 
 import { db,auth } from '../firebase';
 import 'firebase/database';
-import { ref, get, child,update } from 'firebase/database';
+import { ref, get, child,update, set } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth'
 import Image from 'next/image';
 import Swal from 'sweetalert2'
 
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
+import PopUp from '@/components/PopUpbautista';
 
 
 export default function BusquedaCodigo() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]); 
+  const [usuario,setUsuario] = useState('')
   const [user, setUser] =useState(null)
   const [rol,setRol] = useState('')
   const [nuevoPrecio, setNuevoPrecio] = useState("");
-
+  const [cantidad, setCantidad] = useState(null)
+  const [abierto,setAbierto] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [totalCarrito, setTotalCarrito] = useState(0);
+  const [admin, setAdmin] = useState('');
 
 
   const usuarioRef = ref(db, 'usuarios');
+  const productosRef = ref(db, 'rulemanes'); 
+  const carritoRef = ref(db,'usuarios/' + `${usuario}`+'/carrito')
+
+
+
+
+
+  const handleClickAgregar = (producto) => {
+    setSelectedProduct(producto);
+    setAbierto(true);
+  };
+  
+
+  const updateTotalCarrito = async () => {
+    try {
+      const snapshot = await get(carritoRef);
+  
+      if (snapshot.exists()) {
+        const carritoData = snapshot.val();
+        const productosEnCarrito = Object.values(carritoData);
+        let totaCarrito = 0;
+  
+        productosEnCarrito.forEach(producto => {
+         
+          totaCarrito += producto.precio * producto.cantidad;
+        });
+  
+        setTotalCarrito(totaCarrito);
+      
+      } else {
+        setTotalCarrito(0);
+      }
+    } catch (error) {
+      console.log('Error al leer los productos del carrito:', error);
+    }
+  };
+
+  // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
+  const agregarProducto = async (producto,cantidades,usuario,marca,descripcion) => {
+    const {codigo1, precio } = producto
+    try {
+      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca));
+      
+      if (snapshot.exists()) {
+
+        const productoEnCarrito = {
+          codigo1,
+          precio,
+          cantidades,
+          marca,
+          descripcion,
+          
+        };
+
+
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+
+       } else {
+        const productoEnCarrito = {
+          codigo1,
+          precio,
+          cantidades,
+          marca,
+          descripcion,
+          
+        };
+  
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+   
+      }
+      
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Producto agregado',
+      showConfirmButton: false,
+      timer:1000,
+    
+      
+      
+    })
+    setCantidad(0)
+    setAbierto(false)
+    
+
+}
+catch (error) {
+  console.log('Error al agregar el producto al carrito:', error);
+}
+};
   
 
   useEffect(() => {
@@ -48,6 +144,20 @@ export default function BusquedaCodigo() {
 
       //   setCatalogData(snapshot.val());
     };
+    const id = localStorage.getItem('idRodamientos')
+    if(id){
+      setUsuario(id)
+    }
+    else{
+      alert('nadie logeado')
+    }
+    if ( window.localStorage.getItem('email')) {
+      const adminData = JSON.parse(window.localStorage.getItem('email'))
+      if(adminData) {
+    
+        setAdmin(adminData.email);
+      }
+    }
 
     getCatalogData();
     
@@ -88,14 +198,14 @@ export default function BusquedaCodigo() {
         var filtro  = value.codigo1;
         var filtro2 = value.codigo2
         var filtro3 = value.codigo3
+       
         
         if(filtro ) {
-
           if (filtro.includes(term) ) {
             // Agrega el producto a los resultados si encuentra coincidencia
-            
             results.push(value);
           }
+          
         }
         
         if(filtro2) {
@@ -123,6 +233,8 @@ export default function BusquedaCodigo() {
             }
           }
         }
+
+
       });
     });
 
@@ -138,6 +250,7 @@ export default function BusquedaCodigo() {
       } else {
         result[codigo1].push(obj);
       }
+      
       return result;
     }, {});
   }
@@ -150,16 +263,17 @@ export default function BusquedaCodigo() {
   };
 
   return (
-    <div>
+    <>
+    <div className={abierto ? 'blureado' : ''}>
       <Navbar />
 
       <div className="fondo-busqueda">
         <>.</> 
         <div className='botones-busqueda'>
 
-        <button className='button-30'><Link href='/busquedaInterior'> BUSCAR POR INTERIOR </Link></button>
-        <button className='button-30'> <Link href='/busquedaExterior'> BUSCAR POR EXTERIOR </Link></button>
-        <button className='button-30'  > <Link href='/busquedaAltura'> BUSCAR POR ALTURA </Link></button>
+        <button className='button-30'><Link href='/busquedaMedidas'> BUSCAR POR MEDIDAS </Link></button>
+        <button className='button-30'> <Link href='/busquedaDescripcion'> BUSCAR POR DESCRIPCION </Link></button>
+        
         </div>
         <div className="barra-busqueda">
       
@@ -209,17 +323,11 @@ export default function BusquedaCodigo() {
             <div className="textos-completo">
               <div className="codigo-medidas">
                 <div className="titulo-singular">{codigo1}</div>
-              
-                {/* <div className="titulo-singular">{codigo2 ? codigo2 :''}</div> */}
+             
                 <div className="medidas">
                 <div className="titulo-singular">{groupedResults[codigo1][0].codigo2}</div>
                 <div className="titulo-singular">{groupedResults[codigo1][0].codigo3}</div>
-                {/* <span>
-                     {groupedResults[codigo1][0].codigo2}
-                  </span>
-                  <span>
-                    {groupedResults[codigo1][0].codigo3} 
-                  </span> */}
+             
                   <span>
                     INTERIOR: {groupedResults[codigo1][0].interior} mm
                   </span>
@@ -268,7 +376,7 @@ export default function BusquedaCodigo() {
 
                 {groupedResults[codigo1].map((producto, marcaIndex) => (
                   <div className="propiedades" key={marcaIndex}>
-                   
+              
                     <Image
                       style={{ marginRight: '100px' }}
                       alt=""
@@ -292,6 +400,8 @@ export default function BusquedaCodigo() {
                       { producto.stock ? (producto.stock).toUpperCase() : ''}
                     </span>
                     <span className='span-3'> {producto.descripcion} </span>
+                    {admin === 'rodamientosbb@admin.com' ? <button onClick={() => handleClickAgregar(producto)}>AGREGAR</button>  :''}
+                    
                   </div>
                 ))}
               </div>
@@ -299,7 +409,13 @@ export default function BusquedaCodigo() {
           </div>
         ))}
       </div>
+     
     </div>
+      {abierto ? (
+        <PopUp usuario={usuario} agregarProducto={agregarProducto} producto={selectedProduct} 
+          setAbierto={setAbierto} abierto={abierto} cantidad={cantidad} setCantidad={setCantidad}  />
+      ) : null}
+    </>
   );
 
 

@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
+import PopUp from '@/components/PopUpbautista';
 
 
 export default function BusquedaAltura() {
@@ -20,14 +21,78 @@ export default function BusquedaAltura() {
   const [user, setUser] =useState(null)
   const [rol,setRol] = useState('')
   const [nuevoPrecio, setNuevoPrecio] = useState("");
+  const [usuario,setUsuario] = useState('')
+  const [admin, setAdmin] = useState('');
+  const [abierto,setAbierto] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cantidad, setCantidad] = useState(null)
 
 
 
   const usuarioRef = ref(db, 'usuarios');
 
  
- 
+  
 
+
+  const handleClickAgregar = (producto) => {
+    setSelectedProduct(producto);
+    setAbierto(true);
+  };
+  
+  // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
+  const agregarProducto = async (producto,cantidades,usuario,marca,descripcion) => {
+    const {codigo1, precio } = producto
+    try {
+      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca));
+      
+      if (snapshot.exists()) {
+
+        const productoEnCarrito = {
+          codigo1,
+          precio,
+          cantidades,
+          marca,
+          descripcion,
+          
+        };
+
+
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+
+       } else {
+        const productoEnCarrito = {
+          codigo1,
+          precio,
+          cantidades,
+          marca,
+          descripcion,
+          
+        };
+  
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+   
+      }
+      
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Producto agregado',
+      showConfirmButton: false,
+      timer:1000,
+    
+      
+      
+    })
+    setCantidad(0)
+    setAbierto(false)
+    
+
+}
+catch (error) {
+  console.log('Error al agregar el producto al carrito:', error);
+}
+};
 
   useEffect(() => {
     
@@ -54,6 +119,20 @@ export default function BusquedaAltura() {
 
       //   setCatalogData(snapshot.val());
     };
+    const id = localStorage.getItem('idRodamientos')
+    if(id){
+      setUsuario(id)
+    }
+    else{
+      alert('nadie logeado')
+    }
+    if ( window.localStorage.getItem('email')) {
+      const adminData = JSON.parse(window.localStorage.getItem('email'))
+      if(adminData) {
+    
+        setAdmin(adminData.email);
+      }
+    }
 
     getCatalogData();
     
@@ -141,6 +220,7 @@ export default function BusquedaAltura() {
   
 
   return (
+    <>
     <div>
       <Navbar />
 
@@ -283,6 +363,8 @@ export default function BusquedaAltura() {
                       }}>
                        { producto.stock ? (producto.stock).toUpperCase() : ''}
                     </span>
+                    <span className='span-3'> {producto.descripcion} </span>
+                    {admin === 'rodamientosbb@admin.com' ? <button onClick={() => handleClickAgregar(producto)}>AGREGAR</button>  :''}
                   </div>
                 ))}
               </div>
@@ -291,6 +373,11 @@ export default function BusquedaAltura() {
         ))}
       </div>
     </div>
+    {abierto ? (
+        <PopUp usuario={usuario} agregarProducto={agregarProducto} producto={selectedProduct} 
+          setAbierto={setAbierto} abierto={abierto} cantidad={cantidad} setCantidad={setCantidad}  />
+      ) : null}
+    </>
   );
 
 

@@ -113,7 +113,7 @@ const handleSignOut = () => {
         <div className='botones' >
           
             <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span> 
-            {admin !== ''  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
+            {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
             
             
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
@@ -122,6 +122,8 @@ const handleSignOut = () => {
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''}
             {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
+            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/carrito'> CARRITO </Link> </span> :''}
+            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/pedidos'> PEDIDOS </Link> </span> :''}
         </div>
         <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png' />

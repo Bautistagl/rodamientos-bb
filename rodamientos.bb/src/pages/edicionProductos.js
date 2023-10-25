@@ -51,6 +51,9 @@ export default function EdicionProducto() {
   const handleAltura = (e) => {
     setAltura(e.target.value);
   };
+  const handleDescripcion = (e) => {
+    setDescripcion(e.target.value);
+  };
 
   const handleExterior = (e) => {
     setExterior(e.target.value);
@@ -106,6 +109,7 @@ export default function EdicionProducto() {
       codigo1: codigo1,
       codigo2: codigo2,
       codigo3: codigo3,
+      descripcion:descripcion,
     };
 
     const valoresActualizados = {};
@@ -320,19 +324,24 @@ export default function EdicionProducto() {
                             <option value="Homocineticas">Homocineticas</option>
                           </select>
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion4"
                             onChange={handleInterior}
                             placeholder={producto.interior}
                           />
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion4"
                             onChange={handleExterior}
                             placeholder={producto.exterior}
                           />
                           <input
-                            className="falso-span-edicion"
+                            className="falso-span-edicion4"
                             onChange={handleAltura}
                             placeholder={producto.altura}
+                          />
+                          <textarea
+                            className="falso-span-edicion5"
+                            onChange={handleDescripcion}
+                            placeholder={producto.descripcion}
                           />
 
                           <button

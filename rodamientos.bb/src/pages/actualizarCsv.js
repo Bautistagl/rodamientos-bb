@@ -1,71 +1,86 @@
+// Importar las dependencias necesarias
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import { get, ref, remove, set, update } from 'firebase/database';
+import { get,ref,set,update } from 'firebase/database';
 import { db } from '../firebase';
 import { uid } from 'uid';
-
+// Componente de ejemplo
 export default function ExcelUpdater() {
   const [status, setStatus] = useState('Idle');
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [confirmed, setConfirmed] = useState(false);
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
-
-  const handleConfirm = () => {
-    if (selectedFile) {
-      setConfirmed(true);
-    }
-  };
-
-  const handleUpdate = async () => {
-    if (confirmed) {
+  const actualizarCsv = () => {
+    async function updateDatabaseFromExcel() {
       setStatus('Reading Excel file...');
-
       try {
-        const csvData = await readFileAsText(selectedFile);
+        const response = await fetch('/actualizacionskf10.csv');
+        const csvData = await response.text();
+
         const { data } = Papa.parse(csvData, {
           header: true, // Si tu archivo tiene encabezados
         });
+        // Recorrer los registros del archivo Excel
+        for (const row of data) {
+          const codigo = row['PRUEBA'];
+          const nuevoPrecio = row['PRECIO'];
+          
 
-        // Resto del código para actualizar la base de datos desde el archivo CSV
-        // ...
+          // Lógica para actualizar la base de datos de Firebase
+          try {
 
+            const dbRef = ref(db,`/rulemanes/ ${codigo}/SKF`)
+            const uuid = uid();
+            const nuevoValor = {
+                precio: nuevoPrecio,
+            }
+            
+            // Aquí debes realizar la lógica de actualización a tu base de datos de Firebase
+            // Puedes usar firebaseAdmin para interactuar con la Realtime Database
+            // Por ejemplo:
+            await get(dbRef)
+            .then((snapshot) => {
+             if (snapshot.exists()) {
+                if(nuevoPrecio !== '') {
+                    update(dbRef,nuevoValor)
+                     .then(()=> {
+                       
+                     })
+                     .catch((error) => {
+                        console.error('Error al actualizar los valores:', error);
+                      });
+                }
+             } else {
+              set(ref(db,`/rulemanes/ ${codigo}/SKF`),{
+                uuid,
+                codigo1 : codigo.toUpperCase(),
+                marca : 'SKF',
+                precio : nuevoPrecio,
+                imagen: 'skfLogo'
+              }) 
+             }
+            })
+          } catch (error) {
+            console.error('Error updating database:', error);
+          }
+        }
         setStatus('Update completed.');
-        setConfirmed(false); // Reiniciar el estado de confirmación después de la actualización
       } catch (error) {
         console.error('Error reading Excel file:', error);
         setStatus('Error occurred.');
       }
     }
-  };
+    // Llamar a la función de actualización cuando el componente se monte
+    updateDatabaseFromExcel();
+  }
+  return(
 
-  const readFileAsText = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-
-      reader.onerror = (event) => {
-        reject(event.target.error);
-      };
-
-      reader.readAsText(file);
-    });
-  };
-
-  return (
-    <div>
-      Status: {status}
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <button onClick={handleConfirm}>Confirmar</button>
-      {confirmed && (
-        <button onClick={handleUpdate}>Actualizar Base de Datos</button>
-      )}
+  <div>
+    
+    
+    
+    Status: {status}
+    <button onClick={actualizarCsv}>ACTUALIZAR CSV</button>
+    
+    
+    
     </div>
-  );
+  ) 
 }

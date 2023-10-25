@@ -13,27 +13,32 @@ const IniciarSesion = () => {
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-
   const loginUser = async (email, password) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  
+      // Obtén el UID del usuario autenticado
+      const user = userCredential.user;
+      const uid = user.uid;
+  
       const timestamp = Date.now();
       const data = {
         email: email,
-        timestamp: timestamp
-      }
+        timestamp: timestamp,
+        uid: uid, // Agrega el UID al objeto de datos si lo necesitas
+      };
+  
       const jsonData = JSON.stringify(data);
-      window.localStorage.setItem('email',jsonData)
+      window.localStorage.setItem('email', jsonData);
+      window.localStorage.setItem('idRodamientos', uid);
       router.push('/busquedaCodigo');
-
     } catch (error) {
       setError(error.message);
       Swal.fire({
-        
         text: 'Email o contraseña incorrecta!',
         icon: 'error',
-        confirmButtonText: 'Volver'
-      })
+        confirmButtonText: 'Volver',
+      });
     }
   };
   

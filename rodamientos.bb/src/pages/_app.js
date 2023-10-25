@@ -13,6 +13,7 @@ import '../styles/edicionProducto.css'
 import '../styles/inicioProducto.css'
 import '../styles/carrousel.css'
 import '../styles/edicionMasiva.css'
+import '../styles/popUp.css'
 import Head from 'next/head'
 
 export default function App({ Component, pageProps }) {
