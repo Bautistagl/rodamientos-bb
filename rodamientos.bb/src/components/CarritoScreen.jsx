@@ -5,6 +5,8 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react';
 
 import NavCarrito from './NavCarrito';
+import Swal from 'sweetalert2';
+import back from '@/config/axiosbautista';
 
 const CarritosScreen = () => {
   const [catalogData, setCatalogData] = useState([]);
@@ -14,6 +16,7 @@ const CarritosScreen = () => {
   const [usuario,setUsuario] =useState('')
   const [emailUsuario, setEmailUsuario] = useState('')
   const [idPedido, setIdPedido] = useState('')
+  const [comentario,setComentario] =useState('')
 
 
 
@@ -21,6 +24,13 @@ const CarritosScreen = () => {
 
 
 
+
+
+
+  const handleComentario =(e) =>{
+    const valor = e.target.value
+    setComentario(valor)
+  }
 
   const obtenerDatosDelCarrito = async () => {
     try {
@@ -59,7 +69,7 @@ const CarritosScreen = () => {
         let totaCarrito = 0;
   
         productosEnCarrito.forEach(producto => {
-          totaCarrito += producto.precio * producto.cantidad;
+          totaCarrito += producto.precio * producto.cantidades;
         });
   
         setTotalCarrito(totaCarrito);
@@ -69,6 +79,45 @@ const CarritosScreen = () => {
       }
     } catch (error) {
       console.log('Error al leer los productos del carrito:', error);
+    }
+  };
+  
+  const mandarMail = async () => {
+    try {
+      // Create an array of product information
+      const productosEnCarrito = catalogData.map((producto) => ({
+        codigo1: producto.codigo1,
+        marca: producto.marca,
+        descripcion: producto.descripcion,
+        cantidad: producto.cantidades,
+        precio: producto.precio,
+        subtotal: (producto.precio * producto.cantidades).toFixed(2),
+      }));
+  
+      // Prepare the data to be sent in the email
+      const data = {
+        mail: emailUsuario, 
+        nombre: usuario, 
+        carrito: productosEnCarrito, 
+        comentario:comentario,
+        total:totalCarrito,
+      };
+  
+      // Send a POST request with the data
+      const response = await back.post('/pedidoAdmin', data);
+  
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Formulario enviado',
+          showConfirmButton: false,
+          timer: 1000,
+        }).then(() => {
+          window.location.href = '/';
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -84,6 +133,7 @@ const CarritosScreen = () => {
         productosEnCarrito.forEach(producto => {
           totalCarrito += producto.precio * producto.cantidades;
         });
+       
 
         const pedido = {
           id: '',
@@ -106,6 +156,7 @@ const CarritosScreen = () => {
       
   
         // Borra los productos del carrito después de finalizar la compra
+        await  mandarMail()
         await remove(carritoRef);
         updateTotalCarrito();
       } else {
@@ -123,6 +174,7 @@ const CarritosScreen = () => {
 
   useEffect(() => {
     obtenerDatosDelCarrito();
+    updateTotalCarrito()
     const id = localStorage.getItem('idRodamientos')
     const emailU =  localStorage.getItem('email')
     if(id){
@@ -155,7 +207,7 @@ const CarritosScreen = () => {
             <div className='info-carrito' >
             <span style={{fontWeight:'bold',maxWidth:'12vw'}} className='producto-carrito'> {productos.codigo1}</span>
               <span> {productos.marca} </span>  
-              <span style={{fontSize:'0.9rem',maxWidth:'12vw'}} > {productos.descripcion ? `${productos.descripcion}`:''}</span>
+              <span style={{fontSize:'0.7rem',maxWidth:'12vw'}} > {productos.descripcion ? `${productos.descripcion}`:''}</span>
                <span> {productos.cantidades} </span>
                <span> ${productos.precio} </span>  
                <span> ${(productos.precio * productos.cantidades).toFixed(2)}</span>
@@ -174,8 +226,12 @@ const CarritosScreen = () => {
       <h2 style={{display:'flex',margin:'auto', justifyContent:'center', color:'white'}}>No hay productos en el carrito</h2>
     )}
     <div className='boton-textarea'>
-
-    <textarea  placeholder='Comentarios'></textarea>
+      <h2>{totalCarrito}</h2>
+    <textarea  
+    type="text"
+    value={comentario}
+    onChange={handleComentario}
+    placeholder='Comentarios'></textarea>
     <button onClick={()=>{finalizarCompra()}}> Realizar pedido</button>
     </div>
     <span style={{opacity:'0'}}>.</span>
