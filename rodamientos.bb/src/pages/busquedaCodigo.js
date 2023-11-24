@@ -118,16 +118,19 @@ catch (error) {
   console.log('Error al agregar el producto al carrito:', error);
 }
 };
-  
+function isURL(value) {
+  const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+  return urlPattern.test(value);
+}
 
   useEffect(() => {
-    const productosRef = ref(db, 'rulemanes'); // Ruta de los productos en la base de datos
-    // Obtiene los datos del catálogo desde la base de datos
+    const productosRef = ref(db, 'rulemanes'); 
     const getCatalogData = async () => {
       await get(productosRef)
         .then((snapshot) => {
           if (snapshot.exists()) {
             const productos = snapshot.val();
+            
             setCatalogData(productos);
           } else {
             console.log('No se encontraron productos en la rama especificada');
@@ -142,7 +145,7 @@ catch (error) {
           })
         });
 
-      //   setCatalogData(snapshot.val());
+     
     };
     const id = localStorage.getItem('idRodamientos')
     if(id){
@@ -191,13 +194,18 @@ catch (error) {
 
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
+      
       const product = catalogData[productId];
+      
+     
 
       // Busca en cada propiedad del producto
       Object.values(product).forEach((value) => {
+    
         var filtro  = value.codigo1;
         var filtro2 = value.codigo2
         var filtro3 = value.codigo3
+        var filtro4 = value
        
         
         if(filtro ) {
@@ -233,6 +241,7 @@ catch (error) {
             }
           }
         }
+      
 
 
       });
@@ -243,13 +252,17 @@ catch (error) {
 
 
   function groupByCodigo1(searchResults) {
+  
     return searchResults.reduce((result, obj) => {
       const codigo1 = obj.codigo1;
-      if (!result[codigo1]) {
+      
+      if (!result[codigo1] ) {
         result[codigo1] = [obj];
       } else {
         result[codigo1].push(obj);
+       
       }
+  
       
       return result;
     }, {});
