@@ -31,6 +31,9 @@ export default function EdicionProducto() {
   const [productToDelete, setProductToDelete] = useState(null);
   const [codigoToDelete, setCodigoToDelete] = useState(null);
   const [nuevaMarca,setNuevaMarca] = useState(null)
+  const [modelo,setModelo] = useState('')
+  const [ubicacion,setUbicacion] = useState('')
+  const [marcaAuto,setMarcaAuto] = useState('')
 
   const nuevoPrecioRef = useRef('');
   
