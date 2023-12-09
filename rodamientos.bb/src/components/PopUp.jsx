@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
-const PopUp = ({usuario,agregarProducto,producto,setAbierto,abierto,cantidad,setCantidad}) => {
+const PopUp = ({usuario,agregarProducto,producto,marca,precio,setAbierto,abierto,cantidad,setCantidad}) => {
     
   return (
     <div className="popUp">
       <div className="textos-popUp">
         <h1>
           {' '}
-          Que cantidad de {producto.codigo1} {producto.marca} desea agregar?{' '}
+          Que cantidad de {producto.codigo1} {marca.marca} desea agregar?{' '}
         </h1>
         <input
           value={cantidad}
@@ -22,12 +22,13 @@ const PopUp = ({usuario,agregarProducto,producto,setAbierto,abierto,cantidad,set
                 agregarProducto(
                   producto,
                   cantidad,
+                  precio,
                   usuario,
-                  producto.marca,
+                  marca.marca,
                   producto.descripcion
                 );
               } else {
-                agregarProducto(producto, cantidad, usuario, producto.marca,'');
+                agregarProducto(producto, cantidad, usuario, marca.marca,'');
               }
             }}>
             {' '}

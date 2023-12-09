@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 const Navbar = () => {
 
   const [modal,setModal] = useState(false)
+  const [nuevo,setNuevo] =useState(false)
   const auth = getAuth();
 
 
@@ -109,22 +110,42 @@ const handleSignOut = () => {
    
          </div>
     : ''}
-     
-        <div className='botones' >
+    {admin === 'rodamientosbb@admin.com'  ? <button style={{height:'30px',margin:'auto 0px'}} onClick={()=>{setNuevo(!nuevo)}}> {nuevo ? 'Viejo' : 'Nuevo'} </button> : '' }
+        {nuevo === true ? 
           
-            <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span> 
-            {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
-            
-            
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> CREAR </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/carrito'> CARRITO </Link> </span> :''}
-            {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/pedidos'> PEDIDOS </Link> </span> :''}
-        </div>
+          <div className='botones' >
+          
+          <span className='boton'> <Link href='/segundaVersion/busquedaCodigo2'> PRODUCTOS </Link>  </span> 
+          {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
+          
+          
+          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/edicionProducto2'> EDITAR </Link> </span> :''}
+          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/creacionProducto2'> CREAR </Link> </span> :''}
+         
+          {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''} */}
+          {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''} */}
+          
+          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/carrito2'> CARRITO </Link> </span> :''}
+          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/pedidos2'> PEDIDOS </Link> </span> :''}
+      </div> :
+       <div className='botones' >
+          
+       <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span> 
+       {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
+       
+       
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> CREAR </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/carrito'> CARRITO </Link> </span> :''}
+       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/pedidos'> PEDIDOS </Link> </span> :''}
+   </div>
+          
+      }
+        
         <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png' />
         {admin !== '' ? (

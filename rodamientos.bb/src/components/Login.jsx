@@ -51,7 +51,7 @@ const Login = () => {
     <form onSubmit={handleSubmit}> 
         <input onChange={(e)=> setEmail(e.target.value)} type='email' placeholder='Escriba su email'/>
         <input onChange={(e)=> setPassword(e.target.value)} type='password' placeholder='Escriba su contraseña'/>
-        <button > Iniciar Sesion </button>
+        <button style={{cursor:'pointer'}} > Iniciar Sesion </button>
     </form>
 
     <button onClick={chequearUsuario}> Chequear usuario </button>

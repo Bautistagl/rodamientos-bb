@@ -130,15 +130,30 @@
     margin-left: 50px;
     margin-top: 14px;
 }
-.contenedor-propiedades{
-   
+.codigo-medidas2{
+    margin-left: 50px;
+    margin-top: 14px;
+}
+.contenedor-propiedades3{
+  display: grid;
+  grid-template-columns: 43vw 30vw;
    
     
 }
-.propiedades{
+.contenedor-propiedades2{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+     
+      
+  }
+  .propiedades{
     display: grid;
     grid-template-columns: 10vw 10vw 10vw 25vw 5vw;
     margin-top: 20px;
+}
+.contenedor-marcas{
+    display: flex;
+    flex-direction: column !important;
 }
 .propiedades button{
     font-size: 0.7rem;
@@ -151,15 +166,75 @@
     
     justify-content: flex-start;
 }
+.propiedades-principales2{
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw 10vw 10vw 10vw ;
+    margin-top: 10px;
+    height: auto;
+    justify-content: flex-start;
+}
+.propiedades-principales2 span{
+    display: flex;
+    margin-right: 140px;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
 .propiedades-principales span{
     display: flex;
     margin-right: 140px;
-    font-size: 1.1rem;
-   
+    font-size: 1rem;
+    width: 100%;
     text-align: center;
     font-weight: bold;
 }
 .propiedades span{
+    font-size: 1rem;
+}
+
+
+.propiedades2{
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw 5vw;
+    margin-top: 20px;
+}
+
+.propiedades2 button{
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+.propiedades2-principales{
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw 10vw 10vw 10vw ;
+    margin-top: 10px;
+    height: auto;
+    justify-content: flex-start;
+}
+.propiedades2-principales2{
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw 10vw 10vw 10vw ;
+    margin-top: 10px;
+    height: auto;
+    justify-content: flex-start;
+}
+.propiedades2-principales2 span{
+    display: flex;
+    margin-right: 140px;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+.propiedades2-principales span{
+    display: flex;
+    margin-right: 140px;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+.propiedades2 span{
     font-size: 1rem;
 }
 .prueba{

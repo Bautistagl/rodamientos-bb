@@ -16,6 +16,7 @@ const IniciarSesion = () => {
   const loginUser = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
   
       // Obtén el UID del usuario autenticado
       const user = userCredential.user;
@@ -91,7 +92,7 @@ const IniciarSesion = () => {
               className="input-inicio"
             />
            
-            <button type='submit'> Iniciar sesión </button>
+            <button style={{cursor:'pointer'}} type='submit'> Iniciar sesión </button>
        
           </form>
         </div>
