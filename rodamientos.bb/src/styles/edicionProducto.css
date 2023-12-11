@@ -43,6 +43,15 @@
     width: 100%;
     text-decoration: underline;
 }
+.botones-tipoEdicion{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    
+}
+.botones-tipoEdicion button{
+    margin: 5px;
+}
 /* .propiedades-edicion span{
     width: 50px;
     margin-top: 10px;
@@ -95,6 +104,18 @@
     width: 80% !important;
     height: 20px !important;
     font-size: 0.8rem !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.falso-span-edicion7{
+    display: flex;
+    border: 1px solid black;
+    padding: 5px;
+    width: 80% !important;
+    height: auto !important;
+    font-size:0.9rem !important;
     margin-left: 5px !important;
     margin-right: 5px !important;
     margin-top: 5px !important;

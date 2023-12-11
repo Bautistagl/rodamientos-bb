@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
 import NuevaMarca from '@/components/NuevaMarcabautista';
+import ModificarProd from '@/components/ModificarProdbautista';
 
 export default function EdicionProducto() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,6 +32,7 @@ export default function EdicionProducto() {
   const [productToDelete, setProductToDelete] = useState(null);
   const [codigoToDelete, setCodigoToDelete] = useState(null);
   const [nuevaMarca,setNuevaMarca] = useState(null)
+  const [modificar,setModificar] = useState(null)
   const [modelo,setModelo] = useState('')
   const [ubicacion,setUbicacion] = useState('')
   const [marcaAuto,setMarcaAuto] = useState('')
@@ -279,7 +281,11 @@ export default function EdicionProducto() {
                 <div className="edicion-cards" key={index}>
                   <div className="textos-edicion">
                     <div className="titulo-edicion">{searchResults[codigo1].codigo1}</div>
+                    <div  className='botones-tipoEdicion'>
+
                     <button onClick={()=>{setNuevaMarca(searchResults[codigo1])}}> Agregar nueva marca</button>
+                    <button onClick={()=>{setModificar(searchResults[codigo1])}}> Modificar producto principal </button>
+                    </div>
 
                     <div className="contenedor-propiedades2">
                      
@@ -287,89 +293,66 @@ export default function EdicionProducto() {
                       {searchResults[codigo1].marcas && Object.values(searchResults[codigo1].marcas).map((producto, marcaIndex) => (
                         <div className="propiedades-edicion" key={marcaIndex}>
                           <h2 className="falso-span-edicion3"> {producto.marca}</h2>
-                          <input
-                            className="falso-span-edicion"
-                            onChange={handleChange}
-                            placeholder={producto.precio}
-                          />
+                          <div
+                           className="falso-span-edicion7">
+                           {`${producto.precio} (precio)`}
+                          </div>
+                         
+                         
+                          <div
+                           className="falso-span-edicion7">
+                           {`${producto.stock} (stock)`}
+                          </div>
 
-                          <select
-                            value={stock}
-                            onChange={(e) => setStock(e.target.value)}>
-                            <option value="" disabled >
-                              Stock
-                            </option>
-                            <option value="Disponible">Disponible</option>
-                            <option value="No disponible">No disponible</option>
-                            <option value="Consultar">Consultar</option>
-                          </select>
-                          <input
-                            className="falso-span-edicion2"
-                            onChange={handleCodigo1}
-                            placeholder={searchResults[codigo1].codigo1}
-                          />
-                          <input
-                            className="falso-span-edicion2"
-                            onChange={handleCodigo2}
-                            placeholder={searchResults[codigo1].codigo2}
-                          />
-                          <input
-                            className="falso-span-edicion2"
-                            onChange={handleCodigo3}
-                            placeholder={searchResults[codigo1].codigo3}
-                          />
-                          <select
-                            value={familia}
-                            onChange={(e) => setFamilia(e.target.value)}>
-                            <option value="" disabled selected>
-                              Familia
-                            </option>
-                            <option value="Reten">Reten</option>
-                            <option value="Rodamientos">Rodamientos</option>
-                            <option value="Tensor">Tensor</option>
-                            <option value="Conos">Conos y cubetas</option>
-                            <option value="Automotor">Automotor</option>
-                            <option value="Embrague">Embrague</option>
-                            <option value="Grasas">Grasas</option>
-                            <option value="Crucetas">Crucetas/ tricelas</option>
-                            <option value="Bombas">Bombas de agua</option>
-                            <option value="Homocineticas">Homocineticas</option>
-                          </select>
-                          <input
-                            className="falso-span-edicion4"
-                            onChange={handleInterior}
-                            placeholder={searchResults[codigo1].interior}
-                          />
-                          <input
-                            className="falso-span-edicion4"
-                            onChange={handleExterior}
-                            placeholder={searchResults[codigo1].exterior}
-                          />
-                          <input
-                            className="falso-span-edicion4"
-                            onChange={handleAltura}
-                            placeholder={searchResults[codigo1].altura}
-                          />
-                          <textarea
-                            className="falso-span-edicion5"
-                            onChange={handleDescripcion}
-                            placeholder={searchResults[codigo1].descripcion}
-                          />
-                          <textarea
-                            className="falso-span-edicion5"
-                            onChange={handleUbicacion}
-                            placeholder={searchResults[codigo1].ubicacion  ? searchResults[codigo1].ubicacion : 'Ubicaciones'}
-                          />
-                          <textarea
-                            className="falso-span-edicion5"
-                            onChange={handleModelo}
-                            placeholder={searchResults[codigo1].modelo  ? searchResults[codigo1].modelo : 'Modelos Auto'}
-                          />
-                           <textarea
-                            className="falso-span-edicion5"
-                            onChange={handleMarcaAuto}
-                            placeholder={searchResults[codigo1].marcaAuto  ? searchResults[codigo1].marcaAuto : 'Marcas Auto' }
-                          />
+
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].codigo1} (codigo1)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].codigo2} (codigo2)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].codigo3} (codigo3)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].familia} (familia)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].interior} (interior)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].exterior} (exterior)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].altura} (altura)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].descripcion} (descripcion)`}
+                          </div>
+
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].ubicacion  ? searchResults[codigo1].ubicacion : 'Ubicaciones'} (ubicacion)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].modelo  ? searchResults[codigo1].modelo : 'Modelos Auto'} (modelos autos)`}
+                          </div>
+                          <div
+                           className="falso-span-edicion7">
+                           {`${searchResults[codigo1].marcaAuto  ? searchResults[codigo1].marcaAuto : 'Marcas Auto'} (marcas auto)`}
+                          </div>
+                         
+                         
+{/*                         
                             <div className='iconos-edicion-container'>
 
                           <img
@@ -394,7 +377,7 @@ export default function EdicionProducto() {
                             onClick={() => handleArticulo(producto,searchResults[codigo1].codigo1)} // Step 3: Set the productToDelete state
                             />
                             </div>
-                            
+                             */}
                          
                         </div>
                       ))}
@@ -428,6 +411,7 @@ export default function EdicionProducto() {
           ''
         )}
         {nuevaMarca ? (<NuevaMarca  producto={nuevaMarca} setNuevaMarca={setNuevaMarca}/> ) : ''}
+        {modificar ? (<ModificarProd  producto={modificar} setModificar={setModificar}/> ) : ''}
       </div>
     </div>
   );

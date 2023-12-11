@@ -9,6 +9,17 @@
     border-radius: 10px;
     border: 5px solid black;
 }
+.popUp2{
+    position: fixed;
+    background-color: white;
+    height: 650px;
+    width: 50%;
+    left: 25%;
+    top: 15%;
+
+    border-radius: 10px;
+    border: 5px solid black;
+}
 .textos-popUp{
     display: flex;
     flex-direction: column;
@@ -43,6 +54,56 @@
     font-size: 1.1rem;
     font-family: 'Roboto', sans-serif !important;
 }
+
+
+.textos-popUp2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    text-align: center;
+    margin: auto;
+    
+   
+}
+.textos-popUp2 select{
+    width: 51%;
+    margin: auto;
+    height: 40px;
+    font-size: 1.1rem;
+}
+.textos-popUp2 h1{
+    background-color: #063970ce;
+   
+    text-align: center;
+    justify-content: center;
+    margin-top: auto;
+    height: 70px;
+    color: white;
+}
+
+.textos-popUp2 input{
+    width: 50%;
+    margin: auto;
+    height: 30px;
+}
+.textos-popUp2 textarea{
+    width: 50%;
+    margin: auto;
+    height: 30px;
+}
+.textos-popUp2 input:focus{
+    outline: none;
+}
+.textos-popUp2 button{
+    width: 40%;
+    margin: auto;
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+
+
 .navCarrito{
     display: flex;
     width: 100%;
