@@ -2,7 +2,7 @@
 import Banner from "@/components/Bannerbautista"
 import Carrousel from "@/components/Carrouselbautista"
 import Footer from "@/components/Footerbautista"
-import MercadoLibre from "@/components/MercadoLibrebautista"
+
 import Navbar from "@/components/Navbarbautista"
 import Productos from "@/components/Productosbautista"
 import Servicios from "@/components/Serviciosbautista"
