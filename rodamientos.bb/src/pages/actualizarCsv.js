@@ -11,6 +11,8 @@ export default function ExcelUpdater() {
   const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
   const [marca,setMarca] = useState(null)
+  const [selectedMarca, setSelectedMarca] = useState('SKF');
+
 
   const handleFileUpload = async (event) => {
     setFileSelected(true);
@@ -63,7 +65,29 @@ export default function ExcelUpdater() {
   //     });
   // };
 
+  const removeSKFProducts = async () => {
+    try {
+      const productsRef = ref(db, '/rulemanes');
+      const snapshot = await get(productsRef);
+   
+      if (snapshot.exists()) {
+        const products = snapshot.val();
+      
+        for (const codigo in products) {
+          const marcaRef = ref(db, `/rulemanes/${codigo}/${selectedMarca}`);
+          await remove(marcaRef);
+       
+        }
+      }
+    } catch (error) {
+      console.error('Error removing SKF products:', error);
+    }
+  };
+
   const handleAcceptChanges = async () => {
+
+    await removeSKFProducts();
+
     if (csvData) {
       setStatus('Procesando archivo...');
       const { data } = Papa.parse(csvData, {
@@ -75,7 +99,7 @@ export default function ExcelUpdater() {
         const nuevoPrecio = row['PRECIO'];
 
         try {
-          const dbRef = ref(db, `/rulemanes/ ${codigo}/DBH`);
+          const dbRef = ref(db, `/rulemanes/ ${codigo}/${selectedMarca}`);
           const uuid = uid();
           const nuevoValor = {
             precio: nuevoPrecio,
@@ -84,14 +108,15 @@ export default function ExcelUpdater() {
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
+          
             // El elemento ya existe, así que actualízalo
             if (nuevoPrecio !== '') {
               await set(dbRef, {
                 uuid,
                 codigo1: codigo.toUpperCase(),
-                marca: 'DBH',
+                marca: `${selectedMarca}`,
                 precio: nuevoPrecio,
-                imagen: 'dbhLogo',
+                imagen: `${selectedMarca.toLowerCase()}Logo`,
               });
               
             }
@@ -101,9 +126,9 @@ export default function ExcelUpdater() {
               await set(dbRef, {
                 uuid,
                 codigo1: codigo.toUpperCase(),
-                marca: 'DBH',
+                marca: `${selectedMarca}`,
                 precio: nuevoPrecio,
-                imagen: 'dbhLogo',
+                imagen: `${selectedMarca.toLowerCase()}Logo`,
               });
               
             }
@@ -116,6 +141,9 @@ export default function ExcelUpdater() {
     } else {
       setStatus('No se ha cargado ningún archivo.');
     }
+  };
+  const handleMarcaChange = (event) => {
+    setSelectedMarca(event.target.value);
   };
 
   const readCSVFile = (file) => {
@@ -139,6 +167,7 @@ export default function ExcelUpdater() {
       <Navbar />
       <NavCsv />
       {status}
+     
       {!fileSelected ? (
         <input style={{ marginLeft: '50px' }} type="file" accept=".csv" onChange={handleFileUpload} />
       ) : (
@@ -146,6 +175,19 @@ export default function ExcelUpdater() {
           Actualizar
         </button>
       )}
+       <label style={{marginLeft:"30px"}} >Seleccione la marca a actualizar:</label>
+      <select 
+        style={{marginLeft:"30px"}}
+        id="marcaSelect"
+        name="marcaSelect"
+        value={selectedMarca}
+        onChange={handleMarcaChange}
+      >
+        <option value="DBH">DBH</option>
+        <option value="SKF">SKF</option>
+        {/* Agrega más opciones según tus marcas */}
+      </select>
+      
     </div>
   );
 }
