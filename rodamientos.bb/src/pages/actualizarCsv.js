@@ -86,7 +86,7 @@ export default function ExcelUpdater() {
 
   const handleAcceptChanges = async () => {
 
-    await removeSKFProducts();
+  
 
     if (csvData) {
       setStatus('Procesando archivo...');
