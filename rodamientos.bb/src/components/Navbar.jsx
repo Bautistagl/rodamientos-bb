@@ -14,14 +14,20 @@ const Navbar = () => {
   const auth = getAuth();
   const [nuevo, setNuevo] = useState(() => {
     // Obtener la versión de la navbar desde localStorage o establecerla por defecto
-    const storedVersion = localStorage.getItem('navbarVersion');
-    return storedVersion ? JSON.parse(storedVersion) : false;
+    if (typeof window !== 'undefined') {
+      const storedVersion = localStorage.getItem('navbarVersion');
+      return storedVersion ? JSON.parse(storedVersion) : false;
+    }
+    return false;
   });
+
   const toggleVersion = () => {
     // Cambiar la versión de la navbar y almacenarla en localStorage
-    const nuevaVersion = !nuevo;
-    setNuevo(nuevaVersion);
-    localStorage.setItem('navbarVersion', JSON.stringify(nuevaVersion));
+    if (typeof window !== 'undefined') {
+      const nuevaVersion = !nuevo;
+      setNuevo(nuevaVersion);
+      localStorage.setItem('navbarVersion', JSON.stringify(nuevaVersion));
+    }
   };
 
 
