@@ -335,7 +335,7 @@ export default function BusquedaCodigo2() {
                               style={{
                                 fontWeight: 'bold',
                                 color:
-                                  producto.stock == 'DISPONIBLE'
+                                  producto.stock.toLowerCase() == 'disponible'
                                     ? 'green'
                                     : producto.stock == 'No disponible'
                                     ? 'red'
