@@ -322,7 +322,7 @@ export default function BusquedaCodigo2() {
                             <Image
                               style={{ marginRight: '100px' }}
                               alt=""
-                              src={`/${producto.marca}Logo.png`}
+                              src={`/${producto.marca.toLowerCase()}Logo.png`}
                               width={100}
                               height={25}
                             />
