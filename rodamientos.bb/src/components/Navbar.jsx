@@ -10,8 +10,19 @@ import Swal from 'sweetalert2'
 const Navbar = () => {
 
   const [modal,setModal] = useState(false)
-  const [nuevo,setNuevo] =useState(false)
+ 
   const auth = getAuth();
+  const [nuevo, setNuevo] = useState(() => {
+    // Obtener la versión de la navbar desde localStorage o establecerla por defecto
+    const storedVersion = localStorage.getItem('navbarVersion');
+    return storedVersion ? JSON.parse(storedVersion) : false;
+  });
+  const toggleVersion = () => {
+    // Cambiar la versión de la navbar y almacenarla en localStorage
+    const nuevaVersion = !nuevo;
+    setNuevo(nuevaVersion);
+    localStorage.setItem('navbarVersion', JSON.stringify(nuevaVersion));
+  };
 
 
   const activarModal = () => {
@@ -110,7 +121,9 @@ const handleSignOut = () => {
    
          </div>
     : ''}
-    {admin === 'rodamientosbb@admin.com'  ? <button style={{height:'30px',margin:'auto 0px'}} onClick={()=>{setNuevo(!nuevo)}}> {nuevo ? 'Viejo' : 'Nuevo'} </button> : '' }
+    {admin === 'rodamientosbb@admin.com'  ?  <button style={{height:'30px',margin:'auto 0px'}} onClick={toggleVersion}>
+          {nuevo ? 'Viejo' : 'Nuevo'}
+        </button> : '' }
         {nuevo === true ? 
           
           <div className='botones' >

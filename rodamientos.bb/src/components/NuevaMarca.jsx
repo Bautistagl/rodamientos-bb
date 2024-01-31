@@ -76,7 +76,16 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
         onChange={(e) => setMarca(e.target.value)} placeholder='marca'
       />
       <input onChange={(e) => setPrecio(e.target.value)} placeholder='precio'/>
-      <input onChange={(e) => setStock(e.target.value)} placeholder='stock'/>
+      <select
+                            value={stock}
+                            onChange={(e) => setStock(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="DISPONIBLE">Disponible</option>
+                            <option value="No disponible">No disponible</option>
+                            <option value="Consultar">Consultar</option>
+                          </select>
 
       <div style={{ display: 'flex' }}>
       <button onClick={()=>{writeData()}}> Agregar</button>

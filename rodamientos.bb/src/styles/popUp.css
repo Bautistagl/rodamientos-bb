@@ -44,6 +44,12 @@
     margin: auto;
     height: 30px;
 }
+.textos-popUp select{
+    width: 50% !important;
+    margin: auto;
+        
+    height: 30px;
+}
 .textos-popUp input:focus{
     outline: none;
 }

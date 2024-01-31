@@ -317,11 +317,12 @@ export default function BusquedaCodigo2() {
                     Object.values(searchResults[codigo1].marcas).map(
                       (producto, marcaIndex) => (
                         <>
+                        {console.log(producto)}
                           <div className="propiedades2" key={marcaIndex}>
                             <Image
                               style={{ marginRight: '100px' }}
                               alt=""
-                              src={`/${producto.marca}.png`}
+                              src={`/${producto.marca}Logo.png`}
                               width={100}
                               height={25}
                             />
@@ -334,7 +335,7 @@ export default function BusquedaCodigo2() {
                               style={{
                                 fontWeight: 'bold',
                                 color:
-                                  producto.stock == 'Disponible'
+                                  producto.stock == 'DISPONIBLE'
                                     ? 'green'
                                     : producto.stock == 'No disponible'
                                     ? 'red'

@@ -49,10 +49,10 @@ export default function Home() {
     const valores = e.target.value.toUpperCase().split(',').map((valor) => valor.trim());
     setModelo(valores);
   };
-  const handleUbicacion = (e) => {
-    const valores = e.target.value.toUpperCase().split(',').map((valor) => valor.trim());
-    setUbicacion(valores);
-  };
+  // const handleUbicacion = (e) => {
+    
+  //   setUbicacion(valores);
+  // };
 
 
   const handleDescripcion = (e) => {
@@ -278,23 +278,51 @@ const dbRef = ref(db)
         <span>
           Ubicación:
         </span>
-        <input
-          type="text"
-          placeholder="Ubicacion"
-          value={ubicacion}
-          onChange={handleUbicacion}
-        />
+        <select
+                            value={ubicacion}
+                            onChange={(e) => setUbicacion(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Rueda Delantera">Rueda Delantera</option>
+                            <option value="Rueda Trasera">Rueda Trasera</option>
+                            <option value="Bomba de Agua">Bomba de Agua</option>
+                            <option value="Kit de distribucion">Kit de distribucion</option>
+                            <option value="Tensores de distribucion">Tensores de distribucion</option>
+                            <option value="Tensores Poly V">Tensores Poly V</option>
+                            <option value="Kit de Poly V">Kit de Poly V</option>
+                            <option value="Homocinetica">Homocinetica</option>
+                            <option value="Retenes">Retenes</option>
+                            <option value="Correa Poly V">Correa Poly V</option>
+                            <option value="Correa Distribucion">Correa Distribucion</option>
+                            
+                          </select>
         </div>
         <div className='contenedor-input'> 
         <span>
           Marca Auto:
         </span>
-        <input
-          type="text"
-          placeholder="Marca Auto"
-          value={marcaAuto}
-          onChange={handleMarcaAuto}
-        />
+        <select
+                            value={marcaAuto}
+                            onChange={(e) => setMarcaAuto(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Chery">Chery</option>
+                            <option value="Chevrolet">Chevrolet</option>
+                            <option value="Chrysler">Chrysler</option>
+                            <option value="Citroen">Citroen</option>
+                            <option value="Fiat">Fiat</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Mercedez Benz">Mercedez Benz</option>
+                            <option value="Peugot">Peugot</option>
+                            <option value="Renault">Renault</option>
+                            <option value="Suzuki">Suzuki</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Volskwagen">Volskwagen</option>
+                           
+                            
+                          </select>
         </div>
         <div className='contenedor-input'> 
         <span>
