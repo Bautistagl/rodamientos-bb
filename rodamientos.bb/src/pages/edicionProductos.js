@@ -134,7 +134,12 @@ export default function EdicionProducto() {
                   timerProgressBar: true,
                   showConfirmButton: false,
                 });
-                nuevoPrecioRef.current = '';
+                setDescripcion('');
+                setCodigo3('');
+                setCodigo2('');
+                setCodigo1('');
+                setImagen('');
+                setFamilia('');
                 setInterior('');
                 setExterior('')
                 setAltura('')
@@ -285,7 +290,7 @@ export default function EdicionProducto() {
                             value={stock}
                             onChange={(e) => setStock(e.target.value)}>
                             <option value="" disabled >
-                              Stock
+                              Stock ({producto.stock})
                             </option>
                             <option value="Disponible">Disponible</option>
                             <option value="No disponible">No disponible</option>
@@ -310,7 +315,7 @@ export default function EdicionProducto() {
                             value={familia}
                             onChange={(e) => setFamilia(e.target.value)}>
                             <option value="" disabled selected>
-                              Familia
+                              Familia  ({producto.familia})
                             </option>
                             <option value="Reten">Reten</option>
                             <option value="Rodamientos">Rodamientos</option>
