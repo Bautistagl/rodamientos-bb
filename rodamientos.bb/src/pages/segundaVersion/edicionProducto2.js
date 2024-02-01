@@ -14,28 +14,15 @@ export default function EdicionProducto() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
-  const [user, setUser] = useState(null);
-  const [rol, setRol] = useState('');
   const [nuevoPrecio, setNuevoPrecio] = useState('');
-  const [codigo1, setCodigo1] = useState('');
-  const [codigo2, setCodigo2] = useState('');
-  const [codigo3, setCodigo3] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [familia, setFamilia] = useState('');
+  const [nuevoStock, setNuevoStock] = useState('')
   const [stock, setStock] = useState('');
-  const [imagen, setImagen] = useState('');
-  const [altura, setAltura] = useState('');
-  const [exterior, setExterior] = useState('');
-  const [interior, setInterior] = useState('');
   const [admin, setAdmin] = useState('');
   const [productToDelete, setProductToDelete] = useState(null);
   const [codigoToDelete, setCodigoToDelete] = useState(null);
   const [nuevaMarca,setNuevaMarca] = useState(null)
   const [modificar,setModificar] = useState(null)
-  const [modelo,setModelo] = useState('')
-  const [ubicacion,setUbicacion] = useState('')
-  const [marcaAuto,setMarcaAuto] = useState('')
+
 
   const nuevoPrecioRef = useRef('');
   
@@ -124,8 +111,8 @@ export default function EdicionProducto() {
     const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
     
     const nuevosValores = {
-      precio:nuevoPrecioRef.current,
-      stock: stock,
+      precio:nuevoPrecio,
+      stock: nuevoStock,
 
     };
 
@@ -147,7 +134,8 @@ export default function EdicionProducto() {
                   timerProgressBar: true,
                   showConfirmButton: false,
                 });
-                nuevoPrecioRef.current = '';
+                setNuevoPrecio('')
+                setNuevoStock('')
                 setInterior('');
                 setExterior('')
                 setAltura('')
@@ -293,16 +281,20 @@ export default function EdicionProducto() {
                       {searchResults[codigo1].marcas && Object.values(searchResults[codigo1].marcas).map((producto, marcaIndex) => (
                         <div className="propiedades-edicion" key={marcaIndex}>
                           <h2 className="falso-span-edicion3"> {producto.marca}</h2>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${producto.precio} (precio)`}
-                          </div>
+                          <input className="falso-span-edicion7" placeholder={`${producto.precio}`} onChange={(e) => setNuevoPrecio(e.target.value)}/>
+                        
                          
                          
-                          <div
-                           className="falso-span-edicion7">
-                           {`${producto.stock} (stock)`}
-                          </div>
+                          <select
+                            
+                            onChange={(e) => setNuevoStock(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar ({producto.stock})
+                            </option>
+                            <option value="disponible">Disponible</option>
+                            <option value="no disponible">No disponible</option>
+                            <option value="consultar">Consultar</option>
+                          </select>
 
 
                           <div
@@ -350,11 +342,9 @@ export default function EdicionProducto() {
                            className="falso-span-edicion7">
                            {`${searchResults[codigo1].marcaAuto  ? searchResults[codigo1].marcaAuto : 'Marcas Auto'} (marcas auto)`}
                           </div>
-                         
-                         
-{/*                         
-                            <div className='iconos-edicion-container'>
-
+                          {console.log(searchResults[codigo1].codigo1,
+                                producto.marca,
+                                nuevoPrecio)}
                           <img
                             alt=''
                             src='/refresh.png'
@@ -364,21 +354,11 @@ export default function EdicionProducto() {
                               actualizarItems(
                                 searchResults[codigo1].codigo1,
                                 producto.marca,
-                                nuevoPrecio
+                                nuevoPrecio,
+                                nuevoStock
                               );
                             }}/>
-                        
-                         
-                          <img
-                            alt=''
-                            src='/borrar.png'
-                            className="icono-edicion"
-                            style={{ marginRight: '5px' }}
-                            onClick={() => handleArticulo(producto,searchResults[codigo1].codigo1)} // Step 3: Set the productToDelete state
-                            />
-                            </div>
-                             */}
-                         
+
                         </div>
                       ))}
                     </div>
@@ -423,4 +403,30 @@ export default function EdicionProducto() {
 
 
 
+{/*                         
+                            <div className='iconos-edicion-container'>
 
+                          <img
+                            alt=''
+                            src='/refresh.png'
+                            className="icono-edicion"
+                            style={{ marginRight: '5px' }}
+                            onClick={() => {
+                              actualizarItems(
+                                searchResults[codigo1].codigo1,
+                                producto.marca,
+                                nuevoPrecio
+                              );
+                            }}/>
+                        
+                         
+                          <img
+                            alt=''
+                            src='/borrar.png'
+                            className="icono-edicion"
+                            style={{ marginRight: '5px' }}
+                            onClick={() => handleArticulo(producto,searchResults[codigo1].codigo1)} // Step 3: Set the productToDelete state
+                            />
+                            </div>
+                             */}
+                         
