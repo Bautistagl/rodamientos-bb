@@ -72,9 +72,24 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
         {' '}
        Agregar nueva marca de {producto.codigo1}{' '}
       </h1>
-      <input
-        onChange={(e) => setMarca(e.target.value)} placeholder='marca'
-      />
+      <select
+                            value={marca}
+                            onChange={(e) => setMarca(e.target.value)}>
+                            <option value="" disabled selected>
+                              Seleccionar
+                            </option>
+                            <option value="Economica">Economica</option>
+          <option value="HCH">HCH</option>
+          <option value="NSK-NTN">NSK</option>
+          <option value="NTN">NTN</option>
+          <option value="SKF">SKF</option>
+          <option value="INA">INA</option>
+          <option value="DOLZ">DOLZ</option>
+          <option value="DAYCO">DAYCO</option>
+          <option value="DBH">DBH</option>
+          <option value="CORTECO">CORTECO</option>
+          <option value="TIMKEN">TIMKEN</option>
+                          </select>
       <input onChange={(e) => setPrecio(e.target.value)} placeholder='precio'/>
       <select
                             value={stock}

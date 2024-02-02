@@ -271,6 +271,7 @@ export default function EdicionProducto() {
             <div className="tabla-edicion">
               {Object.keys(groupedResults).map((codigo1, index) => (
                 <div className="edicion-cards" key={index}>
+               
                   <div className="textos-edicion">
                     <div className="titulo-edicion">{codigo1}</div>
 
@@ -279,6 +280,7 @@ export default function EdicionProducto() {
 
                       {groupedResults[codigo1].map((producto, marcaIndex) => (
                         <div className="propiedades-edicion" key={marcaIndex}>
+                          
                           <div className="falso-span-edicion3"> {producto.marca}</div>
                           <input
                             className="falso-span-edicion"
