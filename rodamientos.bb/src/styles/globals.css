@@ -69,6 +69,21 @@ a{
   font-size: 1.2rem;
  
 }
+
+.checkbox{
+  display: flex;
+  
+  margin-left: 0px;
+
+  
+}
+.checkbox input{
+  width: auto;
+  
+  margin-left: 0px !important;
+  text-align: start;
+ 
+}
 .contenedor-input textarea{
   margin: auto;
   justify-content: center;
@@ -79,6 +94,31 @@ a{
 }
 .contenedor-input select{
   height: 30px;
+}
+
+.contenedor-input2 select{
+  height: 150px;
+}
+
+.contenedor-input2{
+  justify-content: flex-start;
+  width: auto;
+  height: auto;
+  
+}
+
+.contenedor-input2 li{
+  height: 20px;
+}
+.checkbox-list {
+  column-count: 3;
+  list-style: none;
+  padding: 0;
+}
+.checkbox-list2 {
+  column-count: 3;
+  list-style: none;
+  padding: 0;
 }
 
 

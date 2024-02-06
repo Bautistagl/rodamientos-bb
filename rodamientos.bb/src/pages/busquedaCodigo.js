@@ -210,6 +210,7 @@ function isURL(value) {
         
         if(filtro ) {
           if (filtro.includes(term) ) {
+        
             // Agrega el producto a los resultados si encuentra coincidencia
             results.push(value);
           }
@@ -310,7 +311,7 @@ function isURL(value) {
           <div className="contenedor-cards" key={index}>
              
                <>
-                
+              
                <Image
               style={{
                 marginTop: 'auto',

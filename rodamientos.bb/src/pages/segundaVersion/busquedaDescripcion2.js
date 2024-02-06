@@ -23,6 +23,7 @@ export default function BusquedaDescripcion() {
   const [abierto,setAbierto] = useState(false)
   const [admin, setAdmin] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedMarca, setSelectedMarca] = useState(null)
   const [usuario,setUsuario] = useState('')
 
 
@@ -30,17 +31,21 @@ export default function BusquedaDescripcion() {
 
  
 
-  const handleClickAgregar = (producto) => {
+  const handleClickAgregar = (producto,marca) => {
     setSelectedProduct(producto);
+    setSelectedMarca(marca)
     setAbierto(true);
+    
   };
-  const agregarProducto = async (producto,cantidades,usuario,marca,descripcion) => {
-    const {codigo1, precio } = producto
+  const agregarProducto = async (producto,cantidades,usuario,selectedMarca,descripcion) => {
+    const {codigo1 } = producto
+    const {precio,marca,stock} = selectedMarca
+   
     try {
-      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca));
+      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca));
       
       if (snapshot.exists()) {
-
+          
         const productoEnCarrito = {
           codigo1,
           precio,
@@ -51,7 +56,7 @@ export default function BusquedaDescripcion() {
         };
 
 
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
 
        } else {
         const productoEnCarrito = {
@@ -63,7 +68,7 @@ export default function BusquedaDescripcion() {
           
         };
   
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
    
       }
       
@@ -191,136 +196,144 @@ catch (error) {
 
   return (
     <>
-    <div>
-      <Navbar />
+      <div>
+        <Navbar />
 
-      <div className="fondo-busqueda">
-        <>.</>
-        <div className='botones-busqueda'>
-        <button className='button-30'><Link href='/busquedaCodigo'> BUSCAR POR CODIGO </Link></button>
-        <button className='button-30'><Link href='/busquedaMedidas'> BUSCAR POR MEDIDAS </Link></button>
-     
-
-</div>
-        <div className="barra-busqueda">
-       
-          <input
-            className="input-busqueda"
-            type="text"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="DESCRIPCION"
-          />
-        </div>
-
-        {Object.keys(searchResults).map((codigo1, index) => (
-          <div className="contenedor-cards" key={index}>
-            <Image
-              style={{
-                marginTop: 'auto',
-                marginBottom: 'auto',
-                marginLeft: '20px',
-              }}
-              alt=""
-              src="/rodamiento.webp"
-              width={80}
-              height={80}
+        <div className="fondo-busqueda">
+          <>.</>
+          <div className="botones-busqueda">
+            <button className="button-30">
+              <Link href="busquedaCodigo2"> BUSCAR POR CODIGO </Link>
+            </button>
+            <button className="button-30">
+              <Link href="busquedaMedidas2"> BUSCAR POR MEDIDAS </Link>
+            </button>
+          </div>
+          <div className="barra-busqueda">
+            <input
+              className="input-busqueda"
+              type="text"
+              value={searchTerm}
+              onChange={handleSearch}
+              placeholder="DESCRIPCION"
             />
-            <div className="textos-completo2">
-              <div className="codigo-medidas2">
-                <div className="titulo-singular2">{searchResults[codigo1].codigo1}</div>
-                <div className="medidas">
-                <div className="titulo-singular2">{searchResults[codigo1].codigo2}</div>
-                <div className="titulo-singular2">{searchResults[codigo1].codigo3}</div>
-                  <span>
-                    Interior: {searchResults[codigo1].interior} mm
-                  </span>
-                  <span>
-                    Exterior: {searchResults[codigo1].exterior} mm
-                  </span>
-                  <span>Altura: {searchResults[codigo1].altura} mm</span>
-                  <span className='span-3'> {searchResults[codigo1].descripcion} </span>
-                </div>
-              </div>
-              <div className="contenedor-propiedades3">
-                <div className="propiedades-principales2">
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/tag.png"
-                      width={40}
-                      height={40}
-                    />
-                    MARCA
-                  </span>
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/iconoPlata.png"
-                      width={40}
-                      height={40}
-                    />{' '}
-                    PRECIO
-                  </span>
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/stock.png"
-                      width={30}
-                      height={30}
-                    />
-                    STOCK
-                  </span>
-                </div>
-                
-                {searchResults[codigo1].marcas && Object.values(searchResults[codigo1].marcas).map((producto, marcaIndex) => (
-                  <div className="propiedades2" key={marcaIndex}>
-                    
-                    <Image
-                      style={{ marginRight: '100px' }}
-                      alt=""
-                      src={
-                        producto.imagen === ''
-                          ? '/TEST.jpg'
-                          : `/${producto.marca}.png`
-                      }
-                      width={100}
-                      height={25}
-                    />
+          </div>
 
-                    <span className="span-1">${producto.precio}</span>
-                    {/* <span
-                      className="span-2"
-                      style={{
-                        fontWeight:'bold',
-                        color:
-                          producto.stock === 'Disponible'
-                            ? 'green'
-                            : producto.stock === 'No disponible'
-                            ? 'red'
-                            : 'rgb(215, 215, 58)',
-                      }}>
-                      { producto.stock ? (producto.stock).toUpperCase() : ''}
-                    </span> */}
-                   
-                    {admin === 'rodamientosbb@admin.com' ? <button onClick={() => handleClickAgregar(producto)}>AGREGAR</button>  :''}
+          {Object.keys(searchResults).map((codigo1, index) => (
+            <div className="contenedor-cards" key={index}>
+              <>
+                <Image
+                  style={{
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                    marginLeft: '20px',
+                  }}
+                  alt=""
+                  src="/rodamiento.webp"
+                  width={80}
+                  height={80}
+                />
+              </>
+              <div className="textos-completo2">
+                <div className="codigo-medidas2">
+                  <div className="titulo-singular2">
+                    {searchResults[codigo1].codigo1}
                   </div>
-                ))}
+                  <div className="medidas">
+                    <div className="titulo-singular2">
+                      {searchResults[codigo1].codigo2}
+                    </div>
+                    <div className="titulo-singular2">
+                      {searchResults[codigo1].codigo3}
+                    </div>
+                    <span>Interior: {searchResults[codigo1].interior} mm</span>
+                    <span>Exterior: {searchResults[codigo1].exterior} mm</span>
+                    <span>Altura: {searchResults[codigo1].altura} mm</span>
+                    <span className="span-3">
+                      {' '}
+                      {searchResults[codigo1].descripcion}{' '}
+                    </span>
+                  </div>
+                </div>
+                <div className="contenedor-propiedades3">
+                  <div>
+                  <div className="propiedades-principales2">
+                    <span>MARCA</span>
+                    <span>PRECIO</span>
+                    <span>STOCK</span>
+                  </div>
+
+                  {searchResults[codigo1].marcas &&
+                    Object.values(searchResults[codigo1].marcas).map(
+                      (producto, marcaIndex) => (
+                        <>
+                        
+                          <div className="propiedades2" key={marcaIndex}>
+                            <Image
+                              style={{ marginRight: '100px' }}
+                              alt=""
+                              src={`/${producto.marca.toLowerCase()}Logo.png`}
+                              width={100}
+                              height={25}
+                            />
+
+                            <span style={{ fontWeight: 'bold' }}>
+                              ${producto.precio}
+                            </span>
+                            <span
+                              className="span-2"
+                              style={{
+                                fontWeight: 'bold',
+                                color:
+                                  producto.stock.toLowerCase() == 'disponible'
+                                    ? 'green'
+                                    : producto.stock == 'No disponible'
+                                    ? 'red'
+                                    : 'rgb(215, 215, 58)',
+                              }}>
+                              {producto.stock
+                                ? producto.stock.toUpperCase()
+                                : ''}
+                            </span>
+
+                         
+                            {admin === 'rodamientosbb@admin.com' ? (
+                              <button
+                                onClick={() =>
+                                  handleClickAgregar(
+                                    searchResults[codigo1],
+                                    producto
+                                    
+                                  )
+                                }>
+                                AGREGAR
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </>
+                      )
+                    )}
+                    </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+          
+        </div>
       </div>
-    </div>
-    {abierto ? (
-        <PopUp usuario={usuario} agregarProducto={agregarProducto} producto={selectedProduct} 
-          setAbierto={setAbierto} abierto={abierto} cantidad={cantidad} setCantidad={setCantidad}  />
+      {abierto ? (
+        <PopUp
+          usuario={usuario}
+          agregarProducto={agregarProducto}
+          producto={selectedProduct}
+          setAbierto={setAbierto}
+          abierto={abierto}
+          cantidad={cantidad}
+          marca={selectedMarca}
+          setCantidad={setCantidad}
+        />
       ) : null}
     </>
   );

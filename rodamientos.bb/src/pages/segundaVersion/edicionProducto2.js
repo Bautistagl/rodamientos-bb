@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
 import NuevaMarca from '@/components/NuevaMarcabautista';
 import ModificarProd from '@/components/ModificarProdbautista';
+import NuevaAplicacion from '@/components/NuevaAplicacionbautista';
 
 export default function EdicionProducto() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +23,7 @@ export default function EdicionProducto() {
   const [codigoToDelete, setCodigoToDelete] = useState(null);
   const [nuevaMarca,setNuevaMarca] = useState(null)
   const [modificar,setModificar] = useState(null)
+  const [aplicacion, setAplicacion] = useState(null)
 
 
   const nuevoPrecioRef = useRef('');
@@ -273,6 +275,8 @@ export default function EdicionProducto() {
 
                     <button onClick={()=>{setNuevaMarca(searchResults[codigo1])}}> Agregar nueva marca</button>
                     <button onClick={()=>{setModificar(searchResults[codigo1])}}> Modificar producto principal </button>
+                    <button onClick={()=>{setAplicacion(searchResults[codigo1])}}> Agregar Aplicacion </button>
+                   
                     </div>
 
                     <div className="contenedor-propiedades2">
@@ -392,6 +396,7 @@ export default function EdicionProducto() {
         )}
         {nuevaMarca ? (<NuevaMarca  producto={nuevaMarca} setNuevaMarca={setNuevaMarca}/> ) : ''}
         {modificar ? (<ModificarProd  producto={modificar} setModificar={setModificar}/> ) : ''}
+        {aplicacion ? (<NuevaAplicacion  producto={aplicacion} setAplicacion={setAplicacion}/> ): '' }
       </div>
     </div>
   );

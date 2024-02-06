@@ -38,6 +38,7 @@ const CarritosScreen2 = () => {
 
       if (snapshot.exists()) {
         const carritoData = snapshot.val();
+       
         const prods = Object.values(carritoData);
 
         setCatalogData(prods);

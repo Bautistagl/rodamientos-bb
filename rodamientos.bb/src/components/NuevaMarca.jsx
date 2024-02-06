@@ -17,7 +17,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
           if (snapshot.exists()) {
             Swal.fire({
               title: 'Error',
-              text: 'El producto ya existe.',
+              text: 'La marca ya existe.',
               icon: 'error',
               timer: 2000,
               timerProgressBar: true,

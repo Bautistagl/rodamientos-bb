@@ -24,6 +24,7 @@ export default function BusquedaAltura() {
   const [admin, setAdmin] = useState('');
   const [abierto,setAbierto] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedMarca, setSelectedMarca] = useState(null)
   const [cantidad, setCantidad] = useState(null)
 
 
@@ -36,42 +37,43 @@ export default function BusquedaAltura() {
 
   const handleClickAgregar = (producto) => {
     setSelectedProduct(producto);
+    setSelectedMarca(marca)
     setAbierto(true);
   };
   
   // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
-  const agregarProducto = async (producto,cantidades,usuario,marca,descripcion) => {
-    const {codigo1, precio } = producto
+  const agregarProducto = async (producto,cantidades,usuario,selectedMarca,descripcion) => {
+    const {codigo1 } = producto
+    const {precio,marca,stock} = selectedMarca
+   
     try {
-      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca));
+      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca));
       
       if (snapshot.exists()) {
-
+          
         const productoEnCarrito = {
           codigo1,
           precio,
           cantidades,
-          marca,  
+          marca,
+          descripcion,
+          
         };
-        if (descripcion) {
-          productoEnCarrito.descripcion = descripcion;
-        }
 
 
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
 
        } else {
         const productoEnCarrito = {
           codigo1,
           precio,
           cantidades,
-          marca,    
+          marca,
+          descripcion,
+          
         };
-        if (descripcion) {
-          productoEnCarrito.descripcion = descripcion;
-        }
   
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito/' + codigo1 + '' + marca), productoEnCarrito);
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
    
       }
       
@@ -215,8 +217,8 @@ catch (error) {
       <div className="fondo-busqueda">
         <>.</>
         <div className='botones-busqueda'>
-        <button className='button-30'><Link href='/busquedaCodigo'> BUSCAR POR CODIGO </Link></button>
-        <button className='button-30'><Link href='/busquedaDescripcion'> BUSCAR POR DESCRIPCION </Link></button>
+        <button className='button-30'><Link href='busquedaCodigo2'> BUSCAR POR CODIGO </Link></button>
+        <button className='button-30'><Link href='busquedaDescripcion2'> BUSCAR POR DESCRIPCION </Link></button>
      
 
 </div>
@@ -262,17 +264,20 @@ catch (error) {
 
         {Object.keys(searchResults).map((codigo1, index) => (
           <div className="contenedor-cards" key={index}>
-            <Image
-              style={{
-                marginTop: 'auto',
-                marginBottom: 'auto',
-                marginLeft: '20px',
-              }}
-              alt=""
-              src="/rodamiento.webp"
-              width={200}
-              height={200}
-            />
+           <>
+              
+              <Image
+                style={{
+                  marginTop: 'auto',
+                  marginBottom: 'auto',
+                  marginLeft: '20px',
+                }}
+                alt=""
+                src="/rodamiento.webp"
+                width={80}
+                height={80}
+              />
+            </>
             <div className="textos-completo2">
               <div className="codigo-medidas2">
                 <div className="titulo-singular2">{searchResults[codigo1].codigo1}</div>
@@ -289,74 +294,65 @@ catch (error) {
                 </div>
               </div>
               <div className="contenedor-propiedades3">
-                <div className="propiedades-principales2">
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/tag.png"
-                      width={40}
-                      height={40}
-                    />
-                    MARCA
-                  </span>
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/iconoPlata.png"
-                      width={40}
-                      height={40}
-                    />{' '}
-                    PRECIO
-                  </span>
-                  <span>
-                    {' '}
-                    <Image
-                      alt=""
-                      style={{ marginRight: '10px', marginTop: '-5px' }}
-                      src="/stock.png"
-                      width={30}
-                      height={30}
-                    />
-                    STOCK
-                  </span>
-                </div>
+                <div>
+              <div className="propiedades-principales2">
+                      <span> MARCA</span>
+                      <span>PRECIO</span>
+                      <span>STOCK </span>
+                    </div>
 
-                {searchResults[codigo1].marcas && Object.values(searchResults[codigo1].marcas).map((producto, marcaIndex) => (
-                  <div className="propiedades2" key={marcaIndex}>
-                    <Image
-                      style={{ marginRight: '100px' }}
-                      alt=""
-                      src={
-                        producto.imagen === ''
-                          ? '/TEST.jpg'
-                          : `/${producto.marca}.png`
-                      }
-                      width={100}
-                      height={25}
-                    />
+                    {searchResults[codigo1].marcas &&
+                    Object.values(searchResults[codigo1].marcas).map(
+                      (producto, marcaIndex) => (
+                        <>
+                        
+                          <div className="propiedades2" key={marcaIndex}>
+                            <Image
+                              style={{ marginRight: '100px' }}
+                              alt=""
+                              src={`/${producto.marca.toLowerCase()}Logo.png`}
+                              width={100}
+                              height={25}
+                            />
 
-                    <span className="span-1">${producto.precio}</span>
-                    {/* <span
-                      className="span-2"
-                      style={{
-                        fontWeight:'bold',
-                        color:
-                          producto.stock === 'Disponible'
-                            ? 'green'
-                            : producto.stock === 'No disponible'
-                            ? 'red'
-                            : 'rgb(215, 215, 58)',
-                      }}>
-                       { producto.stock ? (producto.stock).toUpperCase() : ''}
-                    </span> */}
-                    <span className='span-3'> {producto.descripcion} </span>
-                    {admin === 'rodamientosbb@admin.com' ? <button onClick={() => handleClickAgregar(producto)}>AGREGAR</button>  :''}
-                  </div>
-                ))}
+                            <span style={{ fontWeight: 'bold' }}>
+                              ${producto.precio}
+                            </span>
+                            <span
+                              className="span-2"
+                              style={{
+                                fontWeight: 'bold',
+                                color:
+                                  producto.stock.toLowerCase() == 'disponible'
+                                    ? 'green'
+                                    : producto.stock == 'No disponible'
+                                    ? 'red'
+                                    : 'rgb(215, 215, 58)',
+                              }}>
+                              {producto.stock
+                                ? producto.stock.toUpperCase()
+                                : ''}
+                            </span>
+
+                         
+                            {admin === 'rodamientosbb@admin.com' ? (
+                              <button
+                                onClick={() =>
+                                  handleClickAgregar(
+                                    producto,
+                                    searchResults[codigo1]
+                                  )
+                                }>
+                                AGREGAR
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </>
+                      )
+                    )}
+                    </div>
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ const PopUp = ({usuario,agregarProducto,producto,marca,precio,setAbierto,abierto
       <div className="textos-popUp">
         <h1>
           {' '}
-          Que cantidad de {producto.codigo1} {marca.marca} desea agregar?{' '}
+          Que cantidad de {producto.codigo1} de {marca.marca} desea agregar?{' '}
         </h1>
         <input
           value={cantidad}
@@ -22,13 +22,13 @@ const PopUp = ({usuario,agregarProducto,producto,marca,precio,setAbierto,abierto
                 agregarProducto(
                   producto,
                   cantidad,
-                  precio,
                   usuario,
-                  marca.marca,
-                  producto.descripcion
+                  marca,
+                  producto.descripcion,
+
                 );
               } else {
-                agregarProducto(producto, cantidad, usuario, marca.marca,'');
+                agregarProducto(producto, cantidad, usuario, marca,'');
               }
             }}>
             {' '}

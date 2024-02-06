@@ -24,14 +24,14 @@ export default function BusquedaCodigo2() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [totalCarrito, setTotalCarrito] = useState(0);
   const [admin, setAdmin] = useState('');
-  const [marca,setMarca] = useState(null)
+  const [selectedMarca, setSelectedMarca] = useState(null)
 
   const usuarioRef = ref(db, 'usuarios');
   const productosRef = ref(db, 'productos');
   const carritoRef = ref(db, 'usuarios/' + `${usuario}` + '/carrito');
 
-  const handleClickAgregar = (marca, producto) => {
-    setMarca(marca)
+  const handleClickAgregar = (producto, marca) => {
+    setSelectedMarca(marca)
     setSelectedProduct(producto);
     setAbierto(true);
   };
@@ -59,71 +59,60 @@ export default function BusquedaCodigo2() {
   };
 
   // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
-  const agregarProducto = async (
-    producto,
-    cantidades,
-    precio,
-    usuario,
-    marca,
-    descripcion
-  ) => {
-    
-    const { codigo1 } = producto;
+  const agregarProducto = async (producto,cantidades,usuario,selectedMarca,descripcion) => {
+    const {codigo1 } = producto
+    const {precio,marca,stock} = selectedMarca
+   
     try {
-      const snapshot = await get(
-        ref(
-          db,
-          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
-        )
-      );
-
+      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca));
+      
       if (snapshot.exists()) {
-        const productoEnCarrito = {
-          codigo1,
           
-          cantidades,
-          marca,
-          descripcion,
-        };
-
-        update(
-          ref(
-            db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
-          ),
-          productoEnCarrito
-        );
-      } else {
         const productoEnCarrito = {
           codigo1,
           precio,
           cantidades,
           marca,
           descripcion,
+          
         };
 
-        update(
-          ref(
-            db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
-          ),
-          productoEnCarrito
-        );
-      }
 
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Producto agregado',
-        showConfirmButton: false,
-        timer: 1000,
-      });
-      setCantidad(0);
-      setAbierto(false);
-    } catch (error) {
-      console.log('Error al agregar el producto al carrito:', error);
-    }
-  };
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
+
+       } else {
+        const productoEnCarrito = {
+          codigo1,
+          precio,
+          cantidades,
+          marca,
+          descripcion,
+          
+        };
+  
+        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
+   
+      }
+      
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Producto agregado',
+      showConfirmButton: false,
+      timer:1000,
+    
+      
+      
+    })
+    setCantidad(0)
+    setAbierto(false)
+    
+
+}
+catch (error) {
+  console.log('Error al agregar el producto al carrito:', error);
+}
+};
   function isURL(value) {
     const urlPattern =
       /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -246,11 +235,10 @@ export default function BusquedaCodigo2() {
           <>.</>
           <div className="botones-busqueda">
             <button className="button-30">
-              <Link href="/busquedaMedidas"> BUSCAR POR MEDIDAS </Link>
+              <Link href="busquedaMedidas2"> BUSCAR POR MEDIDAS </Link>
             </button>
             <button className="button-30">
-              {' '}
-              <Link href="/busquedaDescripcion"> BUSCAR POR DESCRIPCION </Link>
+              <Link href="busquedaDescripcion2"> BUSCAR POR DESCRIPCION </Link>
             </button>
           </div>
           <div className="barra-busqueda">
@@ -273,6 +261,7 @@ export default function BusquedaCodigo2() {
           {Object.keys(searchResults).map((codigo1, index) => (
             <div className="contenedor-cards" key={index}>
               <>
+              
                 <Image
                   style={{
                     marginTop: 'auto',
@@ -317,7 +306,7 @@ export default function BusquedaCodigo2() {
                     Object.values(searchResults[codigo1].marcas).map(
                       (producto, marcaIndex) => (
                         <>
-                        {console.log(producto)}
+                        
                           <div className="propiedades2" key={marcaIndex}>
                             <Image
                               style={{ marginRight: '100px' }}
@@ -346,10 +335,7 @@ export default function BusquedaCodigo2() {
                                 : ''}
                             </span>
 
-                            {/* <span className='span-3'> {producto.descripcion} </span> */}
-                            {/* <span>{searchResults[codigo1].marcaAuto.join(', ')}</span>
-                <span>{searchResults[codigo1].modelo.join(', ')}</span>
-                <span>{searchResults[codigo1].ubicacion.join(', ')}</span> */}
+                         
                             {admin === 'rodamientosbb@admin.com' ? (
                               <button
                                 onClick={() =>

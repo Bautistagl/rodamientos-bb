@@ -25,10 +25,32 @@ export default function Home() {
   const [modelo,setModelo] = useState([])
   const [rulemanes, setRulemanes] = useState([]);
   const [admin, setAdmin] =useState('')
+  const [ubicaciones, setUbicaciones] = useState([]);
+  const [marcaAutos, setMarcaAutos] = useState([]);
 
   //   const handleModelo =(e) =>{
   //     setModelo(e.target.value)
   // }
+ const handleUbicacionChange = (value) => {
+  const sanitizedValue = String(value).replace(/[.#$/[\]]/g, '_'); // Convert to string and replace invalid characters
+  const isSelected = ubicaciones.includes(sanitizedValue);
+  if (isSelected) {
+    setUbicaciones(ubicaciones.filter(item => item !== sanitizedValue));
+  } else {
+    setUbicaciones([...ubicaciones, sanitizedValue]);
+  }
+};
+
+const handleMarcaAutoChange = (value) => {
+  const sanitizedValue = String(value).replace(/[.#$/[\]]/g, '_'); // Convert to string and replace invalid characters
+  const isSelected = marcaAutos.includes(sanitizedValue);
+  if (isSelected) {
+    setMarcaAutos(marcaAutos.filter(item => item !== sanitizedValue));
+  } else {
+    setMarcaAutos([...marcaAutos, sanitizedValue]);
+  }
+};
+
   const handleCodigo2 =(e) =>{
     const valor = e.target.value
     setCodigo2(valor.toUpperCase())
@@ -53,6 +75,7 @@ export default function Home() {
     
   //   setUbicacion(valores);
   // };
+
 
 
   const handleDescripcion = (e) => {
@@ -114,8 +137,8 @@ const dbRef = ref(db)
           exterior,
           interior,
           descripcion,
-          marcaAuto,
-          ubicacion,
+          marcaAutos,
+          ubicaciones,
           modelo,
         
          
@@ -278,51 +301,250 @@ const dbRef = ref(db)
         <span>
           Ubicación:
         </span>
-        <select
-                            value={ubicacion}
-                            onChange={(e) => setUbicacion(e.target.value)}>
-                            <option value="" disabled selected>
-                              Seleccionar
-                            </option>
-                            <option value="Rueda Delantera">Rueda Delantera</option>
-                            <option value="Rueda Trasera">Rueda Trasera</option>
-                            <option value="Bomba de Agua">Bomba de Agua</option>
-                            <option value="Kit de distribucion">Kit de distribucion</option>
-                            <option value="Tensores de distribucion">Tensores de distribucion</option>
-                            <option value="Tensores Poly V">Tensores Poly V</option>
-                            <option value="Kit de Poly V">Kit de Poly V</option>
-                            <option value="Homocinetica">Homocinetica</option>
-                            <option value="Retenes">Retenes</option>
-                            <option value="Correa Poly V">Correa Poly V</option>
-                            <option value="Correa Distribucion">Correa Distribucion</option>
-                            
-                          </select>
+        <ul>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Rueda Delantera"
+              checked={ubicaciones.includes("Rueda Delantera")}
+              onChange={() => handleUbicacionChange("Rueda Delantera")}
+            />
+            <label>Rueda Delantera</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Rueda Trasera"
+              checked={ubicaciones.includes("Rueda Trasera")}
+              onChange={() => handleUbicacionChange("Rueda Trasera")}
+            />
+            <label>Rueda Trasera</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Bomba de Agua"
+              checked={ubicaciones.includes("Bomba de Agua")}
+              onChange={() => handleUbicacionChange("Bomba de Agua")}
+            />
+            <label>Bomba de Agua</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Kit de Distribucion"
+              checked={ubicaciones.includes("Kit de Distribucion")}
+              onChange={() => handleUbicacionChange("Kit de Distribucion")}
+            />
+            <label>Kit de Distribucion</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Tensores Distribucion"
+              checked={ubicaciones.includes("Tensores Distribucion")}
+              onChange={() => handleUbicacionChange("Tensores Distribucion")}
+            />
+            <label>Tensores Distribucion</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Tensores Poly"
+              checked={ubicaciones.includes("Tensores Poly")}
+              onChange={() => handleUbicacionChange("Tensores Poly")}
+            />
+            <label>Tensores Poly</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Kit de Poly V"
+              checked={ubicaciones.includes("Kit de Poly V")}
+              onChange={() => handleUbicacionChange("Kit de Poly V")}
+            />
+            <label>Kit de Poly V</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Homocinetica"
+              checked={ubicaciones.includes("Homocinetica")}
+              onChange={() => handleUbicacionChange("Homocinetica")}
+            />
+            <label>Homocinetica</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Retenes"
+              checked={ubicaciones.includes("Retenes")}
+              onChange={() => handleUbicacionChange("Retenes")}
+            />
+            <label>Retenes</label>
+          </li>
+          <li  className='checkbox' >
+            <input
+ 
+              type="checkbox"
+              value="Correa Poly V"
+              checked={ubicaciones.includes("Correa Poly V")}
+              onChange={() => handleUbicacionChange("Correa Poly V")}
+            />
+            <label>Correa Poly V</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Correa Distribucion"
+              checked={ubicaciones.includes("Correa Distribucion")}
+              onChange={() => handleUbicacionChange("Correa Distribucion")}
+            />
+            <label>Correa Distribucion</label>
+          </li>
+
+         
+        </ul>
+       
         </div>
         <div className='contenedor-input'> 
         <span>
           Marca Auto:
         </span>
-        <select
-                            value={marcaAuto}
-                            onChange={(e) => setMarcaAuto(e.target.value)}>
-                            <option value="" disabled selected>
-                              Seleccionar
-                            </option>
-                            <option value="Chery">Chery</option>
-                            <option value="Chevrolet">Chevrolet</option>
-                            <option value="Chrysler">Chrysler</option>
-                            <option value="Citroen">Citroen</option>
-                            <option value="Fiat">Fiat</option>
-                            <option value="Ford">Ford</option>
-                            <option value="Mercedez Benz">Mercedez Benz</option>
-                            <option value="Peugot">Peugot</option>
-                            <option value="Renault">Renault</option>
-                            <option value="Suzuki">Suzuki</option>
-                            <option value="Toyota">Toyota</option>
-                            <option value="Volskwagen">Volskwagen</option>
-                           
-                            
-                          </select>
+        <ul>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Chery"
+              checked={marcaAutos.includes("Chery")}
+              onChange={() => handleMarcaAutoChange("Chery")}
+            />
+            <label>Chery</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Chevrolet"
+              checked={marcaAutos.includes("Chevrolet")}
+              onChange={() => handleMarcaAutoChange("Chevrolet")}
+            />
+            <label>Chevrolet</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Chrysler"
+              checked={marcaAutos.includes("Chrysler")}
+              onChange={() => handleMarcaAutoChange("Chrysler")}
+            />
+            <label>Chrysler</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Citroen"
+              checked={marcaAutos.includes("Citroen")}
+              onChange={() => handleMarcaAutoChange("Citroen")}
+            />
+            <label>Citroen</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Fiat"
+              checked={marcaAutos.includes("Fiat")}
+              onChange={() => handleMarcaAutoChange("Fiat")}
+            />
+            <label>Fiat</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Ford"
+              checked={marcaAutos.includes("Ford")}
+              onChange={() => handleMarcaAutoChange("Ford")}
+            />
+            <label>Ford</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Mercedez Benz"
+              checked={marcaAutos.includes("Mercedez Benz")}
+              onChange={() => handleMarcaAutoChange("Mercedez Benz")}
+            />
+            <label>Mercedez Benz</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Peugot"
+              checked={marcaAutos.includes("Peugot")}
+              onChange={() => handleMarcaAutoChange("Peugot")}
+            />
+            <label>Peugot</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Renault"
+              checked={marcaAutos.includes("Renault")}
+              onChange={() => handleMarcaAutoChange("Renault")}
+            />
+            <label>Renault</label>
+          </li>
+          <li  className='checkbox' >
+            <input
+ 
+              type="checkbox"
+              value="Suzuki"
+              checked={marcaAutos.includes("Suzuki")}
+              onChange={() => handleMarcaAutoChange("Suzuki")}
+            />
+            <label>Suzuki</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Toyota"
+              checked={marcaAutos.includes("Toyota")}
+              onChange={() => handleMarcaAutoChange("Toyota")}
+            />
+            <label>Toyota</label>
+          </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Volskwagen"
+              checked={marcaAutos.includes("Volskwagen")}
+              onChange={() => handleMarcaAutoChange("Volskwagen")}
+            />
+            <label>Volskwagen</label>
+          </li>
+
+         
+        </ul>
         </div>
         <div className='contenedor-input'> 
         <span>
