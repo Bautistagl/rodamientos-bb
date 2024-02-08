@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
+import NavMedida from '@/components/NavMedidasbautista';
 
 
 export default function BusquedaAltura() {
@@ -213,15 +214,11 @@ catch (error) {
     <>
     <div>
       <Navbar />
+      <NavMedida/>
 
       <div className="fondo-busqueda">
         <>.</>
-        <div className='botones-busqueda'>
-        <button className='button-30'><Link href='busquedaCodigo2'> BUSCAR POR CODIGO </Link></button>
-        <button className='button-30'><Link href='busquedaDescripcion2'> BUSCAR POR DESCRIPCION </Link></button>
-     
-
-</div>
+      
       
         <div className="barra-busqueda">
           {/* <span>Buscar producto por código:</span> */}

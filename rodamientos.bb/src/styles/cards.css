@@ -104,6 +104,15 @@
     margin-bottom: 50px;
     
 }
+.barra-busqueda select{
+   padding: 10px;
+   margin: 20px;
+   font-family: 'Outfit', sans-serif ;
+   width: 200px;
+   font-weight: bold;
+   font-size: 1rem;
+   border-radius: 5px;
+}
 .titulo2 span{
     font-weight: bolder;
    
@@ -292,4 +301,55 @@
 .info-carrito button{
     margin: auto;
     height: 30px;
+}
+.buscar{
+    background-color:#4778ac;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin:  auto 10px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}
+.buscar:hover{
+    background-color:#063970;;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin:  auto 10px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.buscar2{
+    background-color:#4778ac;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin:  auto ;
+    margin-left: 40px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}
+.buscar2:hover{
+    background-color:#063970;;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin:  auto ;
+    margin-left: 40px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
 }

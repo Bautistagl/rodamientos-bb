@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { db, auth } from '../../firebase';
+import { db } from '../../firebase';
 import 'firebase/database';
-import { ref, get, child, update, remove } from 'firebase/database';
-import { onAuthStateChanged } from 'firebase/auth';
-import Image from 'next/image';
+import { ref, get, update, remove } from 'firebase/database';
+
 import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
 import NuevaMarca from '@/components/NuevaMarcabautista';
@@ -16,24 +15,20 @@ export default function EdicionProducto() {
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [nuevoPrecio, setNuevoPrecio] = useState('');
-  const [nuevoStock, setNuevoStock] = useState('')
-  const [stock, setStock] = useState('');
+  const [nuevoStock, setNuevoStock] = useState('');
   const [admin, setAdmin] = useState('');
   const [productToDelete, setProductToDelete] = useState(null);
   const [codigoToDelete, setCodigoToDelete] = useState(null);
-  const [nuevaMarca,setNuevaMarca] = useState(null)
-  const [modificar,setModificar] = useState(null)
-  const [aplicacion, setAplicacion] = useState(null)
-
+  const [nuevaMarca, setNuevaMarca] = useState(null);
+  const [modificar, setModificar] = useState(null);
+  const [aplicacion, setAplicacion] = useState(null);
 
   const nuevoPrecioRef = useRef('');
-  
-  
 
-  const handleArticulo = (producto,codigo) => {
-        setProductToDelete(producto);
-        setCodigoToDelete(codigo);
-  }
+  const handleArticulo = (producto, codigo) => {
+    setProductToDelete(producto);
+    setCodigoToDelete(codigo);
+  };
 
   const handleCodigo2 = (e) => {
     const valor = e.target.value;
@@ -79,29 +74,26 @@ export default function EdicionProducto() {
 
   const handleConfirmacion = (codigo, marca) => {
     const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
-  
+
     get(dbRef2)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          
           remove(dbRef2)
             .then((data) => {
-            
               Swal.fire({
                 title: 'Borrado',
-                icon:'success',
+                icon: 'success',
                 timer: 1000, // 3 segundos
                 timerProgressBar: true,
-                showConfirmButton: false
-              })
-             setProductToDelete(null)
+                showConfirmButton: false,
+              });
+              setProductToDelete(null);
             })
             .catch((error) => {
               alert('Error al actualizar los valores:', error);
             });
-        }
-        else{
-          console.log('no entra en nada')
+        } else {
+          console.log('no entra en nada');
         }
       })
       .catch((error) => {
@@ -111,41 +103,37 @@ export default function EdicionProducto() {
 
   const actualizarItems = async (codigo, marca) => {
     const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
-    
-    const nuevosValores = {
-      precio:nuevoPrecio,
-      stock: nuevoStock,
 
+    const nuevosValores = {
+      precio: nuevoPrecio,
+      stock: nuevoStock,
     };
 
     const valoresActualizados = {};
-  
 
-   // Verificar si el producto existe antes de realizar la actualización
+    // Verificar si el producto existe antes de realizar la actualización
 
-   await get(dbRef2)
+    await get(dbRef2)
       .then((snapshot) => {
         if (snapshot.exists()) {
-            update(dbRef2, nuevosValores)
-            
-              .then(() => {
-                Swal.fire({
-                  title: 'Actualizado',
-                  icon: 'success',
-                  timer: 1000, // 3 segundos
-                  timerProgressBar: true,
-                  showConfirmButton: false,
-                });
-                setNuevoPrecio('')
-                setNuevoStock('')
-                setInterior('');
-                setExterior('')
-                setAltura('')
-              })
-              .catch((error) => {
-                console.error('Error al actualizar los valores:', error);
+          update(dbRef2, nuevosValores)
+            .then(() => {
+              Swal.fire({
+                title: 'Actualizado',
+                icon: 'success',
+                timer: 1000, // 3 segundos
+                timerProgressBar: true,
+                showConfirmButton: false,
               });
-          
+              setNuevoPrecio('');
+              setNuevoStock('');
+              setInterior('');
+              setExterior('');
+              setAltura('');
+            })
+            .catch((error) => {
+              console.error('Error al actualizar los valores:', error);
+            });
         }
       })
       .catch((error) => {
@@ -154,8 +142,6 @@ export default function EdicionProducto() {
   };
 
   const usuarioRef = ref(db, 'usuarios');
-
- 
 
   useEffect(() => {
     const productosRef = ref(db, 'productos'); // Ruta de los productos en la base de datos
@@ -179,7 +165,6 @@ export default function EdicionProducto() {
 
     getCatalogData();
     if (window.localStorage.getItem('email')) {
-      
       const adminData = JSON.parse(window.localStorage.getItem('email'));
       if (adminData) {
         setAdmin(adminData.email);
@@ -193,8 +178,8 @@ export default function EdicionProducto() {
 
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
-    const first30 = results.slice(0,50)
-    
+    const first30 = results.slice(0, 50);
+
     setSearchResults(first30);
   };
 
@@ -210,17 +195,16 @@ export default function EdicionProducto() {
       const product = catalogData[productId];
 
       // Busca en cada propiedad del producto
-      
-        var filtro = product.codigo1;
-        if (filtro) {
-          if (filtro.includes(term)) {
-            // Agrega el producto a los resultados si encuentra coincidencia
 
-            results.push(product);
-          }
+      var filtro = product.codigo1;
+      if (filtro) {
+        if (filtro.includes(term)) {
+          // Agrega el producto a los resultados si encuentra coincidencia
+
+          results.push(product);
         }
-      });
-    
+      }
+    });
 
     return results;
   };
@@ -248,6 +232,23 @@ export default function EdicionProducto() {
   const handleModal = () => {
     setMostrarModal(true);
   };
+  const handleDeleteApplication = (codigo, aplicacionKey) => {
+    const dbRef = ref(db, `/productos/ ${codigo}/aplicaciones/${aplicacionKey}`);
+    remove(dbRef)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Aplicacion eliminada',
+          showConfirmButton: false,
+          timer: 1000,
+        })
+       
+        console.log("Aplicación eliminada con éxito");
+      })
+      .catch((error) => {
+        console.error("Error al eliminar la aplicación:", error);
+      });
+  };
 
   return (
     <div>
@@ -270,168 +271,178 @@ export default function EdicionProducto() {
               {Object.keys(searchResults).map((codigo1, index) => (
                 <div className="edicion-cards" key={index}>
                   <div className="textos-edicion">
-                    <div className="titulo-edicion">{searchResults[codigo1].codigo1}</div>
-                    <div  className='botones-tipoEdicion'>
+                    <div className="titulo-edicion">
+                      {searchResults[codigo1].codigo1}
+                    </div>
+                    <div className="subtitulo-edicion">
+                      {searchResults[codigo1].codigo2}
+                    </div>
+                    <div className="subtitulo-edicion">
+                      {searchResults[codigo1].codigo3}
+                    </div>
+                    <div className="subtitulo-edicion">
+                      Interior:{searchResults[codigo1].interior}
+                    </div>
+                    <div className="subtitulo-edicion">
+                      Exterior:{searchResults[codigo1].exterior}
+                    </div>
+                    <div className="subtitulo-edicion">
+                      Altura:{searchResults[codigo1].altura}
+                    </div>
+                    <div  className='aplicaciones-grid'>
 
-                    <button onClick={()=>{setNuevaMarca(searchResults[codigo1])}}> Agregar nueva marca</button>
-                    <button onClick={()=>{setModificar(searchResults[codigo1])}}> Modificar producto principal </button>
-                    <button onClick={()=>{setAplicacion(searchResults[codigo1])}}> Agregar Aplicacion </button>
-                   
+                    {searchResults[codigo1].aplicaciones && Object.keys(searchResults[codigo1].aplicaciones).map((appKey, appIndex) => (
+  <div  key={appIndex}>
+  
+    
+    <ul >
+      {/* Asegúrate de que las propiedades de la aplicación estén presentes */}
+      {searchResults[codigo1].aplicaciones[appKey].marcasAuto && (
+        <li style={{display:'flex',fontWeight:'bold'}}>Marca Autos: <p> {searchResults[codigo1].aplicaciones[appKey].marcasAuto.join(', ')} </p></li>
+      )}
+      {searchResults[codigo1].aplicaciones[appKey].ubicaciones && (
+        <li style={{display:'flex',fontWeight:'bold'}}>Ubicaciones: <p>{searchResults[codigo1].aplicaciones[appKey].ubicaciones.join(', ')} </p> </li>
+      )}
+      {searchResults[codigo1].aplicaciones[appKey].modelosAuto && (
+        <li style={{display:'flex',fontWeight:'bold'}}>Modelos Autos: <p> {searchResults[codigo1].aplicaciones[appKey].modelosAuto.join(', ')} </p></li>
+      )}
+    </ul>
+    <button className='buscar2' onClick={() => handleDeleteApplication(searchResults[codigo1].codigo1, appKey)}>Eliminar Aplicación</button>
+  </div>
+))}
+                    </div>
+
+                    <div className="botones-tipoEdicion">
+                      <button
+                        onClick={() => {
+                          setNuevaMarca(searchResults[codigo1]);
+                        }}>
+                        {' '}
+                        Agregar nueva marca
+                      </button>
+                      <button
+                        onClick={() => {
+                          setModificar(searchResults[codigo1]);
+                        }}>
+                        {' '}
+                        Modificar producto principal{' '}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAplicacion(searchResults[codigo1]);
+                        }}>
+                        {' '}
+                        Agregar Aplicacion{' '}
+                      </button>
                     </div>
 
                     <div className="contenedor-propiedades2">
-                     
+                      {searchResults[codigo1].marcas &&
+                        Object.values(searchResults[codigo1].marcas).map(
+                          (producto, marcaIndex) => (
+                            <div
+                              className="propiedades-edicion"
+                              key={marcaIndex}>
+                              <h2 className="falso-span-edicion3">
+                                {' '}
+                                {producto.marca}
+                              </h2>
+                              <input
+                                className="falso-span-edicion7"
+                                placeholder={`${producto.precio}`}
+                                onChange={(e) => setNuevoPrecio(e.target.value)}
+                              />
 
-                      {searchResults[codigo1].marcas && Object.values(searchResults[codigo1].marcas).map((producto, marcaIndex) => (
-                        <div className="propiedades-edicion" key={marcaIndex}>
-                          <h2 className="falso-span-edicion3"> {producto.marca}</h2>
-                          <input className="falso-span-edicion7" placeholder={`${producto.precio}`} onChange={(e) => setNuevoPrecio(e.target.value)}/>
-                        
-                         
-                         
-                          <select
-                            
-                            onChange={(e) => setNuevoStock(e.target.value)}>
-                            <option value="" disabled selected>
-                              Seleccionar ({producto.stock})
-                            </option>
-                            <option value="disponible">Disponible</option>
-                            <option value="no disponible">No disponible</option>
-                            <option value="consultar">Consultar</option>
-                          </select>
-
-
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].codigo1} (codigo1)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].codigo2} (codigo2)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].codigo3} (codigo3)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].familia} (familia)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].interior} (interior)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].exterior} (exterior)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].altura} (altura)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].descripcion} (descripcion)`}
-                          </div>
-
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].ubicacion  ? searchResults[codigo1].ubicacion : 'Ubicaciones'} (ubicacion)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].modelo  ? searchResults[codigo1].modelo : 'Modelos Auto'} (modelos autos)`}
-                          </div>
-                          <div
-                           className="falso-span-edicion7">
-                           {`${searchResults[codigo1].marcaAuto  ? searchResults[codigo1].marcaAuto : 'Marcas Auto'} (marcas auto)`}
-                          </div>
-                          {console.log(searchResults[codigo1].codigo1,
-                                producto.marca,
-                                nuevoPrecio)}
-                          <img
-                            alt=''
-                            src='/refresh.png'
-                            className="icono-edicion"
-                            style={{ marginRight: '5px' }}
-                            onClick={() => {
-                              actualizarItems(
-                                searchResults[codigo1].codigo1,
-                                producto.marca,
-                                nuevoPrecio,
-                                nuevoStock
-                              );
-                            }}/>
-
-                        </div>
-                      ))}
+                              <select
+                                onChange={(e) => setNuevoStock(e.target.value)}>
+                                <option value="" disabled selected>
+                                  Seleccionar ({producto.stock})
+                                </option>
+                                <option value="disponible">Disponible</option>
+                                <option value="no disponible">
+                                  No disponible
+                                </option>
+                                <option value="consultar">Consultar</option>
+                              </select>
+                              <img
+                                alt=""
+                                src="/refresh.png"
+                                className="icono-edicion"
+                                style={{ marginRight: '5px' }}
+                                onClick={() => {
+                                  actualizarItems(
+                                    searchResults[codigo1].codigo1,
+                                    producto.marca,
+                                    nuevoPrecio,
+                                    nuevoStock
+                                  );
+                                }}
+                              />
+                            </div>
+                          )
+                        )}
                     </div>
                   </div>
                 </div>
               ))}
               {productToDelete ? (
-                            <div className="modal">
-                              <div className="textos-modal">
-                                Desea borrar el {codigoToDelete} de {productToDelete.marca} ?
-                              </div>
+                <div className="modal">
+                  <div className="textos-modal">
+                    Desea borrar el {codigoToDelete} de {productToDelete.marca}{' '}
+                    ?
+                  </div>
 
-                              <div className="contenedor-flex2">
-                              <button className="boton-modal" onClick={()=> handleConfirmacion(codigoToDelete, productToDelete.marca)}>
-                                  {' '}
-                                  Aceptar{' '}
-                                </button>
-                                <button className="boton-modal2" onClick={() =>{ setProductToDelete(null),setCodigoToDelete(null)}}>
-                                  {' '}
-                                  Cancelar{' '}
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            ''
-                          )}
+                  <div className="contenedor-flex2">
+                    <button
+                      className="boton-modal"
+                      onClick={() =>
+                        handleConfirmacion(
+                          codigoToDelete,
+                          productToDelete.marca
+                        )
+                      }>
+                      {' '}
+                      Aceptar{' '}
+                    </button>
+                    <button
+                      className="boton-modal2"
+                      onClick={() => {
+                        setProductToDelete(null), setCodigoToDelete(null);
+                      }}>
+                      {' '}
+                      Cancelar{' '}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         ) : (
           ''
         )}
-        {nuevaMarca ? (<NuevaMarca  producto={nuevaMarca} setNuevaMarca={setNuevaMarca}/> ) : ''}
-        {modificar ? (<ModificarProd  producto={modificar} setModificar={setModificar}/> ) : ''}
-        {aplicacion ? (<NuevaAplicacion  producto={aplicacion} setAplicacion={setAplicacion}/> ): '' }
+        {nuevaMarca ? (
+          <NuevaMarca producto={nuevaMarca} setNuevaMarca={setNuevaMarca} />
+        ) : (
+          ''
+        )}
+        {modificar ? (
+          <ModificarProd producto={modificar} setModificar={setModificar} />
+        ) : (
+          ''
+        )}
+        {aplicacion ? (
+          <NuevaAplicacion
+            producto={aplicacion}
+            setAplicacion={setAplicacion}
+          />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
 }
 
 
-
-
-
-
-
-{/*                         
-                            <div className='iconos-edicion-container'>
-
-                          <img
-                            alt=''
-                            src='/refresh.png'
-                            className="icono-edicion"
-                            style={{ marginRight: '5px' }}
-                            onClick={() => {
-                              actualizarItems(
-                                searchResults[codigo1].codigo1,
-                                producto.marca,
-                                nuevoPrecio
-                              );
-                            }}/>
-                        
-                         
-                          <img
-                            alt=''
-                            src='/borrar.png'
-                            className="icono-edicion"
-                            style={{ marginRight: '5px' }}
-                            onClick={() => handleArticulo(producto,searchResults[codigo1].codigo1)} // Step 3: Set the productToDelete state
-                            />
-                            </div>
-                             */}
-                         

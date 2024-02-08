@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
+import NavCodigo from '@/components/NavCodigobautista';
 
 export default function BusquedaCodigo2() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -230,17 +231,11 @@ catch (error) {
     <>
       <div className={abierto ? 'blureado' : ''}>
         <Navbar />
+        <NavCodigo/>
 
         <div className="fondo-busqueda">
           <>.</>
-          <div className="botones-busqueda">
-            <button className="button-30">
-              <Link href="busquedaMedidas2"> BUSCAR POR MEDIDAS </Link>
-            </button>
-            <button className="button-30">
-              <Link href="busquedaDescripcion2"> BUSCAR POR DESCRIPCION </Link>
-            </button>
-          </div>
+        
           <div className="barra-busqueda">
             <Image
               className="icono-busqueda"

@@ -216,6 +216,8 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
         const aplicacionesRef = ref(db, `productos/ ${producto.codigo1}/aplicaciones`);
         const aplicacionesSnapshot = await get(aplicacionesRef);
         const aplicacionesData = aplicacionesSnapshot.val();
+        const aplicacionesRef1 = ref(db, `productos/ ${producto.codigo1}/aplicaciones/1`);
+
         
         
            
@@ -226,7 +228,7 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 
                 if (!snapshot.exists()) {
                     // If no applications, create the first one with name "1"
-                     set(aplicacionesRef, {
+                     set(aplicacionesRef1, {
                         marcasAuto: marcaAutos,
                         modelosAuto: modelosAutos,
                         ubicaciones: ubicaciones,

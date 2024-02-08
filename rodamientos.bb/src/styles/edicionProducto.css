@@ -43,6 +43,27 @@
     width: 100%;
     text-decoration: underline;
 }
+.subtitulo-edicion{
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    width: 100%;
+    text-decoration: underline;
+}
+.aplicaciones-grid{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    
+}
+.aplicaciones-grid p{
+    display: flex;
+    font-weight: lighter;
+    font-size: 0.8rem;
+    margin: auto 10px;
+}
+.aplicaciones-grid button{
+
+}
 .botones-tipoEdicion{
     display: flex;
     justify-content: center;
