@@ -353,3 +353,30 @@
     height: 40px;
     cursor: pointer;
 }
+
+.buscar3{
+    background-color:#4778ac;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}
+.buscar3:hover{
+    background-color:#063970;;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+}

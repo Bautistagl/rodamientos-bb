@@ -257,7 +257,7 @@ catch (error) {
           </div>
        
         </div>
-        <button className='button-31' onClick={()=>{handleSearch()}}> BUSCAR </button>
+        <button className='buscar3' onClick={()=>{handleSearch()}}> BUSCAR </button>
 
         {Object.keys(searchResults).map((codigo1, index) => (
           <div className="contenedor-cards" key={index}>

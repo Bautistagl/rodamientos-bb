@@ -3,7 +3,7 @@ import React from 'react'
 
 const NavCodigo = () => {
   return (
-    <div className='navCarrito'>
+    <div className='navCarrito2'>
        
        <span> <Link href='busquedaMedidas2'> Buscar por Medida </Link></span>
               <span> <Link href='busquedaAplicacion'> Buscar por Aplicacion </Link></span>

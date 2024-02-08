@@ -371,7 +371,7 @@ export default function BusquedaAplicacion() {
               results.push(product);
             }
             else if (marcas.includes(selectedMarca) &&
-            modelos.includes(selectedModelo)&& !app.ubicaciones)   {
+            modelos.includes(selectedModelo)&& (!app.ubicaciones || selectedUbicacion === ''))   {
               
              results.push(product);
            }
