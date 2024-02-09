@@ -565,9 +565,9 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
         </div>
       )}
       <div style={{ display: 'flex' }}>
-      <button onClick={()=>{writeData()}}> Agregar</button>
+      <button className='buscar4' onClick={()=>{writeData()}}> Agregar</button>
 
-      <button onClick={()=>{setAplicacion(null)}}>Cerrar</button>
+      <button className='buscar4' onClick={()=>{setAplicacion(null)}}>Cerrar</button>
       </div>
     </div>
   </div>

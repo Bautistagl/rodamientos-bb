@@ -126,13 +126,11 @@ const ModificarProd = ({producto,setModificar}) => {
       />
       <input onChange={(e) => setInterior(e.target.value)} placeholder={`${producto.interior}(interior)`}/>
       <input onChange={(e) => setExterior(e.target.value)} placeholder={`${producto.exterior}(exterior)`}/>
-      <textarea onChange={(e) => setMarcaAuto(e.target.value)} placeholder={`${producto.marcaAuto}(Marcas Auto)`}/>
-      <textarea onChange={(e) => setModelos(e.target.value)} placeholder={`${producto.modelo}(Modelos)`}/>
-      <textarea onChange={(e) => setUbicacion(e.target.value)} placeholder={`${producto.ubicacion}(Ubicaciones)`}/>
+
 
       <div style={{ display: 'flex' }}>
-      <button onClick={() => writeData()}>Agregar</button>
-      <button onClick={() => setModificar(null)}>Cerrar</button>
+      <button className='buscar4' onClick={() => writeData()}>Agregar</button>
+      <button className='buscar4' onClick={() => setModificar(null)}>Cerrar</button>
       </div>
     </div>
   </div>

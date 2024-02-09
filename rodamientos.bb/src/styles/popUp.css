@@ -9,10 +9,22 @@
     border-radius: 10px;
     border: 5px solid black;
 }
-.popUp2{
-    position: fixed;
+
+.popUp3{
+    position: absolute;
     background-color: white;
-    height: 650px;
+    height: auto;
+    width: 50%;
+    left: 25%;
+    top: 15%;
+
+    border-radius: 10px;
+    border: 5px solid black;
+}
+.popUp2{
+    position: absolute;
+    background-color: white;
+    height: auto;
     width: 50%;
     left: 25%;
     top: 15%;
