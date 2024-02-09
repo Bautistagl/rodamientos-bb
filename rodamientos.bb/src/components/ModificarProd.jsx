@@ -1,5 +1,6 @@
-import { db } from '@/firebasebautista';
+import { db,storage  } from '@/firebasebautista';
 import { child, get, ref, set, update } from 'firebase/database';
+import { ref as sRef,uploadString, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react'
 import Swal from 'sweetalert2';
 
@@ -15,55 +16,79 @@ const ModificarProd = ({producto,setModificar}) => {
     const [modelos,setModelos] = useState('')
     const [ubicacion,setUbicacion] = useState('')
     const [familia,setFamilia] = useState('')
+    const [imageUrl, setImageUrl] = useState('');
     
 
     const dbRef = ref(db, `/productos/ ${producto.codigo1}`);
     const dbRef2 = ref(db)
-    const writeData = () => {
-        const updatedData = {
-            altura: altura,
-            codigo1: codigo1,
-            codigo2: codigo2,
-            codigo3: codigo3,
-            descripcion: descripcion,
-            exterior: exterior,
-            interior: interior,
-            marcaAuto: marcaAuto,
-            modelos: modelos,
-            ubicacion: ubicacion,
-          };
-          const filteredData = Object.fromEntries(
-            Object.entries(updatedData).filter(([key, value]) => value !== '')
-          );
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      const storageRef = sRef(storage, `fotos/${producto.codigo1}.jpg`);
+      const reader = new FileReader();
     
-        get(child(dbRef2,'productos/' + ` ${producto.codigo1}`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            update(ref(db,'productos/' + ` ${producto.codigo1}`),filteredData)
-               .then(() => {
-                 Swal.fire({
-                   title: 'Producto Actualizado',
-                   icon:'success',
-                   timer: 1000, // 3 segundos
-                   timerProgressBar: true,
-                   showConfirmButton: false
-                 })
-                 setModificar(null);
-             
-               })
-               
-               .catch(function () {
-                 console.log('no se puede');
-               });  
-              
-            
-          } else {
-           
-            console.log('Hubo algun problema')
-          
-          }
-        })
+      reader.onload = (event) => {
+        const dataURL = event.target.result;
+        if (typeof dataURL === 'string') {
+          // Subir la imagen al almacenamiento
+          uploadString(storageRef, dataURL, 'data_url')
+            .then((snapshot) => {
+              // Obtener la URL de descarga de la imagen subida
+              getDownloadURL(snapshot.ref)
+                .then((url) => {
+                  setImageUrl(url);
+                })
+                .catch((error) => {
+                  console.error('Error al obtener la URL de la imagen:', error);
+                });
+            })
+            .catch((error) => {
+              console.error('Error al subir la imagen:', error);
+            });
+        } else {
+          console.error('El valor de dataURL no es una cadena de texto');
+        }
       };
+    
+      reader.onerror = (error) => {
+        console.error('Error al leer el archivo:', error);
+      };
+    
+      // Leer el archivo como una URL de datos
+      reader.readAsDataURL(file);
+    };
+    const writeData = async () => {
+      try {
+        const updatedData = {
+          altura: altura,
+          codigo1: codigo1,
+          codigo2: codigo2,
+          codigo3: codigo3,
+          descripcion: descripcion,
+          exterior: exterior,
+          interior: interior,
+          marcaAuto: marcaAuto,
+          modelos: modelos,
+          ubicacion: ubicacion,
+          imageUrl: imageUrl,
+        };
+  
+        const filteredData = Object.fromEntries(
+          Object.entries(updatedData).filter(([key, value]) => value !== '')
+        );
+  
+        await update(ref(db, 'productos/' + ` ${producto.codigo1}`), filteredData);
+        Swal.fire({
+          title: 'Producto Actualizado',
+          icon: 'success',
+          timer: 1000, // 3 segundos
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+        setModificar(null);
+      } catch (error) {
+        console.error('Error al escribir datos:', error);
+      }
+    };
 
   return (
     <>
@@ -77,6 +102,7 @@ const ModificarProd = ({producto,setModificar}) => {
       <input onChange={(e) => setCodigo1(e.target.value)} placeholder={`${producto.codigo1}(codigo1)`}/>
       <input onChange={(e) => setCodigo2(e.target.value)} placeholder={`${producto.codigo2}(codigo2)`}/>
       <input onChange={(e) => setCodigo3(e.target.value)} placeholder={`${producto.codigo3}(codigo3)`}/>
+      <input type="file" onChange={handleImageUpload} accept="image/*" />
       <input onChange={(e) => setDescripcion(e.target.value)} placeholder={`${producto.descripcion}(desc)`}/>
       <select
                             value={producto.familia}

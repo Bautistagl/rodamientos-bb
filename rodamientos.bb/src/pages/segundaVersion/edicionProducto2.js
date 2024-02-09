@@ -22,6 +22,7 @@ export default function EdicionProducto() {
   const [nuevaMarca, setNuevaMarca] = useState(null);
   const [modificar, setModificar] = useState(null);
   const [aplicacion, setAplicacion] = useState(null);
+  
 
   const nuevoPrecioRef = useRef('');
 
@@ -170,6 +171,7 @@ export default function EdicionProducto() {
         setAdmin(adminData.email);
       }
     }
+    
   }, []);
 
   const handleSearch = (event) => {

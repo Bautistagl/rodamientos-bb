@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
 
-import { db, auth } from '../../firebase';
+import { db, auth, storage } from '../../firebase';
 import 'firebase/database';
 import { ref, get, child, update, set } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
-
+import { ref as sRef,uploadString, getDownloadURL } from 'firebase/storage';
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
 import NavCodigo from '@/components/NavCodigobautista';
+import { listAll } from 'firebase/storage';
 
 export default function BusquedaCodigo2() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
+  const [fotosData, setFotosData] = useState([])
   const [usuario, setUsuario] = useState('');
   const [user, setUser] = useState(null);
   const [rol, setRol] = useState('');
@@ -157,6 +159,13 @@ catch (error) {
     }
 
     getCatalogData();
+    listAll(sRef(storage,'fotos')).then(imgs=>{
+      imgs.items.forEach(val => {
+        getDownloadURL(val).then(url=>{
+          setFotosData(data =>[...data,url])
+        })
+      })
+    })
   }, []);
 
   const familiaImagenes = {
@@ -164,7 +173,10 @@ catch (error) {
     Bombas: '/bombaAgua.jpg',
     Homocineticas: '/correa.jpg',
   };
-
+  const findPhotoLink = (productName) => {
+    const matchingLink = fotosData.find(link => link.includes(productName.toUpperCase()));
+    return matchingLink || '/rodamiento.webp'; // Si no se encuentra, usar una imagen predeterminada
+  };
   const handleSearch = (event) => {
     const term = event.target.value.toUpperCase();
     setSearchTerm(term);
@@ -252,6 +264,7 @@ catch (error) {
               placeholder="CÓDIGO"
             />
           </div>
+          
 
           {Object.keys(searchResults).map((codigo1, index) => (
             <div className="contenedor-cards" key={index}>
@@ -264,7 +277,7 @@ catch (error) {
                     marginLeft: '20px',
                   }}
                   alt=""
-                  src="/rodamiento.webp"
+                  src={findPhotoLink(searchResults[codigo1].codigo1)}
                   width={80}
                   height={80}
                 />
@@ -350,28 +363,7 @@ catch (error) {
                     )}
                   </div>
 
-                  <div>
-                    <div>
-                      <span> MARCA AUTO</span>
-                      <p style={{ fontSize: '0.8rem' }}>
-                        { searchResults[codigo1].marcaAuto ?  searchResults[codigo1].marcaAuto.join(', ') : ''}
-                      </p>
-                    </div>
-
-                    <div>
-                      <span> MODELO </span>
-                      <p style={{ fontSize: '0.8rem' }}>
-                        { searchResults[codigo1].modelo ? searchResults[codigo1].modelo.join(', ') : ''}
-                      </p>
-                    </div>
-
-                    <div>
-                      <span>UBICACION</span>
-                      <p style={{ fontSize: '0.8rem' }}>
-                        {searchResults[codigo1].ubicacion ? searchResults[codigo1].ubicacion.join(', ') : ''}
-                      </p>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
             </div>

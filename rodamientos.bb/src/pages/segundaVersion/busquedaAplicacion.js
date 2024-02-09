@@ -378,7 +378,7 @@ export default function BusquedaAplicacion() {
 
           }
              else if (app.marcasAuto && app.modelosAuto) {
-              console.log('entra en el segundo if')
+           
                if (marcas.includes(selectedMarca) &&
                modelos.includes(selectedModelo)) {
                 results.push(product);
