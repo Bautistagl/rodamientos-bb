@@ -32,7 +32,7 @@ const IniciarSesion = () => {
       const jsonData = JSON.stringify(data);
       window.localStorage.setItem('email', jsonData);
       window.localStorage.setItem('idRodamientos', uid);
-      router.push('/busquedaCodigo');
+      router.push('/segundaVersion/busquedaCodigo2');
     } catch (error) {
       setError(error.message);
       Swal.fire({

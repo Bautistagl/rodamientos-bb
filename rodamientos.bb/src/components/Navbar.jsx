@@ -2,8 +2,7 @@ import { getAuth, onAuthStateChanged, sendPasswordResetEmail, signOut } from 'fi
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import {auth, db} from '../firebase'
-import { child, get, ref } from 'firebase/database'
+
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
@@ -12,23 +11,9 @@ const Navbar = () => {
   const [modal,setModal] = useState(false)
  
   const auth = getAuth();
-  const [nuevo, setNuevo] = useState(() => {
-    // Obtener la versión de la navbar desde localStorage o establecerla por defecto
-    if (typeof window !== 'undefined') {
-      const storedVersion = localStorage.getItem('navbarVersion');
-      return storedVersion ? JSON.parse(storedVersion) : false;
-    }
-    return false;
-  });
 
-  const toggleVersion = () => {
-    // Cambiar la versión de la navbar y almacenarla en localStorage
-    if (typeof window !== 'undefined') {
-      const nuevaVersion = !nuevo;
-      setNuevo(nuevaVersion);
-      localStorage.setItem('navbarVersion', JSON.stringify(nuevaVersion));
-    }
-  };
+
+
 
 
   const activarModal = () => {
@@ -127,10 +112,8 @@ const handleSignOut = () => {
    
          </div>
     : ''}
-    {admin === 'rodamientosbb@admin.com'  ?  <button style={{height:'30px',margin:'auto 0px'}} onClick={toggleVersion}>
-          {nuevo ? 'Viejo' : 'Nuevo'}
-        </button> : '' }
-        {nuevo === true ? 
+
+       
           
           <div className='botones' >
           
@@ -149,24 +132,8 @@ const handleSignOut = () => {
           
           {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/carrito2'> CARRITO </Link> </span> :''}
           {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/pedidos2'> PEDIDOS </Link> </span> :''}
-      </div> :
-       <div className='botones' >
-          
-       <span className='boton'> <Link href='/busquedaCodigo'> PRODUCTOS </Link>  </span> 
-       {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
+      </div> 
        
-       
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionProductos'> EDITAR </Link> </span> :''}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/creacionProducto'> CREAR </Link> </span> :''}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''}
-       {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''} */}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/carrito'> CARRITO </Link> </span> :''}
-       {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/pedidos'> PEDIDOS </Link> </span> :''}
-   </div>
-          
-      }
         
         <div className='inicio-sesion'>
         <img className='icono-sesion' alt='' src='/login1.png' />

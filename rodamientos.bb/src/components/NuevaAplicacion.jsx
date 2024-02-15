@@ -86,13 +86,15 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 "C3",
                 "C4",
                 "C4 CACTUS",
-                "C4 PICASSO"
+                "C4 PICASSO",
+                "JUMPER"
               ],
               Fiat:[
                 "128",
                 "147",
                 "ARGO",
                 "DUNA",
+                "DUCATO",
                 "FIORINO",
                 "FIORUNO",
                 "GRAND SIENA",
@@ -108,6 +110,7 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 "TEMPRA",
                 "TIPO",
                 "TORO",
+                "QUBO",
                 "UNO"
               ],
               Ford: [
@@ -115,6 +118,7 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 "ECOSPORT",
                 "ECOSPORT 2",
                 "ESCORT",
+                "F100",
                 "FALCON",
                 "FIESTA",
                 "FOCUS",
@@ -144,8 +148,9 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 "405",
                 "5008",
                 "505",
+                "BOXER",
                 "EXPERT",
-                "PARTNER"
+                "PARTNER",
               ],
               Renault:[
                 "CAPTUR",
@@ -170,12 +175,14 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
                 "SANDERO",
                 "SCENIC",
                 "SYMBOL",
+                "TRAFIC",
                 "TWINGO"
               ],
               Suzuki:['FUN'],
               Toyota:['COROLA','CORONA','ETIOS','HILUX'],
               Volskwagen:[
                 "1500",
+                "AMAROK",
                 "BORA",
                 "CADDY",
                 "CARAT",
@@ -400,6 +407,17 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
               onChange={() => handleUbicacionChange("Correa Distribucion")}
             />
             <label>Correa Distribucion</label>
+          </li>
+
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Embrague"
+              checked={ubicaciones.includes("Embrague")}
+              onChange={() => handleUbicacionChange("Embrague")}
+            />
+            <label>Embrague</label>
           </li>
 
          
