@@ -316,6 +316,7 @@ catch (error) {
                         <>
                         
                           <div className="propiedades2" key={marcaIndex}>
+                            
                             <Image
                               style={{ marginRight: '100px' }}
                               alt=""

@@ -47,6 +47,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
               setMarca('')
               setPrecio('')
               setStock('')
+              setNuevaMarca(null)
           
             })
             
@@ -90,7 +91,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
           <option value="CORTECO">CORTECO</option>
           <option value="TIMKEN">TIMKEN</option>
                           </select>
-      <input onChange={(e) => setPrecio(e.target.value)} placeholder='precio'/>
+      <input value={precio} onChange={(e) => setPrecio(e.target.value)} placeholder='precio'/>
       <select
                             value={stock}
                             onChange={(e) => setStock(e.target.value)}>

@@ -142,6 +142,7 @@ export default function EdicionProducto() {
       });
   };
 
+  
   const usuarioRef = ref(db, 'usuarios');
 
   useEffect(() => {
@@ -343,8 +344,10 @@ export default function EdicionProducto() {
                         Object.values(searchResults[codigo1].marcas).map(
                           (producto, marcaIndex) => (
                             <div
+                            
                               className="propiedades-edicion"
                               key={marcaIndex}>
+                            
                               <h2 className="falso-span-edicion3">
                                 {' '}
                                 {producto.marca}
@@ -366,6 +369,10 @@ export default function EdicionProducto() {
                                 </option>
                                 <option value="consultar">Consultar</option>
                               </select>
+                              <div style={{
+                                display:'flex'
+                              }}>
+
                               <img
                                 alt=""
                                 src="/refresh.png"
@@ -380,6 +387,20 @@ export default function EdicionProducto() {
                                   );
                                 }}
                               />
+                              <img
+                                alt=""
+                                src="/borrar.png"
+                                className="icono-edicion"
+                                style={{ marginRight: '5px' }}
+                                onClick={() => {
+                                  handleArticulo(
+                                    producto,
+                                    searchResults[codigo1].codigo1,
+                                  
+                                  );
+                                }}
+                              />
+                              </div>
                             </div>
                           )
                         )}
@@ -390,7 +411,7 @@ export default function EdicionProducto() {
               {productToDelete ? (
                 <div className="modal">
                   <div className="textos-modal">
-                    Desea borrar el {codigoToDelete} de {productToDelete.marca}{' '}
+                    Desea borrar {productToDelete.marca} de {codigoToDelete} 
                     ?
                   </div>
 
