@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import {auth, db } from '../firebase'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
-import { from } from 'solid-js'
 
 const Navbar = () => {
 
