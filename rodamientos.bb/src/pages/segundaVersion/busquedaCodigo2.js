@@ -316,7 +316,7 @@ catch (error) {
                         <>
                         
                           <div className="propiedades2" key={marcaIndex}>
-                            
+                            {console.log(producto.marca.toLowerCase())}
                             <Image
                               style={{ marginRight: '100px' }}
                               alt=""
