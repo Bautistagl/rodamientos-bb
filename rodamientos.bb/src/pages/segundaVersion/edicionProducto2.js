@@ -104,6 +104,9 @@ export default function EdicionProducto() {
   };
 
   const actualizarItems = async (codigo, marca) => {
+
+    const marcaActualizada = marca === 'IMP' ? 'Economica' : marca;
+
     const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
 
     const nuevosValores = {};

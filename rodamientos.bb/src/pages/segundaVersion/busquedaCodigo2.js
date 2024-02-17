@@ -61,6 +61,10 @@ export default function BusquedaCodigo2() {
     }
   };
 
+
+
+
+
   // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
   const agregarProducto = async (producto,cantidades,usuario,selectedMarca,descripcion) => {
     const {codigo1 } = producto
@@ -247,7 +251,7 @@ catch (error) {
 
         <div className="fondo-busqueda">
           <>.</>
-        
+          
           <div className="barra-busqueda">
             <Image
               className="icono-busqueda"
