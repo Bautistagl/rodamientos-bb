@@ -78,6 +78,7 @@ export default function EdicionProducto() {
 
     get(dbRef2)
       .then((snapshot) => {
+        console.log(snapshot)
         if (snapshot.exists()) {
           remove(dbRef2)
             .then((data) => {
@@ -105,12 +106,14 @@ export default function EdicionProducto() {
   const actualizarItems = async (codigo, marca) => {
     const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
 
-    const nuevosValores = {
-      precio: nuevoPrecio,
-      stock: nuevoStock,
-    };
-
-    const valoresActualizados = {};
+    const nuevosValores = {};
+    if (nuevoPrecio !== '') {
+      nuevosValores.precio = nuevoPrecio;
+    }
+    if (nuevoStock !== '') {
+      nuevosValores.stock = nuevoStock;
+    }
+   
 
     // Verificar si el producto existe antes de realizar la actualización
 
@@ -419,6 +422,7 @@ export default function EdicionProducto() {
                     <button
                       className="boton-modal"
                       onClick={() =>
+                        
                         handleConfirmacion(
                           codigoToDelete,
                           productToDelete.marca
