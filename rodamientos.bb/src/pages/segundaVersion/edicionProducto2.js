@@ -105,9 +105,9 @@ export default function EdicionProducto() {
 
   const actualizarItems = async (codigo, marca) => {
 
-    const marcaActualizada = marca === 'IMP' ? 'Economica' : marca;
+    const marcaActualizada = marca === 'economica' ? 'Economica' : marca;
 
-    const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
+    const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marcaActualizada}`);
 
     const nuevosValores = {};
     if (nuevoPrecio !== '') {
@@ -116,6 +116,7 @@ export default function EdicionProducto() {
     if (nuevoStock !== '') {
       nuevosValores.stock = nuevoStock;
     }
+   
    
 
     // Verificar si el producto existe antes de realizar la actualización
@@ -134,9 +135,7 @@ export default function EdicionProducto() {
               });
               setNuevoPrecio('');
               setNuevoStock('');
-              setInterior('');
-              setExterior('');
-              setAltura('');
+             
             })
             .catch((error) => {
               console.error('Error al actualizar los valores:', error);

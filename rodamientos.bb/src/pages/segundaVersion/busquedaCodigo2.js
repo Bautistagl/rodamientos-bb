@@ -239,6 +239,30 @@ catch (error) {
     return results;
   };
 
+  const obtenerCodigosDisponibles = async () => {
+    try {
+      const codigosDisponibles = [];
+
+      // Iterar sobre cada producto en catalogData
+      for (const productoKey in catalogData) {
+        const producto = catalogData[productoKey];
+        
+        // Verificar si el producto tiene la rama marcas/IMP
+        const snapshot = await get(ref(db, `productos/ ${producto.codigo1}/marcas/economica`));
+        if (snapshot.exists()) {
+          // Si la rama marcas/IMP existe, agregar el código de producto a la lista de códigos disponibles
+          console.log(producto.codigo1);
+        }
+      }
+
+      // Imprimir los códigos de productos disponibles en la consola  
+      console.log('termino')
+     
+    } catch (error) {
+      console.error('Error al obtener los códigos de productos disponibles:', error);
+    }
+  };
+
   const handleChange = (event) => {
     setNuevoPrecio(event.target.value);
   };
@@ -251,7 +275,7 @@ catch (error) {
 
         <div className="fondo-busqueda">
           <>.</>
-          
+
           <div className="barra-busqueda">
             <Image
               className="icono-busqueda"
