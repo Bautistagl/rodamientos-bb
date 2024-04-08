@@ -100,12 +100,16 @@ export default function ExcelUpdater2() {
 
         try {
           const dbRef = ref(db, `/productos/ ${codigo}/marcas/${selectedMarca}`);
+         
           const uuid = uid();
           const nuevoValor = {
             precio: nuevoPrecio,
           };
 
           const snapshot = await get(dbRef);
+         
+          
+          
 
           if (snapshot.exists()) {
           
@@ -119,6 +123,7 @@ export default function ExcelUpdater2() {
                 precio: nuevoPrecio,
                 
               });
+        
               
             }
           } else {
@@ -130,9 +135,13 @@ export default function ExcelUpdater2() {
                 precio: nuevoPrecio,
                 
               });
+             
               
             }
           }
+          await update(ref(db, 'productos/' + ` ${codigo}/`), {
+            codigo1:codigo,
+          })
         } catch (error) {
           console.error('Error updating/creating database:', error);
         }

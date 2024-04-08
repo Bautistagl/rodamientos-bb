@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { db, auth, storage } from '../../firebase';
 import 'firebase/database';
-import { ref, get, child, update, set } from 'firebase/database';
+import { ref, get, child, update, set, remove } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
@@ -177,6 +177,9 @@ catch (error) {
     Bombas: '/bombaAgua.jpg',
     Homocineticas: '/correa.jpg',
   };
+
+  
+
   const findPhotoLink = (productName) => {
     const matchingLink = fotosData.find(link => link.includes(productName.toUpperCase()));
     return matchingLink || '/rodamiento.webp'; // Si no se encuentra, usar una imagen predeterminada
@@ -202,7 +205,7 @@ catch (error) {
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
       const product = catalogData[productId];
-
+      
       var filtro = product.codigo1;
       var filtro2 = product.codigo2;
       var filtro3 = product.codigo3;
@@ -210,13 +213,14 @@ catch (error) {
       if (filtro) {
         if (filtro.includes(term)) {
           // Agrega el producto a los resultados si encuentra coincidencia
-
+         
           results.push(product);
         }
       }
 
       if (filtro2) {
         if (filtro2.includes(term)) {
+          
           // Agrega el producto a los resultados si encuentra coincidencia
           if (results.includes(product)) {
           } else {
@@ -246,13 +250,24 @@ catch (error) {
       // Iterar sobre cada producto en catalogData
       for (const productoKey in catalogData) {
         const producto = catalogData[productoKey];
-        
-        // Verificar si el producto tiene la rama marcas/IMP
-        const snapshot = await get(ref(db, `productos/ ${producto.codigo1}/marcas/economica`));
-        if (snapshot.exists()) {
-          // Si la rama marcas/IMP existe, agregar el código de producto a la lista de códigos disponibles
-          console.log(producto.codigo1);
+        if(producto.codigo1 === '') {
+          await update(ref(db, 'productos/' + ` ${productoKey}/`), {
+            codigo1:productoKey,
+          })
+          console.log('actualizado',productoKey)
         }
+       
+        // Verificar si el producto tiene la rama marcas/IMP
+        // const snapshot = await get(ref(db, `productos/ ${producto.codigo1}/marcas`));
+        // if (snapshot.exists()) {
+        //   // Si la rama marcas/IMP existe, agregar el código de producto a la lista de códigos disponibles
+        //   console.log(producto.codigo1,'TIENE MARCA');
+        // }
+        // else {
+        //   console.log(producto.codigo1,'NO TIENE MARCA - ELIMINANDO');
+          
+        // }
+
       }
 
       // Imprimir los códigos de productos disponibles en la consola  
@@ -260,6 +275,15 @@ catch (error) {
      
     } catch (error) {
       console.error('Error al obtener los códigos de productos disponibles:', error);
+    }
+  };
+  const removeProduct = async (codigo) => {
+    try {
+      // Elimina el producto de la base de datos
+      await remove(ref(db, `productos/ ${codigo}`));
+      console.log(`Producto ${codigo} eliminado correctamente.`);
+    } catch (error) {
+      console.error(`Error al eliminar el producto ${codigo}:`, error);
     }
   };
 
@@ -310,6 +334,7 @@ catch (error) {
                   height={80}
                 />
               </>
+              <button onClick={()=>{ obtenerCodigosDisponibles() }}> VER CODIGOS</button>
 
               <div className="textos-completo2">
                 <div className="codigo-medidas2">

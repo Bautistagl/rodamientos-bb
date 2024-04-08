@@ -388,6 +388,16 @@ const NuevaAplicacion = ({producto,setAplicacion}) => {
             />
             <label>Retenes</label>
           </li>
+          <li className='checkbox'>
+            <input
+            
+              type="checkbox"
+              value="Embrague"
+              checked={ubicaciones.includes("Embrague")}
+              onChange={() => handleUbicacionChange("Embrague")}
+            />
+            <label>Embrague</label>
+          </li>
           <li  className='checkbox' >
             <input
  

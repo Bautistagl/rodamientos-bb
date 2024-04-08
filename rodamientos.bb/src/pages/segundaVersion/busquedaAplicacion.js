@@ -442,6 +442,7 @@ export default function BusquedaAplicacion() {
               <option value="Rueda Delantera">RUEDA DELANTERA </option>
               <option value="Rueda Trasera">RUEDA TRASERA </option>
               <option value="Tensores Poly V">TENSORES POLY V </option>
+              <option value="Embrague">EMBRAGUE </option>
               <option value="Kit de Distribucion">KIT DE DISTRIBUCION </option>
               <option value="Tensores Distribucion">TENSORES DISTRIBUCION </option>
               <option value="Kit De Poly V">KIT DE POLY V </option>
