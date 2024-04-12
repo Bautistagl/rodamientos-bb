@@ -334,7 +334,7 @@ catch (error) {
                   height={80}
                 />
               </>
-              <button onClick={()=>{ obtenerCodigosDisponibles() }}> VER CODIGOS</button>
+              {/* <button onClick={()=>{ obtenerCodigosDisponibles() }}> VER CODIGOS</button> */}
 
               <div className="textos-completo2">
                 <div className="codigo-medidas2">
