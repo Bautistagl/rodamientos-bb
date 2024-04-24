@@ -153,8 +153,14 @@ export default function ExcelUpdater2() {
         <ul>
           Pasos a seguir:
           <li>Crear un excel con dos columnas </li>
-          <li>En la primer fila de la primer columna poner texto 'CODIGO'</li>
-          <li>En la primer fila de la segunda columna poner texto 'PRECIO'</li>
+          <li>
+            En la primer fila de la primer columna poner texto
+            &apos;CODIGO&apos;
+          </li>
+          <li>
+            En la primer fila de la segunda columna poner texto
+            &apos;PRECIO&apos;
+          </li>
           <li>
             Descargar el archivo con formato .csv (tambien llamado valores
             separados por coma)
