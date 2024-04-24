@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
-import { ref, get, set, update, remove } from 'firebase/database';
+import { ref, get, remove } from 'firebase/database';
 import { db } from '../../firebase';
-import { uid } from 'uid';
 import Navbar from '@/components/Navbarbautista';
 import NavCsv from '@/components/NavCsvbautista';
 import Image from 'next/image';
 import NavCsv2 from '@/components/NavCsv2bautista';
 
-export default function ExcelUpdater2() {
+export default function EliminarCsv() {
   const [status, setStatus] = useState('Ningun archivo seleccionado');
   const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
@@ -51,43 +50,28 @@ export default function ExcelUpdater2() {
             `/productos/ ${codigo}/marcas/${selectedMarca}`
           );
 
-          const uuid = uid();
-          const nuevoValor = {
-            precio: nuevoPrecio,
-          };
-
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
-            // El elemento ya existe, así que actualízalo
-            if (nuevoPrecio !== '') {
-              await update(dbRef, {
-                stock: 'Disponible',
-                marca: `${selectedMarca}`,
-                precio: nuevoPrecio,
-              });
-            }
-          } else {
-            if (nuevoPrecio !== '') {
-              await set(dbRef, {
-                stock: 'Disponible',
-                marca: `${selectedMarca}`,
-                precio: nuevoPrecio,
-              });
+            const precioActual = snapshot.val().precio;
+            if (precioActual === nuevoPrecio) {
+              await remove(dbRef); // Eliminar el elemento si el precio coincide
+            } else {
+              console.warn(
+                `El precio en el archivo CSV no coincide con el precio en la base de datos para el producto con el código ${codigo}`
+              );
             }
           }
-          await update(ref(db, 'productos/' + ` ${codigo}/`), {
-            codigo1: codigo,
-          });
         } catch (error) {
-          console.error('Error updating/creating database:', error);
+          console.error('Error removing from database:', error);
         }
       }
-      setStatus('Actualización completada.');
+      setStatus('Eliminación completada.');
     } else {
       setStatus('No se ha cargado ningún archivo.');
     }
   };
+
   const handleMarcaChange = (event) => {
     setSelectedMarca(event.target.value);
   };
@@ -112,7 +96,7 @@ export default function ExcelUpdater2() {
     <div>
       <Navbar />
       <NavCsv />
-      <h1> ACTUALIZACION DE PRODUCTOS A PARTIR DE CSV</h1>
+      <h1> ELIMINACION DE PRODUCTOS A PARTIR DE CSV</h1>
       {status}
 
       {!fileSelected ? (
@@ -124,11 +108,11 @@ export default function ExcelUpdater2() {
         />
       ) : (
         <button style={{ marginLeft: '50px' }} onClick={handleAcceptChanges}>
-          Actualizar
+          Eliminar
         </button>
       )}
       <label style={{ marginLeft: '30px' }}>
-        Seleccione la marca a actualizar:
+        Seleccione la marca a eliminar:
       </label>
       <select
         style={{ marginLeft: '30px' }}
@@ -149,74 +133,7 @@ export default function ExcelUpdater2() {
         <option value="TIMKEN">TIMKEN</option>
         {/* Agrega más opciones según tus marcas */}
       </select>
-      <div>
-        <ul>
-          Pasos a seguir:
-          <li>Crear un excel con dos columnas </li>
-          <li>En la primer fila de la primer columna poner texto 'CODIGO'</li>
-          <li>En la primer fila de la segunda columna poner texto 'PRECIO'</li>
-          <li>
-            Descargar el archivo con formato .csv (tambien llamado valores
-            separados por coma)
-          </li>
-          <li> Seleccionar ese archivo descargado con formato .csv</li>
-          <li>Elegir la marca a actualizar</li>
-          <li>Tocar boton actualizar</li>
-        </ul>
-
-        <Image src="/Ejemplo CSV.png" alt="" height={300} width={300} />
-      </div>
+      <div></div>
     </div>
   );
 }
-
-// // const handleConfirmacion = (codigo, marca) => {
-// //   const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-
-// //   get(dbRef2)
-// //     .then((snapshot) => {
-// //       if (snapshot.exists()) {
-
-// //         remove(dbRef2)
-// //           .then((data) => {
-
-// //             Swal.fire({
-// //               title: 'Borrado',
-// //               icon:'success',
-// //               timer: 1000, // 3 segundos
-// //               timerProgressBar: true,
-// //               showConfirmButton: false
-// //             })
-// //            setProductToDelete(null)
-// //           })
-// //           .catch((error) => {
-// //             alert('Error al actualizar los valores:', error);
-// //           });
-// //       }
-// //       else{Hoja de cálculo sin título
-// //         console.log('no entra en nada')
-// //       }
-// //     })
-// //     .catch((error) => {
-// //       alert('Error al obtener el producto:', error);
-// //     });
-// // };
-
-// // const removeSKFProducts = async () => {
-// //   try {
-// //     const productsRef = ref(db, '/rulemanes');
-// //     const snapshot = await get(productsRef);
-
-// //     if (snapshot.exists()) {
-// //       const products = snapshot.val();
-
-// //       for (const codigo in products) {
-// //         const marcaRef = ref(db, `/rulemanes/${codigo}/${selectedMarca}`);
-// //         await remove(marcaRef);
-
-// //       }
-// //     }
-// //   } catch (error) {
-// //     console.error('Error removing SKF products:', error);
-// //   }
-// // };

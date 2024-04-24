@@ -1,21 +1,19 @@
 import Link from 'next/link';
 import React from 'react';
 
-const NavCsv = () => {
+const NavCsv2 = () => {
   return (
-    <div className="navCarrito">
-      <span>Estado </span>
-      <span>Archivo</span>
-      <p>
+    <div className="navCarrito2">
+      <span>
         {' '}
         <Link href="actualizarCsv2"> Actualizar con CSV </Link>
-      </p>
-      <p>
+      </span>
+      <span>
         {' '}
         <Link href="eliminarCsv2"> Eliminar con CSV </Link>
-      </p>
+      </span>
     </div>
   );
 };
 
-export default NavCsv;
+export default NavCsv2;

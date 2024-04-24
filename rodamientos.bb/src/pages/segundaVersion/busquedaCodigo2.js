@@ -250,11 +250,17 @@ catch (error) {
       // Iterar sobre cada producto en catalogData
       for (const productoKey in catalogData) {
         const producto = catalogData[productoKey];
-        if(producto.codigo1 === '') {
-          await update(ref(db, 'productos/' + ` ${productoKey}/`), {
-            codigo1:productoKey,
-          })
-          console.log('actualizado',productoKey)
+        if(!producto.marcas) {
+          try {
+            // Elimina el producto de la base de datos
+            await remove(ref(db, `productos/ ${productoKey}`));
+            console.log(`Producto ${productoKey} eliminado correctamente.`);
+          } catch (error) {
+            console.error(`Error al eliminar el producto ${codigo}:`, error);
+          }
+          console.log('terminmo')
+        
+  
         }
        
         // Verificar si el producto tiene la rama marcas/IMP
