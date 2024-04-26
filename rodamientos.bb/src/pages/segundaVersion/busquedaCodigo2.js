@@ -6,7 +6,7 @@ import { ref, get, child, update, set, remove } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
-import { ref as sRef,uploadString, getDownloadURL } from 'firebase/storage';
+import { ref as sRef, uploadString, getDownloadURL } from 'firebase/storage';
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
@@ -17,7 +17,7 @@ export default function BusquedaCodigo2() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
-  const [fotosData, setFotosData] = useState([])
+  const [fotosData, setFotosData] = useState([]);
   const [usuario, setUsuario] = useState('');
   const [user, setUser] = useState(null);
   const [rol, setRol] = useState('');
@@ -27,14 +27,14 @@ export default function BusquedaCodigo2() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [totalCarrito, setTotalCarrito] = useState(0);
   const [admin, setAdmin] = useState('');
-  const [selectedMarca, setSelectedMarca] = useState(null)
+  const [selectedMarca, setSelectedMarca] = useState(null);
 
   const usuarioRef = ref(db, 'usuarios');
   const productosRef = ref(db, 'productos');
   const carritoRef = ref(db, 'usuarios/' + `${usuario}` + '/carrito');
 
   const handleClickAgregar = (producto, marca) => {
-    setSelectedMarca(marca)
+    setSelectedMarca(marca);
     setSelectedProduct(producto);
     setAbierto(true);
   };
@@ -61,65 +61,72 @@ export default function BusquedaCodigo2() {
     }
   };
 
-
-
-
-
   // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
-  const agregarProducto = async (producto,cantidades,usuario,selectedMarca,descripcion) => {
-    const {codigo1 } = producto
-    const {precio,marca,stock} = selectedMarca
-   
+  const agregarProducto = async (
+    producto,
+    cantidades,
+    usuario,
+    selectedMarca,
+    descripcion
+  ) => {
+    const { codigo1 } = producto;
+    const { precio, marca, stock } = selectedMarca;
+
     try {
-      const snapshot = await get(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca));
-      
+      const snapshot = await get(
+        ref(
+          db,
+          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+        )
+      );
+
       if (snapshot.exists()) {
-          
         const productoEnCarrito = {
           codigo1,
           precio,
           cantidades,
           marca,
           descripcion,
-          
         };
 
-
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
-
-       } else {
+        update(
+          ref(
+            db,
+            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+          ),
+          productoEnCarrito
+        );
+      } else {
         const productoEnCarrito = {
           codigo1,
           precio,
           cantidades,
           marca,
           descripcion,
-          
         };
-  
-        update(ref(db, 'usuarios/'+ `${usuario}`+'/carrito2/' + codigo1 + '' + marca), productoEnCarrito);
-   
+
+        update(
+          ref(
+            db,
+            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+          ),
+          productoEnCarrito
+        );
       }
-      
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Producto agregado',
-      showConfirmButton: false,
-      timer:1000,
-    
-      
-      
-    })
-    setCantidad(0)
-    setAbierto(false)
-    
 
-}
-catch (error) {
-  console.log('Error al agregar el producto al carrito:', error);
-}
-};
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Producto agregado',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      setCantidad(0);
+      setAbierto(false);
+    } catch (error) {
+      console.log('Error al agregar el producto al carrito:', error);
+    }
+  };
   function isURL(value) {
     const urlPattern =
       /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -163,13 +170,13 @@ catch (error) {
     }
 
     getCatalogData();
-    listAll(sRef(storage,'fotos')).then(imgs=>{
-      imgs.items.forEach(val => {
-        getDownloadURL(val).then(url=>{
-          setFotosData(data =>[...data,url])
-        })
-      })
-    })
+    listAll(sRef(storage, 'fotos')).then((imgs) => {
+      imgs.items.forEach((val) => {
+        getDownloadURL(val).then((url) => {
+          setFotosData((data) => [...data, url]);
+        });
+      });
+    });
   }, []);
 
   const familiaImagenes = {
@@ -178,10 +185,10 @@ catch (error) {
     Homocineticas: '/correa.jpg',
   };
 
-  
-
   const findPhotoLink = (productName) => {
-    const matchingLink = fotosData.find(link => link.includes(productName.toUpperCase()));
+    const matchingLink = fotosData.find((link) =>
+      link.includes(productName.toUpperCase())
+    );
     return matchingLink || '/rodamiento.webp'; // Si no se encuentra, usar una imagen predeterminada
   };
   const handleSearch = (event) => {
@@ -205,7 +212,7 @@ catch (error) {
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
       const product = catalogData[productId];
-      
+
       var filtro = product.codigo1;
       var filtro2 = product.codigo2;
       var filtro3 = product.codigo3;
@@ -213,14 +220,13 @@ catch (error) {
       if (filtro) {
         if (filtro.includes(term)) {
           // Agrega el producto a los resultados si encuentra coincidencia
-         
+
           results.push(product);
         }
       }
 
       if (filtro2) {
         if (filtro2.includes(term)) {
-          
           // Agrega el producto a los resultados si encuentra coincidencia
           if (results.includes(product)) {
           } else {
@@ -250,7 +256,7 @@ catch (error) {
       // Iterar sobre cada producto en catalogData
       for (const productoKey in catalogData) {
         const producto = catalogData[productoKey];
-        if(!producto.marcas) {
+        if (!producto.marcas) {
           try {
             // Elimina el producto de la base de datos
             await remove(ref(db, `productos/ ${productoKey}`));
@@ -258,29 +264,17 @@ catch (error) {
           } catch (error) {
             console.error(`Error al eliminar el producto ${codigo}:`, error);
           }
-          console.log('terminmo')
-        
-  
+          console.log('terminmo');
         }
-       
-        // Verificar si el producto tiene la rama marcas/IMP
-        // const snapshot = await get(ref(db, `productos/ ${producto.codigo1}/marcas`));
-        // if (snapshot.exists()) {
-        //   // Si la rama marcas/IMP existe, agregar el código de producto a la lista de códigos disponibles
-        //   console.log(producto.codigo1,'TIENE MARCA');
-        // }
-        // else {
-        //   console.log(producto.codigo1,'NO TIENE MARCA - ELIMINANDO');
-          
-        // }
-
       }
 
-      // Imprimir los códigos de productos disponibles en la consola  
-      console.log('termino')
-     
+      // Imprimir los códigos de productos disponibles en la consola
+      console.log('termino');
     } catch (error) {
-      console.error('Error al obtener los códigos de productos disponibles:', error);
+      console.error(
+        'Error al obtener los códigos de productos disponibles:',
+        error
+      );
     }
   };
   const removeProduct = async (codigo) => {
@@ -301,7 +295,7 @@ catch (error) {
     <>
       <div className={abierto ? 'blureado' : ''}>
         <Navbar />
-        <NavCodigo/>
+        <NavCodigo />
 
         <div className="fondo-busqueda">
           <>.</>
@@ -322,12 +316,10 @@ catch (error) {
               placeholder="CÓDIGO"
             />
           </div>
-          
 
           {Object.keys(searchResults).map((codigo1, index) => (
             <div className="contenedor-cards" key={index}>
               <>
-              
                 <Image
                   style={{
                     marginTop: 'auto',
@@ -362,68 +354,62 @@ catch (error) {
                 </div>
                 <div className="contenedor-propiedades3">
                   <div>
-
                     <div className="propiedades-principales2">
                       <span> MARCA</span>
                       <span>PRECIO</span>
                       <span>STOCK </span>
                     </div>
 
-                  {searchResults[codigo1].marcas &&
-                    Object.values(searchResults[codigo1].marcas).map(
-                      (producto, marcaIndex) => (
-                        <>
-                        
-                          <div className="propiedades2" key={marcaIndex}>
-                           
-                            <Image
-                              style={{ marginRight: '100px' }}
-                              alt=""
-                              src={`/${producto.marca.toLowerCase()}Logo.png`}
-                              width={100}
-                              height={25}
-                            />
+                    {searchResults[codigo1].marcas &&
+                      Object.values(searchResults[codigo1].marcas).map(
+                        (producto, marcaIndex) => (
+                          <>
+                            <div className="propiedades2" key={marcaIndex}>
+                              <Image
+                                style={{ marginRight: '100px' }}
+                                alt=""
+                                src={`/${producto.marca.toLowerCase()}Logo.png`}
+                                width={100}
+                                height={25}
+                              />
 
-                            <span style={{ fontWeight: 'bold' }}>
-                              ${producto.precio}
-                            </span>
-                            <span
-                              className="span-2"
-                              style={{
-                                fontWeight: 'bold',
-                                color:
-                                  producto.stock.toLowerCase() == 'disponible'
-                                    ? 'green'
-                                    : producto.stock == 'No disponible'
-                                    ? 'red'
-                                    : 'rgb(215, 215, 58)',
-                              }}>
-                              {producto.stock
-                                ? producto.stock.toUpperCase()
-                                : ''}
-                            </span>
+                              <span style={{ fontWeight: 'bold' }}>
+                                ${producto.precio}
+                              </span>
+                              <span
+                                className="span-2"
+                                style={{
+                                  fontWeight: 'bold',
+                                  color:
+                                    producto.stock.toLowerCase() == 'disponible'
+                                      ? 'green'
+                                      : producto.stock == 'No disponible'
+                                      ? 'red'
+                                      : 'rgb(215, 215, 58)',
+                                }}>
+                                {producto.stock
+                                  ? producto.stock.toUpperCase()
+                                  : ''}
+                              </span>
 
-                         
-                            {admin === 'rodamientosbb@admin.com' ? (
-                              <button
-                                onClick={() =>
-                                  handleClickAgregar(
-                                    producto,
-                                    searchResults[codigo1]
-                                  )
-                                }>
-                                AGREGAR
-                              </button>
-                            ) : (
-                              ''
-                            )}
-                          </div>
-                        </>
-                      )
-                    )}
+                              {admin === 'rodamientosbb@admin.com' ? (
+                                <button
+                                  onClick={() =>
+                                    handleClickAgregar(
+                                      producto,
+                                      searchResults[codigo1]
+                                    )
+                                  }>
+                                  AGREGAR
+                                </button>
+                              ) : (
+                                ''
+                              )}
+                            </div>
+                          </>
+                        )
+                      )}
                   </div>
-
-                 
                 </div>
               </div>
             </div>

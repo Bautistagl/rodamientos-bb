@@ -76,9 +76,6 @@ export default function ExcelUpdater2() {
               });
             }
           }
-          await update(ref(db, 'productos/' + ` ${codigo}/`), {
-            codigo1: codigo,
-          });
         } catch (error) {
           console.error('Error updating/creating database:', error);
         }
