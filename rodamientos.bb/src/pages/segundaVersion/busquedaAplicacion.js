@@ -353,36 +353,35 @@ export default function BusquedaAplicacion() {
     // Recorre cada producto en el catálogo
     Object.keys(catalogData).forEach((productId) => {
       const product = catalogData[productId];
-    
-      // Busca coincidencias en las aplicaciones de cada producto
-      if (product.aplicaciones) {
+
+      // Verifica si product.aplicaciones es un array antes de intentar iterar sobre él
+      if (Array.isArray(product.aplicaciones)) {
         product.aplicaciones.forEach((app) => {
           var marcas = app.marcasAuto;
           var modelos = app.modelosAuto;
           var ubis = app.ubicaciones;
           // Verifica si el producto cumple con los filtros seleccionados
           if (app.marcasAuto && app.modelosAuto && app.ubicaciones) {
-            
             if (
               marcas.includes(selectedMarca) &&
               modelos.includes(selectedModelo) &&
               ubis.includes(selectedUbicacion)
             ) {
               results.push(product);
+            } else if (
+              marcas.includes(selectedMarca) &&
+              modelos.includes(selectedModelo) &&
+              (!app.ubicaciones || selectedUbicacion === '')
+            ) {
+              results.push(product);
             }
-            else if (marcas.includes(selectedMarca) &&
-            modelos.includes(selectedModelo)&& (!app.ubicaciones || selectedUbicacion === ''))   {
-              
-             results.push(product);
-           }
-
-          }
-             else if (app.marcasAuto && app.modelosAuto) {
-           
-               if (marcas.includes(selectedMarca) &&
-               modelos.includes(selectedModelo)) {
-                results.push(product);
-              }
+          } else if (app.marcasAuto && app.modelosAuto) {
+            if (
+              marcas.includes(selectedMarca) &&
+              modelos.includes(selectedModelo)
+            ) {
+              results.push(product);
+            }
           }
         });
       }
@@ -405,9 +404,8 @@ export default function BusquedaAplicacion() {
           <>.</>
 
           <div className="barra-busqueda">
-            
             <select value={selectedMarca} onChange={handleMarcaChange}>
-              <option value="" disabled >
+              <option value="" disabled>
                 {' '}
                 MARCA AUTO{' '}
               </option>
@@ -427,7 +425,7 @@ export default function BusquedaAplicacion() {
             <select value={selectedModelo} onChange={handleModeloChange}>
               <option value="" disabled>
                 {' '}
-               MODELO AUTO{' '}
+                MODELO AUTO{' '}
               </option>
               {modelosDisponibles.map((modelo, index) => (
                 <option key={index} value={modelo}>
@@ -435,8 +433,8 @@ export default function BusquedaAplicacion() {
                 </option>
               ))}
             </select>
-            <select  value={selectedUbicacion} onChange={handleUbicacionChange}>
-              <option value="" disabled >
+            <select value={selectedUbicacion} onChange={handleUbicacionChange}>
+              <option value="" disabled>
                 UBICACIONES{' '}
               </option>
               <option value="Rueda Delantera">RUEDA DELANTERA </option>
@@ -444,7 +442,9 @@ export default function BusquedaAplicacion() {
               <option value="Tensores Poly V">TENSORES POLY V </option>
               <option value="Embrague">EMBRAGUE </option>
               <option value="Kit de Distribucion">KIT DE DISTRIBUCION </option>
-              <option value="Tensores Distribucion">TENSORES DISTRIBUCION </option>
+              <option value="Tensores Distribucion">
+                TENSORES DISTRIBUCION{' '}
+              </option>
               <option value="Kit De Poly V">KIT DE POLY V </option>
               <option value="Homocinetica">HOMOCINETICA </option>
               <option value="Retenes">RETENES </option>
@@ -452,7 +452,7 @@ export default function BusquedaAplicacion() {
               <option value="Correa Distribucion">CORREA DISTRIBUCION </option>
             </select>
             <button
-            className='buscar'
+              className="buscar"
               onClick={() => {
                 handleSearch();
               }}>
