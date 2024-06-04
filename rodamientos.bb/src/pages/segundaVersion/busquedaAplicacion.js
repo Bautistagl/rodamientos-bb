@@ -357,31 +357,21 @@ export default function BusquedaAplicacion() {
       // Verifica si product.aplicaciones es un array antes de intentar iterar sobre él
       if (Array.isArray(product.aplicaciones)) {
         product.aplicaciones.forEach((app) => {
-          var marcas = app.marcasAuto;
-          var modelos = app.modelosAuto;
-          var ubis = app.ubicaciones;
-          // Verifica si el producto cumple con los filtros seleccionados
-          if (app.marcasAuto && app.modelosAuto && app.ubicaciones) {
-            if (
-              marcas.includes(selectedMarca) &&
-              modelos.includes(selectedModelo) &&
-              ubis.includes(selectedUbicacion)
-            ) {
-              results.push(product);
-            } else if (
-              marcas.includes(selectedMarca) &&
-              modelos.includes(selectedModelo) &&
-              (!app.ubicaciones || selectedUbicacion === '')
-            ) {
-              results.push(product);
-            }
-          } else if (app.marcasAuto && app.modelosAuto) {
-            if (
-              marcas.includes(selectedMarca) &&
-              modelos.includes(selectedModelo)
-            ) {
-              results.push(product);
-            }
+          var marcas = app.marcasAuto || [];
+          var modelos = app.modelosAuto || [];
+          var ubis = app.ubicaciones || [];
+
+          // Variables para determinar si cada filtro es cumplido
+          const marcaCumple =
+            selectedMarca === '' || marcas.includes(selectedMarca);
+          const modeloCumple =
+            selectedModelo === '' || modelos.includes(selectedModelo);
+          const ubicacionCumple =
+            selectedUbicacion === '' || ubis.includes(selectedUbicacion);
+
+          // Agregar el producto a los resultados si todos los filtros son cumplidos
+          if (marcaCumple && modeloCumple && ubicacionCumple) {
+            results.push(product);
           }
         });
       }
@@ -389,7 +379,6 @@ export default function BusquedaAplicacion() {
 
     return results;
   };
-
   const handleChange = (event) => {
     setNuevoPrecio(event.target.value);
   };
