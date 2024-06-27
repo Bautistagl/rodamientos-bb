@@ -426,6 +426,7 @@ export default function BusquedaAplicacion() {
               <option value="" disabled>
                 UBICACIONES{' '}
               </option>
+              <option value="Bomba de Agua">BOMBA DE AGUA </option>
               <option value="Rueda Delantera">RUEDA DELANTERA </option>
               <option value="Rueda Trasera">RUEDA TRASERA </option>
               <option value="Tensores Poly V">TENSORES POLY V </option>
