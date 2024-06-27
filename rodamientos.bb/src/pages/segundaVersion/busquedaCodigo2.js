@@ -259,7 +259,7 @@ export default function BusquedaCodigo2() {
         if (!producto.marcas) {
           try {
             // Elimina el producto de la base de datos
-            await remove(ref(db, `productos/ ${productoKey}`));
+            await remove(ref(db, `productos/${productoKey}`));
             console.log(`Producto ${productoKey} eliminado correctamente.`);
           } catch (error) {
             console.error(`Error al eliminar el producto ${codigo}:`, error);

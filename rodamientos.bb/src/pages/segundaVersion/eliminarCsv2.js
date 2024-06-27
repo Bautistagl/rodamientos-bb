@@ -49,13 +49,17 @@ export default function EliminarCsv() {
             db,
             `/productos/ ${codigo}/marcas/${selectedMarca}`
           );
+          const dbRef2 = ref(
+            db,
+            `/productos/${codigo}/marcas/${selectedMarca}`
+          );
 
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
             const precioActual = snapshot.val().precio;
             if (precioActual === nuevoPrecio) {
-              await remove(dbRef); // Eliminar el elemento si el precio coincide
+              await remove(dbRef2); // Eliminar el elemento si el precio coincide
             } else {
               console.warn(
                 `El precio en el archivo CSV no coincide con el precio en la base de datos para el producto con el código ${codigo}`
