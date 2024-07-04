@@ -1,36 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { ref, get, remove } from 'firebase/database';
 import { db } from '../../firebase';
+import {
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+} from 'firebase/storage';
 import Navbar from '@/components/Navbarbautista';
 import NavCsv from '@/components/NavCsvbautista';
-import Image from 'next/image';
-import NavCsv2 from '@/components/NavCsv2bautista';
+
+const storage = getStorage();
 
 export default function EliminarCsv() {
   const [status, setStatus] = useState('Ningun archivo seleccionado');
-  const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
-  const [marca, setMarca] = useState(null);
   const [selectedMarca, setSelectedMarca] = useState('SKF');
 
-  const handleFileUpload = async (event) => {
-    setFileSelected(true);
-    setStatus('Procesando archivo...');
-    const file = event.target.files[0];
-
-    if (file) {
-      try {
-        const data = await readCSVFile(file);
+  useEffect(() => {
+    const fetchCSVData = async () => {
+      setStatus('Obteniendo archivo CSV...');
+      const url = await fetchCSVFileURL(selectedMarca);
+      if (url) {
+        const data = await downloadCSVFile(url);
         setCsvData(data);
-        setStatus('Archivo listo para actualizar.');
-      } catch (error) {
-        console.error('Error reading CSV file:', error);
-        setStatus('Error occurred.');
+        setStatus('Archivo CSV cargado.');
+      } else {
+        setStatus(
+          'No se encontró ningún archivo CSV para la marca seleccionada.'
+        );
       }
-    } else {
-      setStatus('No file selected.');
+    };
+
+    if (selectedMarca) {
+      fetchCSVData();
     }
+  }, [selectedMarca]);
+
+  const fetchCSVFileURL = async (marca) => {
+    const fileRef = storageRef(storage, `listas/${marca}.csv`);
+    try {
+      const url = await getDownloadURL(fileRef);
+      return url;
+    } catch (error) {
+      console.error('Error fetching CSV file URL:', error);
+      return null;
+    }
+  };
+
+  const downloadCSVFile = async (url) => {
+    const response = await fetch(url);
+    const csvText = await response.text();
+    return csvText;
   };
 
   const handleAcceptChanges = async () => {
@@ -42,24 +63,21 @@ export default function EliminarCsv() {
 
       for (const row of data) {
         const codigo = row['CODIGO'];
-        const nuevoPrecio = row['PRECIO'];
+        const precio = row['PRECIO'];
 
         try {
           const dbRef = ref(
             db,
             `/productos/ ${codigo}/marcas/${selectedMarca}`
           );
-          const dbRef2 = ref(
-            db,
-            `/productos/${codigo}/marcas/${selectedMarca}`
-          );
-
+          const dbRef2 = ref(db, `/productos/ ${codigo}`);
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
             const precioActual = snapshot.val().precio;
-            if (precioActual === nuevoPrecio) {
-              await remove(dbRef2); // Eliminar el elemento si el precio coincide
+            if (precioActual === precio) {
+              await remove(dbRef2);
+              await remove(dbRef); // Eliminar el elemento si el precio coincide
             } else {
               console.warn(
                 `El precio en el archivo CSV no coincide con el precio en la base de datos para el producto con el código ${codigo}`
@@ -80,41 +98,15 @@ export default function EliminarCsv() {
     setSelectedMarca(event.target.value);
   };
 
-  const readCSVFile = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      reader.readAsText(file);
-    });
-  };
-
   return (
     <div>
       <Navbar />
       <NavCsv />
       <h1> ELIMINACION DE PRODUCTOS A PARTIR DE CSV</h1>
       {status}
-
-      {!fileSelected ? (
-        <input
-          style={{ marginLeft: '50px' }}
-          type="file"
-          accept=".csv"
-          onChange={handleFileUpload}
-        />
-      ) : (
-        <button style={{ marginLeft: '50px' }} onClick={handleAcceptChanges}>
-          Eliminar
-        </button>
-      )}
+      <button style={{ marginLeft: '50px' }} onClick={handleAcceptChanges}>
+        Eliminar
+      </button>
       <label style={{ marginLeft: '30px' }}>
         Seleccione la marca a eliminar:
       </label>
@@ -137,7 +129,6 @@ export default function EliminarCsv() {
         <option value="TIMKEN">TIMKEN</option>
         {/* Agrega más opciones según tus marcas */}
       </select>
-      <div></div>
     </div>
   );
 }

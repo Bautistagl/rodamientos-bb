@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
-import { ref, get, set, update, remove } from 'firebase/database';
+import { ref, get, set, update } from 'firebase/database';
 import { db } from '../../firebase';
 import { uid } from 'uid';
 import Navbar from '@/components/Navbarbautista';
 import NavCsv from '@/components/NavCsvbautista';
 import Image from 'next/image';
-import NavCsv2 from '@/components/NavCsv2bautista';
+import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage';
+
+const storage = getStorage();
 
 export default function ExcelUpdater2() {
   const [status, setStatus] = useState('Ningun archivo seleccionado');
   const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
-  const [marca, setMarca] = useState(null);
-  const [selectedMarca, setSelectedMarca] = useState('SKF');
+  const [selectedMarca, setSelectedMarca] = useState('');
 
   const handleFileUpload = async (event) => {
     setFileSelected(true);
@@ -25,6 +26,9 @@ export default function ExcelUpdater2() {
         const data = await readCSVFile(file);
         setCsvData(data);
         setStatus('Archivo listo para actualizar.');
+
+        // Subir archivo a Firebase Storage
+        await uploadCSVFile(file, selectedMarca);
       } catch (error) {
         console.error('Error reading CSV file:', error);
         setStatus('Error occurred.');
@@ -32,6 +36,11 @@ export default function ExcelUpdater2() {
     } else {
       setStatus('No file selected.');
     }
+  };
+
+  const uploadCSVFile = async (file, marca) => {
+    const fileRef = storageRef(storage, `listas/${marca}.csv`);
+    await uploadBytes(fileRef, file);
   };
 
   const handleAcceptChanges = async () => {
@@ -50,29 +59,39 @@ export default function ExcelUpdater2() {
             db,
             `/productos/ ${codigo}/marcas/${selectedMarca}`
           );
-
-          const uuid = uid();
-          const nuevoValor = {
-            precio: nuevoPrecio,
-          };
-
+          const dbRef3 = ref(db, `/productos/ ${codigo}`);
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
+            console.log('existe el item');
             // El elemento ya existe, así que actualízalo
             if (nuevoPrecio !== '') {
               await update(dbRef, {
                 stock: 'Disponible',
-                marca: `${selectedMarca}`,
+                marca: selectedMarca,
                 precio: nuevoPrecio,
               });
             }
           } else {
+            console.log('no existe el item', nuevoPrecio);
             if (nuevoPrecio !== '') {
-              await set(dbRef, {
-                stock: 'Disponible',
-                marca: `${selectedMarca}`,
-                precio: nuevoPrecio,
+              // Crea la estructura completa con los campos vacíos
+              await set(dbRef3, {
+                altura: '',
+                codigo1: codigo,
+                codigo2: '',
+                codigo3: '',
+                descripcion: '',
+                exterior: '',
+                familia: '',
+                interior: '',
+                marcas: {
+                  [selectedMarca]: {
+                    stock: 'Disponible',
+                    marca: selectedMarca,
+                    precio: nuevoPrecio,
+                  },
+                },
               });
             }
           }
@@ -85,6 +104,7 @@ export default function ExcelUpdater2() {
       setStatus('No se ha cargado ningún archivo.');
     }
   };
+
   const handleMarcaChange = (event) => {
     setSelectedMarca(event.target.value);
   };
@@ -172,54 +192,3 @@ export default function ExcelUpdater2() {
     </div>
   );
 }
-
-// // const handleConfirmacion = (codigo, marca) => {
-// //   const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-
-// //   get(dbRef2)
-// //     .then((snapshot) => {
-// //       if (snapshot.exists()) {
-
-// //         remove(dbRef2)
-// //           .then((data) => {
-
-// //             Swal.fire({
-// //               title: 'Borrado',
-// //               icon:'success',
-// //               timer: 1000, // 3 segundos
-// //               timerProgressBar: true,
-// //               showConfirmButton: false
-// //             })
-// //            setProductToDelete(null)
-// //           })
-// //           .catch((error) => {
-// //             alert('Error al actualizar los valores:', error);
-// //           });
-// //       }
-// //       else{Hoja de cálculo sin título
-// //         console.log('no entra en nada')
-// //       }
-// //     })
-// //     .catch((error) => {
-// //       alert('Error al obtener el producto:', error);
-// //     });
-// // };
-
-// // const removeSKFProducts = async () => {
-// //   try {
-// //     const productsRef = ref(db, '/rulemanes');
-// //     const snapshot = await get(productsRef);
-
-// //     if (snapshot.exists()) {
-// //       const products = snapshot.val();
-
-// //       for (const codigo in products) {
-// //         const marcaRef = ref(db, `/rulemanes/${codigo}/${selectedMarca}`);
-// //         await remove(marcaRef);
-
-// //       }
-// //     }
-// //   } catch (error) {
-// //     console.error('Error removing SKF products:', error);
-// //   }
-// // };

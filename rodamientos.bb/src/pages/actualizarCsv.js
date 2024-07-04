@@ -10,9 +10,8 @@ export default function ExcelUpdater() {
   const [status, setStatus] = useState('Ningun archivo seleccionado');
   const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
-  const [marca,setMarca] = useState(null)
+  const [marca, setMarca] = useState(null);
   const [selectedMarca, setSelectedMarca] = useState('SKF');
-
 
   const handleFileUpload = async (event) => {
     setFileSelected(true);
@@ -35,14 +34,14 @@ export default function ExcelUpdater() {
 
   // const handleConfirmacion = (codigo, marca) => {
   //   const dbRef2 = ref(db, `/rulemanes/ ${codigo}/${marca}`);
-  
+
   //   get(dbRef2)
   //     .then((snapshot) => {
   //       if (snapshot.exists()) {
-          
+
   //         remove(dbRef2)
   //           .then((data) => {
-            
+
   //             Swal.fire({
   //               title: 'Borrado',
   //               icon:'success',
@@ -69,14 +68,13 @@ export default function ExcelUpdater() {
     try {
       const productsRef = ref(db, '/rulemanes');
       const snapshot = await get(productsRef);
-   
+
       if (snapshot.exists()) {
         const products = snapshot.val();
-      
+
         for (const codigo in products) {
           const marcaRef = ref(db, `/rulemanes/${codigo}/${selectedMarca}`);
           await remove(marcaRef);
-       
         }
       }
     } catch (error) {
@@ -85,9 +83,6 @@ export default function ExcelUpdater() {
   };
 
   const handleAcceptChanges = async () => {
-
-  
-
     if (csvData) {
       setStatus('Procesando archivo...');
       const { data } = Papa.parse(csvData, {
@@ -108,7 +103,6 @@ export default function ExcelUpdater() {
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {
-          
             // El elemento ya existe, así que actualízalo
             if (nuevoPrecio !== '') {
               await set(dbRef, {
@@ -118,10 +112,8 @@ export default function ExcelUpdater() {
                 precio: nuevoPrecio,
                 imagen: `${selectedMarca.toLowerCase()}Logo`,
               });
-              
             }
           } else {
-            
             if (nuevoPrecio !== '') {
               await set(dbRef, {
                 uuid,
@@ -130,7 +122,6 @@ export default function ExcelUpdater() {
                 precio: nuevoPrecio,
                 imagen: `${selectedMarca.toLowerCase()}Logo`,
               });
-              
             }
           }
         } catch (error) {
@@ -167,27 +158,31 @@ export default function ExcelUpdater() {
       <Navbar />
       <NavCsv />
       {status}
-     
+
       {!fileSelected ? (
-        <input style={{ marginLeft: '50px' }} type="file" accept=".csv" onChange={handleFileUpload} />
+        <input
+          style={{ marginLeft: '50px' }}
+          type="file"
+          accept=".csv"
+          onChange={handleFileUpload}
+        />
       ) : (
         <button style={{ marginLeft: '50px' }} onClick={handleAcceptChanges}>
           Actualizar
         </button>
       )}
-       <label style={{marginLeft:"30px"}} >Seleccione la marca a actualizar:</label>
-      <select 
-        style={{marginLeft:"30px"}}
+      <label style={{ marginLeft: '30px' }}>
+        Seleccione la marca a actualizar:
+      </label>
+      <select
+        style={{ marginLeft: '30px' }}
         id="marcaSelect"
         name="marcaSelect"
         value={selectedMarca}
-        onChange={handleMarcaChange}
-      >
+        onChange={handleMarcaChange}>
         <option value="DBH">DBH</option>
         <option value="SKF">SKF</option>
-        {/* Agrega más opciones según tus marcas */}
       </select>
-      
     </div>
   );
 }
