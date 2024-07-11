@@ -127,11 +127,6 @@ export default function BusquedaCodigo2() {
       console.log('Error al agregar el producto al carrito:', error);
     }
   };
-  function isURL(value) {
-    const urlPattern =
-      /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-    return urlPattern.test(value);
-  }
 
   useEffect(() => {
     const productosRef = ref(db, 'productos');
@@ -170,27 +165,8 @@ export default function BusquedaCodigo2() {
     }
 
     getCatalogData();
-    listAll(sRef(storage, 'fotos')).then((imgs) => {
-      imgs.items.forEach((val) => {
-        getDownloadURL(val).then((url) => {
-          setFotosData((data) => [...data, url]);
-        });
-      });
-    });
   }, []);
 
-  const familiaImagenes = {
-    Embrague: '/embrague.jpg',
-    Bombas: '/bombaAgua.jpg',
-    Homocineticas: '/correa.jpg',
-  };
-
-  const findPhotoLink = (productName) => {
-    const matchingLink = fotosData.find((link) =>
-      link.includes(productName.toUpperCase())
-    );
-    return matchingLink || '/rodamiento.webp'; // Si no se encuentra, usar una imagen predeterminada
-  };
   const handleSearch = (event) => {
     const term = event.target.value.toUpperCase();
     setSearchTerm(term);
@@ -249,44 +225,6 @@ export default function BusquedaCodigo2() {
     return results;
   };
 
-  const obtenerCodigosDisponibles = async () => {
-    try {
-      const codigosDisponibles = [];
-
-      // Iterar sobre cada producto en catalogData
-      for (const productoKey in catalogData) {
-        const producto = catalogData[productoKey];
-        if (!producto.marcas) {
-          try {
-            // Elimina el producto de la base de datos
-            await remove(ref(db, `productos/${productoKey}`));
-            console.log(`Producto ${productoKey} eliminado correctamente.`);
-          } catch (error) {
-            console.error(`Error al eliminar el producto ${codigo}:`, error);
-          }
-          console.log('terminmo');
-        }
-      }
-
-      // Imprimir los códigos de productos disponibles en la consola
-      console.log('termino');
-    } catch (error) {
-      console.error(
-        'Error al obtener los códigos de productos disponibles:',
-        error
-      );
-    }
-  };
-  const removeProduct = async (codigo) => {
-    try {
-      // Elimina el producto de la base de datos
-      await remove(ref(db, `productos/ ${codigo}`));
-      console.log(`Producto ${codigo} eliminado correctamente.`);
-    } catch (error) {
-      console.error(`Error al eliminar el producto ${codigo}:`, error);
-    }
-  };
-
   const handleChange = (event) => {
     setNuevoPrecio(event.target.value);
   };
@@ -327,7 +265,7 @@ export default function BusquedaCodigo2() {
                     marginLeft: '20px',
                   }}
                   alt=""
-                  src={findPhotoLink(searchResults[codigo1].codigo1)}
+                  src={searchResults[codigo1].imageUrl || '/rodamiento.webp'}
                   width={80}
                   height={80}
                 />
@@ -432,3 +370,41 @@ export default function BusquedaCodigo2() {
     </>
   );
 }
+
+// const obtenerCodigosDisponibles = async () => {
+//   try {
+//     const codigosDisponibles = [];
+
+//     // Iterar sobre cada producto en catalogData
+//     for (const productoKey in catalogData) {
+//       const producto = catalogData[productoKey];
+//       if (!producto.marcas) {
+//         try {
+//           // Elimina el producto de la base de datos
+//           await remove(ref(db, `productos/${productoKey}`));
+//           console.log(`Producto ${productoKey} eliminado correctamente.`);
+//         } catch (error) {
+//           console.error(`Error al eliminar el producto ${codigo}:`, error);
+//         }
+//         console.log('terminmo');
+//       }
+//     }
+
+//     // Imprimir los códigos de productos disponibles en la consola
+//     console.log('termino');
+//   } catch (error) {
+//     console.error(
+//       'Error al obtener los códigos de productos disponibles:',
+//       error
+//     );
+//   }
+// };
+// const removeProduct = async (codigo) => {
+//   try {
+//     // Elimina el producto de la base de datos
+//     await remove(ref(db, `productos/ ${codigo}`));
+//     console.log(`Producto ${codigo} eliminado correctamente.`);
+//   } catch (error) {
+//     console.error(`Error al eliminar el producto ${codigo}:`, error);
+//   }
+// };
