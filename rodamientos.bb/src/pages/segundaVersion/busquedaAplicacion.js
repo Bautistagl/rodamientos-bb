@@ -102,7 +102,7 @@ export default function BusquedaAplicacion() {
       'RANGER',
     ],
     MercedezBenz: ['SPRINTER', 'MB 180'],
-    Peugot: [
+    Peugeot: [
       '106',
       '2008',
       '205',
