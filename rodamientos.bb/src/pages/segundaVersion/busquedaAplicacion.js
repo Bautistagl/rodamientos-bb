@@ -102,7 +102,7 @@ export default function BusquedaAplicacion() {
       'RANGER',
     ],
     MercedezBenz: ['SPRINTER', 'MB 180'],
-    Peugeot: [
+    Peugot: [
       '106',
       '2008',
       '205',
@@ -405,7 +405,7 @@ export default function BusquedaAplicacion() {
               <option value="Fiat"> FIAT </option>
               <option value="Ford"> FORD </option>
               <option value="MercedesBenz"> MERCEDEZ BENZ </option>
-              <option value="Peugeot"> PEUGEOT </option>
+              <option value="Peugot"> PEUGEOT </option>
               <option value="Renault"> RENAULT </option>
               <option value="Suzuki"> SUZUKI </option>
               <option value="Toyota"> TOYOTA </option>
