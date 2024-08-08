@@ -79,6 +79,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
                             <option value="" disabled selected>
                               Seleccionar
                             </option>
+                            <option value="AYS">AYS</option>
                             <option value="Economica">Economica</option>
           <option value="HCH">HCH</option>
           <option value="NSK-NTN">NSK</option>
