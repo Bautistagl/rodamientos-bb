@@ -51,7 +51,7 @@ export default function ExcelUpdater2() {
       });
 
       for (const row of data) {
-        const codigo = row['CODIGO'];
+        const codigo = row["CODIGO"].toUpperCase();
         const nuevoPrecio = row['PRECIO'];
 
         try {
