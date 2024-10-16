@@ -7,7 +7,14 @@ import 'firebase/database';
 import Link from 'next/link';
 import Navbar from '@/components/Navbarbautista';
 import Image from 'next/image';
-
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/", // Puedes redirigir a una página de "Próximamente" o similar
+      permanent: false,
+    },
+  };
+}
 export default function NuevoVariables() {
   const [selectedCategory, setSelectedCategory] = useState('');
 

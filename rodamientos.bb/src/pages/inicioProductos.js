@@ -4,7 +4,14 @@ import InicioProduc from "@/components/InicioProductobautista"
 import Navbar from "@/components/Navbarbautista"
 import React from "react"
 
-
+export async function getServerSideProps() {
+    return {
+      redirect: {
+        destination: "/", 
+        permanent: false,
+      },
+    };
+  }
 export default function InicioProducto() {
 
 

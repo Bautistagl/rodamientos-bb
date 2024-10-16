@@ -10,7 +10,14 @@ import Swal from 'sweetalert2'
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 
-
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/", // Puedes redirigir a una página de "Próximamente" o similar
+      permanent: false,
+    },
+  };
+}
 export default function BusquedaExterior() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);

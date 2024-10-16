@@ -11,7 +11,14 @@ import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
 
-
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/", // Puedes redirigir a una página de "Próximamente" o similar
+      permanent: false,
+    },
+  };
+}
 export default function BusquedaAltura() {
   const [searchAltura, setSearchAltura] = useState(null);
   const [searchExterior, setSearchExterior] = useState(null);

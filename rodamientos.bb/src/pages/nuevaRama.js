@@ -2,7 +2,14 @@ import { db } from "@/firebasebautista"
 import { child, get, ref, set, update } from "firebase/database";
 import firebase from "firebase/app";
 
-
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/", // Puedes redirigir a una página de "Próximamente" o similar
+      permanent: false,
+    },
+  };
+}
 
 
 export default function NuevaRama () {

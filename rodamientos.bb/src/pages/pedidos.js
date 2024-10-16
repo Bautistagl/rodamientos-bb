@@ -6,7 +6,14 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbarbautista";
 import PantallaPedidos from "@/components/PantallaPedidosbautista";
 
-
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: "/", // Puedes redirigir a una página de "Próximamente" o similar
+      permanent: false,
+    },
+  };
+}
 
 export default function Pedidos() {
 
