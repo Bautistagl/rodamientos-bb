@@ -23,9 +23,10 @@
 }
 .boton :hover{
    background-color: transparent !important;
+   border-bottom: 2px  solid #063970;
 }
 .botones :hover{
-    background-color: #06397071;
+   
 }
 .inicio-sesion{
     display: flex;
@@ -34,8 +35,8 @@
     font-weight: bolder;
     cursor: pointer;
     padding: 20px;
-    font-size: 1rem;
-    margin-right: 40px;
+    font-size: 0.9rem;
+    margin-right: 10px;
     margin-top: 10px;
     right: 0;
 }

@@ -9,21 +9,16 @@ import Servicios from "@/components/Serviciosbautista"
 import React from "react"
 
 export default function Home() {
-
-
-    return (
-        <div className="contenedor-landing">
-            <Navbar/>
-            <Banner/>
-            <div className="fondo-index"> 
-            <Servicios/>
-            <Carrousel/>
-            <Productos/>
-          
-            </div>
-            <Footer/>
-        </div>
-
-    )
-
+  return (
+    <div className="contenedor-landing">
+      <Navbar />
+      <Banner />
+      <div className="fondo-index">
+        <Servicios />
+        <Carrousel />
+        <Productos />
+      </div>
+      <Footer />
+    </div>
+  );
 }

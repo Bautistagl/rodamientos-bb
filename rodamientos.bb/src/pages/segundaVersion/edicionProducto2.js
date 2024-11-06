@@ -264,7 +264,7 @@ export default function EdicionProducto() {
 
       <div className="fondo-busqueda">
         <>.</>
-        {admin === 'rodamientosbb@admin.com' ? (
+        {admin === "rodamientosbb@admin.com" ? (
           <div>
             <div className="barra-busqueda-edicion">
               <span>Buscar producto por código:</span>
@@ -297,50 +297,123 @@ export default function EdicionProducto() {
                     <div className="subtitulo-edicion">
                       Altura:{searchResults[codigo1].altura}
                     </div>
-                    <div  className='aplicaciones-grid'>
-
-                    {searchResults[codigo1].aplicaciones && Object.keys(searchResults[codigo1].aplicaciones).map((appKey, appIndex) => (
-  <div  key={appIndex}>
-  
-    
-    <ul >
-      {/* Asegúrate de que las propiedades de la aplicación estén presentes */}
-      {searchResults[codigo1].aplicaciones[appKey].marcasAuto && (
-        <li style={{display:'flex',fontWeight:'bold'}}>Marca Autos: <p> {searchResults[codigo1].aplicaciones[appKey].marcasAuto.join(', ')} </p></li>
-      )}
-      {searchResults[codigo1].aplicaciones[appKey].ubicaciones && (
-        <li style={{display:'flex',fontWeight:'bold'}}>Ubicaciones: <p>{searchResults[codigo1].aplicaciones[appKey].ubicaciones.join(', ')} </p> </li>
-      )}
-      {searchResults[codigo1].aplicaciones[appKey].modelosAuto && (
-        <li style={{display:'flex',fontWeight:'bold'}}>Modelos Autos: <p> {searchResults[codigo1].aplicaciones[appKey].modelosAuto.join(', ')} </p></li>
-      )}
-    </ul>
-    <button className='buscar2' onClick={() => handleDeleteApplication(searchResults[codigo1].codigo1, appKey)}>Eliminar Aplicación</button>
-  </div>
-))}
+                    <div className="aplicaciones-grid">
+                      {searchResults[codigo1].aplicaciones &&
+                        Object.keys(searchResults[codigo1].aplicaciones).map(
+                          (appKey, appIndex) => (
+                            <div key={appIndex}>
+                              <ul>
+                                {/* Asegúrate de que las propiedades de la aplicación estén presentes */}
+                                {searchResults[codigo1].aplicaciones[appKey]
+                                  .marcasAuto && (
+                                  <li
+                                    style={{
+                                      display: "flex",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Marca Autos:{" "}
+                                    <p>
+                                      {" "}
+                                      {
+                                        searchResults[codigo1].aplicaciones[
+                                          appKey
+                                        ].marcasAuto
+                                      }{" "}
+                                    </p>
+                                  </li>
+                                )}
+                                {searchResults[codigo1].aplicaciones[appKey]
+                                  .ubicaciones && (
+                                  <li
+                                    style={{
+                                      display: "flex",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Ubicaciones:{" "}
+                                    <p>
+                                      {searchResults[codigo1].aplicaciones[
+                                        appKey
+                                      ].ubicaciones.join(", ")}{" "}
+                                    </p>{" "}
+                                  </li>
+                                )}
+                                {searchResults[codigo1].aplicaciones[appKey]
+                                  .modelosAuto && (
+                                  <li
+                                    style={{
+                                      display: "flex",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Modelos Autos:{" "}
+                                    <p>
+                                      {" "}
+                                      {searchResults[codigo1].aplicaciones[
+                                        appKey
+                                      ].modelosAuto.join(", ")}{" "}
+                                    </p>
+                                  </li>
+                                )}
+                                {searchResults[codigo1].aplicaciones[appKey]
+                                  .motores && (
+                                  <li
+                                    style={{
+                                      display: "flex",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Motores:{" "}
+                                    <p>
+                                      {" "}
+                                      {searchResults[codigo1].aplicaciones[
+                                        appKey
+                                      ].motores.join(", ")}{" "}
+                                    </p>
+                                  </li>
+                                )}
+                              </ul>
+                              <button
+                                className="buscar2"
+                                onClick={() =>
+                                  handleDeleteApplication(
+                                    searchResults[codigo1].codigo1,
+                                    appKey
+                                  )
+                                }
+                              >
+                                Eliminar Aplicación
+                              </button>
+                            </div>
+                          )
+                        )}
                     </div>
 
                     <div className="botones-tipoEdicion">
                       <button
                         onClick={() => {
                           setNuevaMarca(searchResults[codigo1]);
-                        }}>
-                        {' '}
+                        }}
+                      >
+                        {" "}
                         Agregar nueva marca
                       </button>
                       <button
                         onClick={() => {
                           setModificar(searchResults[codigo1]);
-                        }}>
-                        {' '}
-                        Modificar producto principal{' '}
+                        }}
+                      >
+                        {" "}
+                        Modificar producto principal{" "}
                       </button>
                       <button
                         onClick={() => {
                           setAplicacion(searchResults[codigo1]);
-                        }}>
-                        {' '}
-                        Agregar Aplicacion{' '}
+                        }}
+                      >
+                        {" "}
+                        Agregar Aplicacion{" "}
                       </button>
                     </div>
 
@@ -349,12 +422,11 @@ export default function EdicionProducto() {
                         Object.values(searchResults[codigo1].marcas).map(
                           (producto, marcaIndex) => (
                             <div
-                            
                               className="propiedades-edicion"
-                              key={marcaIndex}>
-                            
+                              key={marcaIndex}
+                            >
                               <h2 className="falso-span-edicion3">
-                                {' '}
+                                {" "}
                                 {producto.marca}
                               </h2>
                               <input
@@ -364,7 +436,8 @@ export default function EdicionProducto() {
                               />
 
                               <select
-                                onChange={(e) => setNuevoStock(e.target.value)}>
+                                onChange={(e) => setNuevoStock(e.target.value)}
+                              >
                                 <option value="" disabled selected>
                                   Seleccionar ({producto.stock})
                                 </option>
@@ -374,37 +447,37 @@ export default function EdicionProducto() {
                                 </option>
                                 <option value="consultar">Consultar</option>
                               </select>
-                              <div style={{
-                                display:'flex'
-                              }}>
-
-                              <img
-                                alt=""
-                                src="/refresh.png"
-                                className="icono-edicion"
-                                style={{ marginRight: '5px' }}
-                                onClick={() => {
-                                  actualizarItems(
-                                    searchResults[codigo1].codigo1,
-                                    producto.marca,
-                                    nuevoPrecio,
-                                    nuevoStock
-                                  );
+                              <div
+                                style={{
+                                  display: "flex",
                                 }}
-                              />
-                              <img
-                                alt=""
-                                src="/borrar.png"
-                                className="icono-edicion"
-                                style={{ marginRight: '5px' }}
-                                onClick={() => {
-                                  handleArticulo(
-                                    producto,
-                                    searchResults[codigo1].codigo1,
-                                  
-                                  );
-                                }}
-                              />
+                              >
+                                <img
+                                  alt=""
+                                  src="/refresh.png"
+                                  className="icono-edicion"
+                                  style={{ marginRight: "5px" }}
+                                  onClick={() => {
+                                    actualizarItems(
+                                      searchResults[codigo1].codigo1,
+                                      producto.marca,
+                                      nuevoPrecio,
+                                      nuevoStock
+                                    );
+                                  }}
+                                />
+                                <img
+                                  alt=""
+                                  src="/borrar.png"
+                                  className="icono-edicion"
+                                  style={{ marginRight: "5px" }}
+                                  onClick={() => {
+                                    handleArticulo(
+                                      producto,
+                                      searchResults[codigo1].codigo1
+                                    );
+                                  }}
+                                />
                               </div>
                             </div>
                           )
@@ -416,50 +489,50 @@ export default function EdicionProducto() {
               {productToDelete ? (
                 <div className="modal">
                   <div className="textos-modal">
-                    Desea borrar {productToDelete.marca} de {codigoToDelete} 
-                    ?
+                    Desea borrar {productToDelete.marca} de {codigoToDelete}?
                   </div>
 
                   <div className="contenedor-flex2">
                     <button
                       className="boton-modal"
                       onClick={() =>
-                        
                         handleConfirmacion(
                           codigoToDelete,
                           productToDelete.marca
                         )
-                      }>
-                      {' '}
-                      Aceptar{' '}
+                      }
+                    >
+                      {" "}
+                      Aceptar{" "}
                     </button>
                     <button
                       className="boton-modal2"
                       onClick={() => {
                         setProductToDelete(null), setCodigoToDelete(null);
-                      }}>
-                      {' '}
-                      Cancelar{' '}
+                      }}
+                    >
+                      {" "}
+                      Cancelar{" "}
                     </button>
                   </div>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
           </div>
         ) : (
-          ''
+          ""
         )}
         {nuevaMarca ? (
           <NuevaMarca producto={nuevaMarca} setNuevaMarca={setNuevaMarca} />
         ) : (
-          ''
+          ""
         )}
         {modificar ? (
           <ModificarProd producto={modificar} setModificar={setModificar} />
         ) : (
-          ''
+          ""
         )}
         {aplicacion ? (
           <NuevaAplicacion
@@ -467,7 +540,7 @@ export default function EdicionProducto() {
             setAplicacion={setAplicacion}
           />
         ) : (
-          ''
+          ""
         )}
       </div>
     </div>

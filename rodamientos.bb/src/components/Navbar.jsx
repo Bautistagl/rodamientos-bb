@@ -94,64 +94,118 @@ const handleSignOut = () => {
 
 
   return (
-    <nav className='navbar'>
-      <Link href='/'>
-        <Image style={{marginLeft:'10px'}} alt='' width={250}  height={80} src='/logoSuplente.jpg'/>
+    <nav className="navbar">
+      <Link href="/">
+        <Image
+          style={{ marginLeft: "10px" }}
+          alt=""
+          width={190}
+          height={80}
+          src="/logoSuplente.jpg"
+        />
       </Link>
-      {modal ? 
-         <div className='modal-overlay'> 
-         <div className='modal-verdadero'>
-           <span> Se le va a enviar un email para cambiar la contraseña a {admin} </span>
-           <div className='flex'> 
-   
-           <button onClick={() => cambiarContrasena()}> Aceptar </button>
-           <button onClick={() => setModal(false)}> Cancelar</button>
-           </div>
-   
-         </div>
-   
-         </div>
-    : ''}
+      {modal ? (
+        <div className="modal-overlay">
+          <div className="modal-verdadero">
+            <span>
+              {" "}
+              Se le va a enviar un email para cambiar la contraseña a {
+                admin
+              }{" "}
+            </span>
+            <div className="flex">
+              <button onClick={() => cambiarContrasena()}> Aceptar </button>
+              <button onClick={() => setModal(false)}> Cancelar</button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
 
-       
-          
-          <div className='botones' >
-          
-          <span className='boton'> <Link href='/segundaVersion/busquedaCodigo2'> PRODUCTOS </Link>  </span> 
-          {admin !== '' && admin !== 'rodamientosbb@admin.com'  ? <span onClick={activarModal} className='boton'> CAMBIAR CONTRASEÑA </span> : ''  }
-          
-          
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/edicionProducto2'> EDITAR </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/creacionProducto2'> CREAR </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/usuarios'> USUARIOS </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/register'> ALTA USUARIOS </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/actualizarCsv2'> CSV </Link> </span> :''}
-         
-          {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''} */}
-          {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/bajarPlanilla'> PLANILLA </Link> </span> :''} */}
-          
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/carrito2'> CARRITO </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/pedidos2'> PEDIDOS </Link> </span> :''}
-      </div> 
-       
-        
-        <div className='inicio-sesion'>
-        <img className='icono-sesion' alt='' src='/login1.png' />
-        {admin !== '' ? (
-          <span onClick={handleSignOut}>
-            <Link href='/'>CERRAR SESION</Link>
+      <div className="botones">
+        <span className="boton">
+          {" "}
+          <Link href="/segundaVersion/busquedaCodigo2"> PRODUCTOS </Link>{" "}
+        </span>
+        {admin !== "" && admin !== "rodamientosbb@admin.com" ? (
+          <span onClick={activarModal} className="boton">
+            {" "}
+            CAMBIAR CONTRASEÑA{" "}
           </span>
         ) : (
-          <Link href='/iniciarSesion'>
-            <span className='inicioSesion' > INICIAR SESION </span>
+          ""
+        )}
+
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/segundaVersion/edicionProducto2"> EDITAR </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/segundaVersion/creacionProducto2"> CREAR </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/usuarios"> USUARIOS </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/register"> ALTA USUARIOS </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/segundaVersion/actualizarCsv2"> CSV </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+
+        {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''} */}
+        {admin === "rodamientosbb@admin.com" ? (
+          <span style={{ textDecoration: "none" }} className="boton">
+            {" "}
+            <Link href="/segundaVersion/aplicaciones"> APLICACIONES </Link>{" "}
+          </span>
+        ) : (
+          ""
+        )}
+
+        {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/carrito2'> CARRITO </Link> </span> :''}
+          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/pedidos2'> PEDIDOS </Link> </span> :''} */}
+      </div>
+
+      <div className="inicio-sesion">
+        <img className="icono-sesion" alt="" src="/login1.png" />
+        {admin !== "" ? (
+          <span onClick={handleSignOut}>
+            <Link href="/">CERRAR SESION</Link>
+          </span>
+        ) : (
+          <Link href="/iniciarSesion">
+            <span className="inicioSesion"> INICIAR SESION </span>
           </Link>
         )}
       </div>
-        
-
-
     </nav>
-  )
+  );
 }
 
 export default Navbar

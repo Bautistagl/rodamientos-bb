@@ -39,6 +39,170 @@ export default function BusquedaCodigo2() {
     setAbierto(true);
   };
 
+  const tiposMotores = {
+    Chery: ["TIGGO"],
+    Chevrolet: [
+      "AGILE",
+      "ASTRA",
+      "AVEO",
+      "BLAZER",
+      "CAPTIVA",
+      "CELTA",
+      "CORSA",
+      "COBALT",
+      "CRUZE",
+      "MERIVA",
+      "ONIX",
+      "PRISMA",
+      "SONIC",
+      "SPARK",
+      "SPIN",
+      "TRACKER",
+      "BLAZER",
+      "VECTRA",
+      "ZAFIRA",
+      "S 10",
+      "C 10",
+    ],
+    Chrysler: ["NEON", "PT CTRUISER"],
+    Citroen: ["BERLINGO", "C3", "C4", "C4 CACTUS", "C4 PICASSO", "JUMPER"],
+    Fiat: [
+      "128",
+      "147",
+      "ARGO",
+      "DUNA",
+      "DUCATO",
+      "FIORINO",
+      "FIORUNO",
+      "GRAND SIENA",
+      "IDEA",
+      "LINEA",
+      "MOBY",
+      "PALIO",
+      "REGATTA",
+      "SIENA",
+      "SPAZIO",
+      "STILO",
+      "STRADA",
+      "TEMPRA",
+      "TIPO",
+      "TORO",
+      "QUBO",
+      "UNO",
+    ],
+    Ford: [
+      "COURIER",
+      "ECOSPORT",
+      "ECOSPORT 2",
+      "ESCORT",
+      "F100",
+      "FALCON",
+      "FIESTA",
+      "FOCUS",
+      "GALAXY",
+      "KA",
+      "KUGA",
+      "MONDEO",
+      "ORION",
+      "SIERRA",
+      "TAUNUS",
+      "TRANSIT",
+      "RANGER",
+    ],
+    MercedezBenz: ["SPRINTER", "MB 180"],
+    Peugot: [
+      "106",
+      "2008",
+      "205",
+      "206",
+      "207",
+      "208",
+      "3008",
+      "306",
+      "307",
+      "308",
+      "404",
+      "405",
+      "5008",
+      "505",
+      "BOXER",
+      "EXPERT",
+      "PARTNER",
+    ],
+    Renault: [
+      "CAPTUR",
+      "CLIO",
+      "DUSTER",
+      "EXPRESS",
+      "FLUENCE",
+      "FUEGO",
+      "KANGOO",
+      "KOLEOS",
+      "KWID",
+      "LAGUNA",
+      "LOGAN",
+      "MASTER",
+      "MEGANE",
+      "R11",
+      "R 12",
+      "R 18",
+      "R 19",
+      "R 21",
+      "R 9",
+      "SANDERO",
+      "SCENIC",
+      "SYMBOL",
+      "TRAFIC",
+      "TWINGO",
+    ],
+    Suzuki: ["FUN"],
+    Toyota: ["COROLA", "CORONA", "ETIOS", "HILUX"],
+    Volskwagen: [
+      "1500",
+      "AMAROK",
+      "BORA",
+      "CADDY",
+      "CARAT",
+      "FOX",
+      "GACEL",
+      "GOL",
+      "GOLD TREND",
+      "GOLF",
+      "NEW BEATLE",
+      "NIVUS",
+      "PASSAT",
+      "POINTER",
+      "POLO",
+      "POLO CLASSIC",
+      "QUANTUM",
+      "SANTANA",
+      "SAVEIRO",
+      "SCIROCCO",
+      "SENDA",
+      "SHARAN",
+      "SURAN",
+      "TIGUAN",
+      "TOUAREG",
+      "TRANSPORTER",
+      "UP",
+      "VENTO",
+      "VIRTUS",
+      "VOYAGE",
+    ],
+  };
+
+  // const createApplicationsData = async () => {
+  //   const dbRef = ref(db, `/ /aplicaciones`);
+  //   try {
+  //     await set(ref(db, "cars/relations"), tiposMotores);
+  //     console.log("Relaciones guardadas exitosamente");
+  //     return true;
+  //   } catch (error) {
+  //     console.error("Error al guardar los tipos de motores:", error);
+  //     return false;
+  //   }
+  // };
+
   const updateTotalCarrito = async () => {
     try {
       const snapshot = await get(carritoRef);
@@ -57,7 +221,7 @@ export default function BusquedaCodigo2() {
         setTotalCarrito(0);
       }
     } catch (error) {
-      console.log('Error al leer los productos del carrito:', error);
+      console.log("Error al leer los productos del carrito:", error);
     }
   };
 
@@ -76,7 +240,7 @@ export default function BusquedaCodigo2() {
       const snapshot = await get(
         ref(
           db,
-          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
         )
       );
 
@@ -92,7 +256,7 @@ export default function BusquedaCodigo2() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
           ),
           productoEnCarrito
         );
@@ -108,28 +272,28 @@ export default function BusquedaCodigo2() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
           ),
           productoEnCarrito
         );
       }
 
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Producto agregado',
+        position: "top-end",
+        icon: "success",
+        title: "Producto agregado",
         showConfirmButton: false,
         timer: 1000,
       });
       setCantidad(0);
       setAbierto(false);
     } catch (error) {
-      console.log('Error al agregar el producto al carrito:', error);
+      console.log("Error al agregar el producto al carrito:", error);
     }
   };
 
   useEffect(() => {
-    const productosRef = ref(db, 'productos');
+    const productosRef = ref(db, "productos");
     const getCatalogData = async () => {
       await get(productosRef)
         .then((snapshot) => {
@@ -138,27 +302,27 @@ export default function BusquedaCodigo2() {
 
             setCatalogData(productos);
           } else {
-            console.log('No se encontraron productos en la rama especificada');
+            console.log("No se encontraron productos en la rama especificada");
           }
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Debe iniciar sesión para ver los productos',
+            icon: "error",
+            title: "Debe iniciar sesión para ver los productos",
 
             footer:
               '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>',
           });
         });
     };
-    const id = localStorage.getItem('idRodamientos');
+    const id = localStorage.getItem("idRodamientos");
     if (id) {
       setUsuario(id);
     } else {
-      alert('nadie logeado');
+      alert("nadie logeado");
     }
-    if (window.localStorage.getItem('email')) {
-      const adminData = JSON.parse(window.localStorage.getItem('email'));
+    if (window.localStorage.getItem("email")) {
+      const adminData = JSON.parse(window.localStorage.getItem("email"));
       if (adminData) {
         setAdmin(adminData.email);
       }
@@ -179,7 +343,7 @@ export default function BusquedaCodigo2() {
   };
 
   const searchProducts = (term) => {
-    if (!catalogData || term === '') {
+    if (!catalogData || term === "") {
       return [];
     }
 
@@ -231,10 +395,9 @@ export default function BusquedaCodigo2() {
 
   return (
     <>
-      <div className={abierto ? 'blureado' : ''}>
+      <div className={abierto ? "blureado" : ""}>
         <Navbar />
         <NavCodigo />
-
         <div className="fondo-busqueda">
           <>.</>
 
@@ -260,12 +423,12 @@ export default function BusquedaCodigo2() {
               <>
                 <Image
                   style={{
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                    marginLeft: '20px',
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    marginLeft: "20px",
                   }}
                   alt=""
-                  src={searchResults[codigo1].imageUrl || '/rodamiento.webp'}
+                  src={searchResults[codigo1].imageUrl || "/rodamiento.webp"}
                   width={80}
                   height={80}
                 />
@@ -304,44 +467,46 @@ export default function BusquedaCodigo2() {
                           <>
                             <div className="propiedades2" key={marcaIndex}>
                               <Image
-                                style={{ marginRight: '100px' }}
+                                style={{ marginRight: "100px" }}
                                 alt=""
                                 src={`/${producto.marca.toLowerCase()}Logo.png`}
                                 width={100}
                                 height={25}
                               />
 
-                              <span style={{ fontWeight: 'bold' }}>
+                              <span style={{ fontWeight: "bold" }}>
                                 ${producto.precio}
                               </span>
                               <span
                                 className="span-2"
                                 style={{
-                                  fontWeight: 'bold',
+                                  fontWeight: "bold",
                                   color:
-                                    producto.stock.toLowerCase() == 'disponible'
-                                      ? 'green'
-                                      : producto.stock == 'No disponible'
-                                      ? 'red'
-                                      : 'rgb(215, 215, 58)',
-                                }}>
+                                    producto.stock.toLowerCase() == "disponible"
+                                      ? "green"
+                                      : producto.stock == "No disponible"
+                                      ? "red"
+                                      : "rgb(215, 215, 58)",
+                                }}
+                              >
                                 {producto.stock
                                   ? producto.stock.toUpperCase()
-                                  : ''}
+                                  : ""}
                               </span>
 
-                              {admin === 'rodamientosbb@admin.com' ? (
+                              {admin === "rodamientosbb@admin.com" ? (
                                 <button
                                   onClick={() =>
                                     handleClickAgregar(
                                       producto,
                                       searchResults[codigo1]
                                     )
-                                  }>
+                                  }
+                                >
                                   AGREGAR
                                 </button>
                               ) : (
-                                ''
+                                ""
                               )}
                             </div>
                           </>

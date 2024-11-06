@@ -197,3 +197,74 @@ a{
 .blureado{
   filter: blur(3px);
 }
+.tab-aplicaciones{
+  display: grid;
+  grid-template-columns: 15% 15% 15% 15% 15% 15%;
+}
+.item-aplicaciones{
+  display: flex;
+  width: 110px;
+  justify-content: space-between;
+  margin: 5px;
+}
+.tab-aplicaciones span{
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.aplicaciones-screen button{
+  background-color:#4778ac;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family:'Outfit', sans-serif ;
+  font-size: 1rem;
+  margin:  auto 10px;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+.aplicaciones-screen button:hover  {
+  background-color:#063970;;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family:'Outfit', sans-serif ;
+    font-size: 1rem;
+    margin:  auto 10px;
+    
+    cursor: pointer;
+}
+.tab-aplicaciones p{
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.boton-aplicaciones{
+  display: flex;
+  width: 150px  !important;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0px !important;
+  margin-top: 10px  !important;
+  margin-bottom: 10px  !important;
+}
+.aplicaciones-screen{
+  padding: 10px 20px;
+}
+.selector-aplicaciones label{
+  font-weight: bold;
+  margin-right: 10px;
+}
+.seccion-aplicaciones{
+  background-color: #06397021;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.input-aplicaciones{
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid black;
+  
+}

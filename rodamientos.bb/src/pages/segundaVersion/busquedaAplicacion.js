@@ -1,208 +1,73 @@
 import { useState, useEffect } from 'react';
 
-import { db } from '../../firebase';
-import 'firebase/database';
-import { ref, get, update } from 'firebase/database';
+import {
+  addUbicacion,
+  db,
+  getAllCarRelations,
+  getAllCars,
+  getEngineTypes,
+  getModelsByBrand,
+  getUbicaciones,
+  removeUbicacion,
+} from "../../firebase";
+import "firebase/database";
+import { ref, get, update } from "firebase/database";
 
-import Image from 'next/image';
-import Swal from 'sweetalert2';
+import Image from "next/image";
+import Swal from "sweetalert2";
 
-import Navbar from '@/components/Navbarbautista';
-import PopUp from '@/components/PopUpbautista';
-import NavAplicacion from '@/components/NavAplicacionbautista';
+import Navbar from "@/components/Navbarbautista";
+import PopUp from "@/components/PopUpbautista";
+import NavAplicacion from "@/components/NavAplicacionbautista";
 
 export default function BusquedaAplicacion() {
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
-  const [usuario, setUsuario] = useState('');
-  const [nuevoPrecio, setNuevoPrecio] = useState('');
+  const [usuario, setUsuario] = useState("");
+  const [nuevoPrecio, setNuevoPrecio] = useState("");
   const [cantidad, setCantidad] = useState(null);
   const [abierto, setAbierto] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [totalCarrito, setTotalCarrito] = useState(0);
-  const [admin, setAdmin] = useState('');
+  const [admin, setAdmin] = useState("");
 
-  const [selectedMarca, setSelectedMarca] = useState('');
-  const [selectedModelo, setSelectedModelo] = useState('');
-  const [selectedUbicacion, setSelectedUbicacion] = useState('');
+  const [selectedMarca, setSelectedMarca] = useState("");
+  const [selectedModelo, setSelectedModelo] = useState("");
+  const [selectedUbicacion, setSelectedUbicacion] = useState("");
+  const [selectedMotor, setSelectedMotor] = useState("");
   const [modelosDisponibles, setModelosDisponibles] = useState([]);
+  const [autosDisponibles, setAutosDisponibles] = useState([]);
+  const [motoresDisponibles, setMotoresDisponibles] = useState([]);
+  const [ubicacionesDisponibles, setUbicacionesDisponibles] = useState([]);
 
-  const carritoRef = ref(db, 'usuarios/' + `${usuario}` + '/carrito');
+  const carritoRef = ref(db, "usuarios/" + `${usuario}` + "/carrito");
 
   const handleClickAgregar = (producto, marca) => {
     setSelectedMarca(marca);
     setSelectedProduct(producto);
     setAbierto(true);
   };
-  const relacionesModelos = {
-    Chery: ['TIGGO'],
-    Chevrolet: [
-      'AGILE',
-      'ASTRA',
-      'AVEO',
-      'BLAZER',
-      'CAPTIVA',
-      'CELTA',
-      'CORSA',
-      'COBALT',
-      'CRUZE',
-      'MERIVA',
-      'ONIX',
-      'PRISMA',
-      'SONIC',
-      'SPARK',
-      'SPIN',
-      'TRACKER',
-      'BLAZER',
-      'VECTRA',
-      'ZAFIRA',
-      'S 10',
-      'C 10',
-    ],
-    Chrysler: ['NEON', 'PT CTRUISER'],
-    Citroen: ['BERLINGO', 'C3', 'C4', 'C4 CACTUS', 'C4 PICASSO'],
-    Fiat: [
-      '128',
-      '147',
-      'ARGO',
-      'DUNA',
-      'FIORINO',
-      'FIORUNO',
-      'GRAND SIENA',
-      'IDEA',
-      'LINEA',
-      'MOBY',
-      'PALIO',
-      'REGATTA',
-      'SIENA',
-      'SPAZIO',
-      'STILO',
-      'STRADA',
-      'TEMPRA',
-      'TIPO',
-      'TORO',
-      'UNO',
-    ],
-    Ford: [
-      'COURIER',
-      'ECOSPORT',
-      'ECOSPORT 2',
-      'ESCORT',
-      'FALCON',
-      'FIESTA',
-      'FOCUS',
-      'GALAXY',
-      'KA',
-      'KUGA',
-      'MONDEO',
-      'ORION',
-      'SIERRA',
-      'TAUNUS',
-      'TRANSIT',
-      'RANGER',
-    ],
-    MercedezBenz: ['SPRINTER', 'MB 180'],
-    Peugot: [
-      '106',
-      '2008',
-      '205',
-      '206',
-      '207',
-      '208',
-      '3008',
-      '306',
-      '307',
-      '308',
-      '404',
-      '405',
-      '5008',
-      '505',
-      'EXPERT',
-      'PARTNER',
-    ],
-    Renault: [
-      'CAPTUR',
-      'CLIO',
-      'DUSTER',
-      'EXPRESS',
-      'FLUENCE',
-      'FUEGO',
-      'KANGOO',
-      'KOLEOS',
-      'KWID',
-      'LAGUNA',
-      'LOGAN',
-      'MASTER',
-      'MEGANE',
-      'R11',
-      'R 12',
-      'R 18',
-      'R 19',
-      'R 21',
-      'R 9',
-      'SANDERO',
-      'SCENIC',
-      'SYMBOL',
-      'TWINGO',
-    ],
-    Suzuki: ['FUN'],
-    Toyota: ['COROLA', 'CORONA', 'ETIOS', 'HILUX'],
-    Volskwagen: [
-      '1500',
-      'BORA',
-      'CADDY',
-      'CARAT',
-      'FOX',
-      'GACEL',
-      'GOL',
-      'GOLD TREND',
-      'GOLF',
-      'NEW BEATLE',
-      'NIVUS',
-      'PASSAT',
-      'POINTER',
-      'POLO',
-      'POLO CLASSIC',
-      'QUANTUM',
-      'SANTANA',
-      'SAVEIRO',
-      'SCIROCCO',
-      'SENDA',
-      'SHARAN',
-      'SURAN',
-      'TIGUAN',
-      'TOUAREG',
-      'TRANSPORTER',
-      'UP',
-      'VENTO',
-      'VIRTUS',
-      'VOYAGE',
-    ],
-  };
 
-  const updateTotalCarrito = async () => {
-    try {
-      const snapshot = await get(carritoRef);
+  useEffect(() => {
+    const loadRelations = async () => {
+      const tipos = await getAllCarRelations();
+      setAutosDisponibles(tipos);
+    };
 
-      if (snapshot.exists()) {
-        const carritoData = snapshot.val();
-        const productosEnCarrito = Object.values(carritoData);
-        let totaCarrito = 0;
+    const loadMotores = async () => {
+      const tipos = await getEngineTypes();
+      setMotoresDisponibles(tipos);
+    };
+    const loadUbicaciones = async () => {
+      const tipos = await getUbicaciones();
+      setUbicacionesDisponibles(tipos);
+    };
 
-        productosEnCarrito.forEach((producto) => {
-          totaCarrito += producto.precio * producto.cantidad;
-        });
+    loadUbicaciones();
+    loadMotores();
+    loadRelations();
+  }, []);
 
-        setTotalCarrito(totaCarrito);
-      } else {
-        setTotalCarrito(0);
-      }
-    } catch (error) {
-      console.log('Error al leer los productos del carrito:', error);
-    }
-  };
-
-  // AGREGAR PRODUCTO, RECIBE OBJETO PRODUCTO Y CANTIDAD
   const agregarProducto = async (
     producto,
     cantidades,
@@ -217,7 +82,7 @@ export default function BusquedaAplicacion() {
       const snapshot = await get(
         ref(
           db,
-          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
         )
       );
 
@@ -233,7 +98,7 @@ export default function BusquedaAplicacion() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
           ),
           productoEnCarrito
         );
@@ -249,33 +114,28 @@ export default function BusquedaAplicacion() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
           ),
           productoEnCarrito
         );
       }
 
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Producto agregado',
+        position: "top-end",
+        icon: "success",
+        title: "Producto agregado",
         showConfirmButton: false,
         timer: 1000,
       });
       setCantidad(0);
       setAbierto(false);
     } catch (error) {
-      console.log('Error al agregar el producto al carrito:', error);
+      console.log("Error al agregar el producto al carrito:", error);
     }
   };
-  function isURL(value) {
-    const urlPattern =
-      /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-    return urlPattern.test(value);
-  }
 
   useEffect(() => {
-    const productosRef = ref(db, 'productos');
+    const productosRef = ref(db, "productos");
     const getCatalogData = async () => {
       await get(productosRef)
         .then((snapshot) => {
@@ -284,27 +144,27 @@ export default function BusquedaAplicacion() {
 
             setCatalogData(productos);
           } else {
-            console.log('No se encontraron productos en la rama especificada');
+            console.log("No se encontraron productos en la rama especificada");
           }
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Debe iniciar sesión para ver los productos',
+            icon: "error",
+            title: "Debe iniciar sesión para ver los productos",
 
             footer:
               '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>',
           });
         });
     };
-    const id = localStorage.getItem('idRodamientos');
+    const id = localStorage.getItem("idRodamientos");
     if (id) {
       setUsuario(id);
     } else {
-      alert('nadie logeado');
+      alert("nadie logeado");
     }
-    if (window.localStorage.getItem('email')) {
-      const adminData = JSON.parse(window.localStorage.getItem('email'));
+    if (window.localStorage.getItem("email")) {
+      const adminData = JSON.parse(window.localStorage.getItem("email"));
       if (adminData) {
         setAdmin(adminData.email);
       }
@@ -313,14 +173,14 @@ export default function BusquedaAplicacion() {
     getCatalogData();
   }, []);
 
-  const handleMarcaChange = (event) => {
+  const handleMarcaChange = async (event) => {
     const selectedMarca = event.target.value;
     setSelectedMarca(selectedMarca);
-    // Resetear el modelo seleccionado cuando cambie lamarca
-    setSelectedModelo('');
 
+    setSelectedModelo("");
     // Filtrar los modelos disponibles basados en la marca seleccionada
-    const modeloDisponibles = relacionesModelos[selectedMarca] || [];
+    const modeloDisponibles = (await getModelsByBrand(selectedMarca)) || [];
+
     setModelosDisponibles(modeloDisponibles);
   };
 
@@ -330,6 +190,9 @@ export default function BusquedaAplicacion() {
 
   const handleUbicacionChange = (event) => {
     setSelectedUbicacion(event.target.value);
+  };
+  const handleMotorChange = (event) => {
+    setSelectedMotor(event.target.value);
   };
 
   const handleSearch = () => {
@@ -360,17 +223,20 @@ export default function BusquedaAplicacion() {
           var marcas = app.marcasAuto || [];
           var modelos = app.modelosAuto || [];
           var ubis = app.ubicaciones || [];
+          var motores = app.motores || [];
 
           // Variables para determinar si cada filtro es cumplido
           const marcaCumple =
-            selectedMarca === '' || marcas.includes(selectedMarca);
+            selectedMarca === "" || marcas.includes(selectedMarca);
           const modeloCumple =
-            selectedModelo === '' || modelos.includes(selectedModelo);
+            selectedModelo === "" || modelos.includes(selectedModelo);
           const ubicacionCumple =
-            selectedUbicacion === '' || ubis.includes(selectedUbicacion);
+            selectedUbicacion === "" || ubis.includes(selectedUbicacion);
+          const motoresCumple =
+            selectedMotor === "" || motores.includes(selectedMotor);
 
           // Agregar el producto a los resultados si todos los filtros son cumplidos
-          if (marcaCumple && modeloCumple && ubicacionCumple) {
+          if (marcaCumple && modeloCumple && ubicacionCumple && motoresCumple) {
             results.push(product);
           }
         });
@@ -379,13 +245,10 @@ export default function BusquedaAplicacion() {
 
     return results;
   };
-  const handleChange = (event) => {
-    setNuevoPrecio(event.target.value);
-  };
 
   return (
     <>
-      <div className={abierto ? 'blureado' : ''}>
+      <div className={abierto ? "blureado" : ""}>
         <Navbar />
         <NavAplicacion />
 
@@ -393,28 +256,26 @@ export default function BusquedaAplicacion() {
           <>.</>
 
           <div className="barra-busqueda">
-            <select value={selectedMarca} onChange={handleMarcaChange}>
+            <select
+              id="brandSelector"
+              value={selectedMarca}
+              onChange={handleMarcaChange}
+            >
               <option value="" disabled>
-                {' '}
-                MARCA AUTO{' '}
+                {" "}
+                MARCA AUTO
               </option>
-              <option value="Chery"> CHERY </option>
-              <option value="Chevrolet"> CHEVROLET </option>
-              <option value="Chrysler"> CHRYSLER </option>
-              <option value="Citroen"> CITROEN </option>
-              <option value="Fiat"> FIAT </option>
-              <option value="Ford"> FORD </option>
-              <option value="MercedesBenz"> MERCEDEZ BENZ </option>
-              <option value="Peugot"> PEUGEOT </option>
-              <option value="Renault"> RENAULT </option>
-              <option value="Suzuki"> SUZUKI </option>
-              <option value="Toyota"> TOYOTA </option>
-              <option value="Volskwagen"> VOLSKWAGEN </option>
+              {Object.keys(autosDisponibles).map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
             </select>
+
             <select value={selectedModelo} onChange={handleModeloChange}>
               <option value="" disabled>
-                {' '}
-                MODELO AUTO{' '}
+                {" "}
+                MODELO AUTO{" "}
               </option>
               {modelosDisponibles.map((modelo, index) => (
                 <option key={index} value={modelo}>
@@ -422,31 +283,36 @@ export default function BusquedaAplicacion() {
                 </option>
               ))}
             </select>
+
             <select value={selectedUbicacion} onChange={handleUbicacionChange}>
               <option value="" disabled>
-                UBICACIONES{' '}
+                {" "}
+                UBICACIONES{" "}
               </option>
-              <option value="Bomba de Agua">BOMBA DE AGUA </option>
-              <option value="Rueda Delantera">RUEDA DELANTERA </option>
-              <option value="Rueda Trasera">RUEDA TRASERA </option>
-              <option value="Tensores Poly V">TENSORES POLY V </option>
-              <option value="Embrague">EMBRAGUE </option>
-              <option value="Kit de Distribucion">KIT DE DISTRIBUCION </option>
-              <option value="Tensores Distribucion">
-                TENSORES DISTRIBUCION{' '}
+              {ubicacionesDisponibles.map((modelo, index) => (
+                <option key={index} value={modelo}>
+                  {modelo}
+                </option>
+              ))}
+            </select>
+
+            <select value={selectedMotor} onChange={handleMotorChange}>
+              <option value="" disabled>
+                MOTORES{" "}
               </option>
-              <option value="Kit De Poly V">KIT DE POLY V </option>
-              <option value="Homocinetica">HOMOCINETICA </option>
-              <option value="Retenes">RETENES </option>
-              <option value="Correa Poly V">CORREA POLY V </option>
-              <option value="Correa Distribucion">CORREA DISTRIBUCION </option>
+              {motoresDisponibles.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
             <button
               className="buscar"
               onClick={() => {
                 handleSearch();
-              }}>
-              {' '}
+              }}
+            >
+              {" "}
               Buscar
             </button>
           </div>
@@ -456,9 +322,9 @@ export default function BusquedaAplicacion() {
               <>
                 <Image
                   style={{
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                    marginLeft: '20px',
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    marginLeft: "20px",
                   }}
                   alt=""
                   src="/rodamiento.webp"
@@ -499,44 +365,46 @@ export default function BusquedaAplicacion() {
                           <>
                             <div className="propiedades2" key={marcaIndex}>
                               <Image
-                                style={{ marginRight: '100px' }}
+                                style={{ marginRight: "100px" }}
                                 alt=""
                                 src={`/${producto.marca.toLowerCase()}Logo.png`}
                                 width={100}
                                 height={25}
                               />
 
-                              <span style={{ fontWeight: 'bold' }}>
+                              <span style={{ fontWeight: "bold" }}>
                                 ${producto.precio}
                               </span>
                               <span
                                 className="span-2"
                                 style={{
-                                  fontWeight: 'bold',
+                                  fontWeight: "bold",
                                   color:
-                                    producto.stock.toLowerCase() == 'disponible'
-                                      ? 'green'
-                                      : producto.stock == 'No disponible'
-                                      ? 'red'
-                                      : 'rgb(215, 215, 58)',
-                                }}>
+                                    producto.stock.toLowerCase() == "disponible"
+                                      ? "green"
+                                      : producto.stock == "No disponible"
+                                      ? "red"
+                                      : "rgb(215, 215, 58)",
+                                }}
+                              >
                                 {producto.stock
                                   ? producto.stock.toUpperCase()
-                                  : ''}
+                                  : ""}
                               </span>
 
-                              {admin === 'rodamientosbb@admin.com' ? (
+                              {admin === "rodamientosbb@admin.com" ? (
                                 <button
                                   onClick={() =>
                                     handleClickAgregar(
                                       producto,
                                       searchResults[codigo1]
                                     )
-                                  }>
+                                  }
+                                >
                                   AGREGAR
                                 </button>
                               ) : (
-                                ''
+                                ""
                               )}
                             </div>
                           </>
