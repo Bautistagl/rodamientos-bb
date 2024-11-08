@@ -92,115 +92,94 @@ const handleSignOut = () => {
 };
 
 
-
   return (
     <nav className="navbar">
-      <Link href="/">
-        <Image
-          style={{ marginLeft: "10px" }}
-          alt=""
-          width={190}
-          height={80}
-          src="/logoSuplente.jpg"
-        />
-      </Link>
-      {modal ? (
+      <div className="navbar-logo">
+        <Link href="/">
+          <Image
+            alt="BB Rodamientos Logo"
+            width={190}
+            height={90}
+            src="/logo2.jpg"
+            className="logo-image"
+          />
+        </Link>
+      </div>
+
+      {modal && (
         <div className="modal-overlay">
-          <div className="modal-verdadero">
-            <span>
-              {" "}
-              Se le va a enviar un email para cambiar la contraseña a {
-                admin
-              }{" "}
-            </span>
-            <div className="flex">
-              <button onClick={() => cambiarContrasena()}> Aceptar </button>
-              <button onClick={() => setModal(false)}> Cancelar</button>
+          <div className="modal-content">
+            <p>
+              Se le va a enviar un email para cambiar la contraseña a {admin}
+            </p>
+            <div className="modal-actions">
+              <button
+                className="modal-button confirm"
+                onClick={cambiarContrasena}
+              >
+                Aceptar
+              </button>
+              <button
+                className="modal-button cancel"
+                onClick={() => setModal(false)}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
-      ) : (
-        ""
       )}
 
-      <div className="botones">
-        <span className="boton">
-          {" "}
-          <Link href="/segundaVersion/busquedaCodigo2"> PRODUCTOS </Link>{" "}
-        </span>
-        {admin !== "" && admin !== "rodamientosbb@admin.com" ? (
-          <span onClick={activarModal} className="boton">
-            {" "}
-            CAMBIAR CONTRASEÑA{" "}
-          </span>
-        ) : (
-          ""
+      <div className="navbar-links">
+        <Link href="/segundaVersion/busquedaCodigo2" className="nav-link">
+          PRODUCTOS
+        </Link>
+
+        {admin !== "" && admin !== "rodamientosbb@admin.com" && (
+          <button onClick={activarModal} className="nav-link">
+            CAMBIAR CONTRASEÑA
+          </button>
         )}
 
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/segundaVersion/edicionProducto2"> EDITAR </Link>{" "}
-          </span>
-        ) : (
-          ""
+        {admin === "rodamientosbb@admin.com" && (
+          <>
+            <Link href="/segundaVersion/edicionProducto2" className="nav-link">
+              EDITAR
+            </Link>
+            <Link href="/segundaVersion/creacionProducto2" className="nav-link">
+              CREAR
+            </Link>
+            <Link href="/usuarios" className="nav-link">
+              USUARIOS
+            </Link>
+            <Link href="/register" className="nav-link">
+              ALTA USUARIOS
+            </Link>
+            <Link href="/segundaVersion/actualizarCsv2" className="nav-link">
+              CSV
+            </Link>
+            <Link href="/segundaVersion/aplicaciones" className="nav-link">
+              APLICACIONES
+            </Link>
+          </>
         )}
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/segundaVersion/creacionProducto2"> CREAR </Link>{" "}
-          </span>
-        ) : (
-          ""
-        )}
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/usuarios"> USUARIOS </Link>{" "}
-          </span>
-        ) : (
-          ""
-        )}
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/register"> ALTA USUARIOS </Link>{" "}
-          </span>
-        ) : (
-          ""
-        )}
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/segundaVersion/actualizarCsv2"> CSV </Link>{" "}
-          </span>
-        ) : (
-          ""
-        )}
-
-        {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/edicionMasiva'> EDITAR MASIVO </Link> </span> :''} */}
-        {admin === "rodamientosbb@admin.com" ? (
-          <span style={{ textDecoration: "none" }} className="boton">
-            {" "}
-            <Link href="/segundaVersion/aplicaciones"> APLICACIONES </Link>{" "}
-          </span>
-        ) : (
-          ""
-        )}
-
-        {/* {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/carrito2'> CARRITO </Link> </span> :''}
-          {admin === 'rodamientosbb@admin.com' ? <span style={{textDecoration:'none'}} className='boton'>  <Link href='/segundaVersion/pedidos2'> PEDIDOS </Link> </span> :''} */}
       </div>
 
-      <div className="inicio-sesion">
-        <img className="icono-sesion" alt="" src="/login1.png" />
+      <div className="navbar-auth">
+        <Image
+          alt="Login Icon"
+          width={24}
+          height={24}
+          src="/login1.png"
+          className="auth-icon"
+        />
         {admin !== "" ? (
-          <span onClick={handleSignOut}>
+          <button onClick={handleSignOut} className="auth-link">
             <Link href="/">CERRAR SESION</Link>
-          </span>
+          </button>
         ) : (
-          <Link href="/iniciarSesion">
-            <span className="inicioSesion"> INICIAR SESION </span>
+          <Link href="/iniciarSesion" className="auth-link">
+            INICIAR SESION
           </Link>
         )}
       </div>

@@ -16,3 +16,41 @@
     margin-top: 30vh;
 
 }
+
+.brands-section {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+ 
+  .brands-carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .brands-track {
+    display: flex;
+    animation: scroll 10s linear infinite;
+  }
+  
+  .brands-slide {
+    display: flex;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .brand-logo {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }

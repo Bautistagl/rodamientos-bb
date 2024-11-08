@@ -5,8 +5,9 @@ import Footer from "@/components/Footerbautista"
 
 import Navbar from "@/components/Navbarbautista"
 import Productos from "@/components/Productosbautista"
-import Servicios from "@/components/Serviciosbautista"
-import React from "react"
+import ProductosV2 from "@/components/ProductosV2bautista";
+import Servicios from "@/components/Serviciosbautista";
+import React from "react";
 
 export default function Home() {
   return (
@@ -14,9 +15,9 @@ export default function Home() {
       <Navbar />
       <Banner />
       <div className="fondo-index">
-        <Servicios />
+        {/* <Servicios /> */}
+        <ProductosV2 />
         <Carrousel />
-        <Productos />
       </div>
       <Footer />
     </div>

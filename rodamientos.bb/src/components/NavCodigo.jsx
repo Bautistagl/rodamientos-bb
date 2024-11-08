@@ -3,15 +3,15 @@ import React from 'react'
 
 const NavCodigo = () => {
   return (
-    <div className='navCarrito2'>
-       
-       <span> <Link href='busquedaMedidas2'> Buscar por Medida </Link></span>
-              <span> <Link href='busquedaAplicacion'> Buscar por Aplicacion </Link></span>
-           
-       
-
+    <div className="search-nav">
+      <Link href="busquedaMedidas2" className="search-nav-button">
+        Buscar por Medida
+      </Link>
+      <Link href="busquedaAplicacion" className="search-nav-button">
+        Buscar por Aplicacion
+      </Link>
     </div>
-  )
+  );
 }
 
 export default NavCodigo

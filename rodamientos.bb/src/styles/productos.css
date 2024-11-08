@@ -52,3 +52,47 @@
     height: 80%;
     border-bottom: 2px solid rgba(0, 0, 0, 0.437);
 }
+
+
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+  
+    .products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+  
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-banner {
+      height: 300px;
+    }
+  
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .brands-section,
+    .products-section {
+      padding: 2rem 1rem;
+    }
+  }
+  
+  /* Animation Pause on Hover */
+  .brands-carousel:hover .brands-track {
+    animation-play-state: paused;
+  }

@@ -215,147 +215,176 @@ export default function BusquedaAltura() {
   };
 
   return (
-    <>
+    <div className="fondo-busqueda">
       <div>
         <Navbar />
         <NavMedida />
 
-        <div className="fondo-busqueda">
+        <div>
           <>.</>
 
-          <div className="barra-busqueda">
-            {/* <span>Buscar producto por código:</span> */}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label>Interior</label>
-              <input
-                className="input-busqueda2"
-                type="text"
-                value={searchInterior}
-                onChange={(e) => setSearchInterior(e.target.value)}
-              />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label>Exterior</label>
-              <input
-                className="input-busqueda2"
-                type="text"
-                value={searchExterior}
-                onChange={(e) => setSearchExterior(e.target.value)}
-              />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label>Altura</label>
-              <input
-                className="input-busqueda2"
-                type="text"
-                value={searchAltura}
-                onChange={(e) => setSearchAltura(e.target.value)}
-              />
-            </div>
-          </div>
-          <button
-            className="buscar3"
-            onClick={() => {
-              handleSearch();
-            }}>
-            {' '}
-            BUSCAR{' '}
-          </button>
-
-          {Object.keys(searchResults).map((codigo1, index) => (
-            <div className="contenedor-cards" key={index}>
-              <>
-                <Image
-                  style={{
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                    marginLeft: '20px',
-                  }}
-                  alt=""
-                  src={searchResults[codigo1].imageUrl || '/rodamiento.webp'}
-                  width={80}
-                  height={80}
+          <div className="measurement-search">
+            <div className="measurement-inputs">
+              <div className="input-group">
+                <label htmlFor="interior" className="input-label">
+                  Interior
+                </label>
+                <input
+                  id="interior"
+                  className="measurement-input"
+                  type="text"
+                  value={searchInterior}
+                  onChange={(e) => setSearchInterior(e.target.value)}
+                  placeholder="mm"
                 />
-              </>
-              <div className="textos-completo2">
-                <div className="codigo-medidas2">
-                  <div className="titulo-singular2">
-                    {searchResults[codigo1].codigo1}
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="exterior" className="input-label">
+                  Exterior
+                </label>
+                <input
+                  id="exterior"
+                  className="measurement-input"
+                  type="text"
+                  value={searchExterior}
+                  onChange={(e) => setSearchExterior(e.target.value)}
+                  placeholder="mm"
+                />
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="altura" className="input-label">
+                  Altura
+                </label>
+                <input
+                  id="altura"
+                  className="measurement-input"
+                  type="text"
+                  value={searchAltura}
+                  onChange={(e) => setSearchAltura(e.target.value)}
+                  placeholder="mm"
+                />
+              </div>
+            </div>
+
+            <button
+              className="search-button"
+              onClick={handleSearch}
+              aria-label="Buscar por medidas"
+            >
+              BUSCAR
+            </button>
+          </div>
+
+          <div className="product-list">
+            {Object.keys(searchResults).map((codigo1, index) => (
+              <div key={index} className="product-card">
+                <div className="product-content">
+                  <div className="product-image">
+                    <Image
+                      alt="Product"
+                      height={128}
+                      width={128}
+                      src={
+                        searchResults[codigo1].imageUrl || "/rodamiento.webp"
+                      }
+                    />
                   </div>
-                  <div className="medidas">
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo2}
-                    </div>
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo3}
-                    </div>
-                    <span>Interior: {searchResults[codigo1].interior} mm</span>
-                    <span>Exterior: {searchResults[codigo1].exterior} mm</span>
-                    <span>Altura: {searchResults[codigo1].altura} mm</span>
-                  </div>
-                </div>
-                <div className="contenedor-propiedades3">
-                  <div>
-                    <div className="propiedades-principales2">
-                      <span> MARCA</span>
-                      <span>PRECIO</span>
-                      <span>STOCK </span>
+
+                  <div className="product-details">
+                    <div>
+                      <div className="product-header">
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo1}
+                        </h3>
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo2}
+                        </h3>
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo3}
+                        </h3>
+                      </div>
+
+                      <div className="product-specs">
+                        <div className="spec-item">
+                          <span className="spec-label">Interior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].interior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Exterior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].exterior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Altura:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].altura} mm
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    {searchResults[codigo1].marcas &&
-                      Object.values(searchResults[codigo1].marcas).map(
-                        (producto, marcaIndex) => (
-                          <>
-                            <div className="propiedades2" key={marcaIndex}>
-                              <Image
-                                style={{ marginRight: '100px' }}
-                                alt=""
-                                src={`/${producto.marca.toLowerCase()}Logo.png`}
-                                width={100}
-                                height={25}
-                              />
+                    <div className="product-variants">
+                      <div className="variant-header">
+                        <span>MARCA</span>
+                        <span>PRECIO</span>
+                        <span>STOCK</span>
+                      </div>
 
-                              <span style={{ fontWeight: 'bold' }}>
+                      {searchResults[codigo1].marcas &&
+                        Object.values(searchResults[codigo1].marcas).map(
+                          (producto, marcaIndex) => (
+                            <div key={marcaIndex} className="variant-item">
+                              <div className="variant-brand">
+                                <Image
+                                  alt={producto.marca}
+                                  height={24}
+                                  width={96}
+                                  src={`/${producto.marca.toLowerCase()}Logo.png`}
+                                />
+                              </div>
+                              <span className="variant-price">
                                 ${producto.precio}
                               </span>
-                              <span
-                                className="span-2"
-                                style={{
-                                  fontWeight: 'bold',
-                                  color:
-                                    producto.stock.toLowerCase() == 'disponible'
-                                      ? 'green'
-                                      : producto.stock == 'No disponible'
-                                      ? 'red'
-                                      : 'rgb(215, 215, 58)',
-                                }}>
-                                {producto.stock
-                                  ? producto.stock.toUpperCase()
-                                  : ''}
-                              </span>
+                              <div className="variant-stock">
+                                <span
+                                  className={`stock-status ${
+                                    producto.stock.toLowerCase() ===
+                                    "disponible"
+                                      ? "stock-available"
+                                      : producto.stock.toLowerCase() ===
+                                        "no disponible"
+                                      ? "stock-unavailable"
+                                      : "stock-limited"
+                                  }`}
+                                >
+                                  {producto.stock.toUpperCase()}
+                                </span>
 
-                              {admin === 'rodamientosbb@admin.com' ? (
-                                <button
-                                  onClick={() =>
-                                    handleClickAgregar(
-                                      producto,
-                                      searchResults[codigo1]
-                                    )
-                                  }>
-                                  AGREGAR
-                                </button>
-                              ) : (
-                                ''
-                              )}
+                                {/* {admin === "rodamientosbb@admin.com" && (
+                                  <button
+                                    className="add-button"
+                                    onClick={() =>
+                                      console.log("Add clicked", producto)
+                                    }
+                                  >
+                                    AGREGAR
+                                  </button>
+                                )} */}
+                              </div>
                             </div>
-                          </>
-                        )
-                      )}
+                          )
+                        )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       {abierto ? (
@@ -369,6 +398,6 @@ export default function BusquedaAltura() {
           setCantidad={setCantidad}
         />
       ) : null}
-    </>
+    </div>
   );
 }

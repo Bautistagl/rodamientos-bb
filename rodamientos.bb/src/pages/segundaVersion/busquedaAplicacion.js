@@ -247,176 +247,198 @@ export default function BusquedaAplicacion() {
   };
 
   return (
-    <>
+    <div className="fondo-busqueda">
       <div className={abierto ? "blureado" : ""}>
         <Navbar />
         <NavAplicacion />
 
-        <div className="fondo-busqueda">
+        <div>
           <>.</>
 
-          <div className="barra-busqueda">
-            <select
-              id="brandSelector"
-              value={selectedMarca}
-              onChange={handleMarcaChange}
-            >
-              <option value="" disabled>
-                {" "}
-                MARCA AUTO
-              </option>
-              {Object.keys(autosDisponibles).map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand}
+          <div className="filter-container">
+            <div className="filter-group">
+              <select
+                className="filter-select"
+                value={selectedMarca}
+                onChange={handleMarcaChange}
+                aria-label="Seleccionar marca de auto"
+              >
+                <option value="" disabled>
+                  MARCA AUTO
                 </option>
-              ))}
-            </select>
+                {Object.keys(autosDisponibles).map((brand) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
 
-            <select value={selectedModelo} onChange={handleModeloChange}>
-              <option value="" disabled>
-                {" "}
-                MODELO AUTO{" "}
-              </option>
-              {modelosDisponibles.map((modelo, index) => (
-                <option key={index} value={modelo}>
-                  {modelo}
+              <select
+                className="filter-select"
+                value={selectedModelo}
+                onChange={handleModeloChange}
+                aria-label="Seleccionar modelo de auto"
+              >
+                <option value="" disabled>
+                  MODELO AUTO
                 </option>
-              ))}
-            </select>
+                {modelosDisponibles.map((modelo, index) => (
+                  <option key={index} value={modelo}>
+                    {modelo}
+                  </option>
+                ))}
+              </select>
 
-            <select value={selectedUbicacion} onChange={handleUbicacionChange}>
-              <option value="" disabled>
-                {" "}
-                UBICACIONES{" "}
-              </option>
-              {ubicacionesDisponibles.map((modelo, index) => (
-                <option key={index} value={modelo}>
-                  {modelo}
+              <select
+                className="filter-select"
+                value={selectedUbicacion}
+                onChange={handleUbicacionChange}
+                aria-label="Seleccionar ubicación"
+              >
+                <option value="" disabled>
+                  UBICACIONES
                 </option>
-              ))}
-            </select>
+                {ubicacionesDisponibles.map((ubicacion, index) => (
+                  <option key={index} value={ubicacion}>
+                    {ubicacion}
+                  </option>
+                ))}
+              </select>
 
-            <select value={selectedMotor} onChange={handleMotorChange}>
-              <option value="" disabled>
-                MOTORES{" "}
-              </option>
-              {motoresDisponibles.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
+              <select
+                className="filter-select"
+                value={selectedMotor}
+                onChange={handleMotorChange}
+                aria-label="Seleccionar motor"
+              >
+                <option value="" disabled>
+                  MOTORES
                 </option>
-              ))}
-            </select>
-            <button
-              className="buscar"
-              onClick={() => {
-                handleSearch();
-              }}
-            >
-              {" "}
-              Buscar
-            </button>
+                {motoresDisponibles.map((motor, index) => (
+                  <option key={index} value={motor}>
+                    {motor}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                className="filter-button"
+                onClick={handleSearch}
+                aria-label="Buscar"
+              >
+                Buscar
+              </button>
+            </div>
           </div>
 
-          {Object.keys(searchResults).map((codigo1, index) => (
-            <div className="contenedor-cards" key={index}>
-              <>
-                <Image
-                  style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                    marginLeft: "20px",
-                  }}
-                  alt=""
-                  src="/rodamiento.webp"
-                  width={80}
-                  height={80}
-                />
-              </>
-
-              <div className="textos-completo2">
-                <div className="codigo-medidas2">
-                  <div className="titulo-singular2">
-                    {searchResults[codigo1].codigo1}
+          <div className="product-list">
+            {Object.keys(searchResults).map((codigo1, index) => (
+              <div key={index} className="product-card">
+                <div className="product-content">
+                  <div className="product-image">
+                    <Image
+                      alt="Product"
+                      height={128}
+                      width={128}
+                      src={
+                        searchResults[codigo1].imageUrl || "/rodamiento.webp"
+                      }
+                    />
                   </div>
-                  <div className="medidas">
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo2}
-                    </div>
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo3}
+
+                  <div className="product-details">
+                    <div>
+                      <div className="product-header">
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo1}
+                        </h3>
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo2}
+                        </h3>
+                        <h3 className="product-code">
+                          {searchResults[codigo1].codigo3}
+                        </h3>
+                      </div>
+
+                      <div className="product-specs">
+                        <div className="spec-item">
+                          <span className="spec-label">Interior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].interior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Exterior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].exterior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Altura:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].altura} mm
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    <span>INTERIOR: {searchResults[codigo1].interior} mm</span>
-                    <span>EXTERIOR: {searchResults[codigo1].exterior} mm</span>
-                    <span>ALTURA: {searchResults[codigo1].altura} mm</span>
-                  </div>
-                </div>
-                <div className="contenedor-propiedades3">
-                  <div>
-                    <div className="propiedades-principales2">
-                      <span> MARCA</span>
-                      <span>PRECIO</span>
-                      <span>STOCK </span>
-                    </div>
+                    <div className="product-variants">
+                      <div className="variant-header">
+                        <span>MARCA</span>
+                        <span>PRECIO</span>
+                        <span>STOCK</span>
+                      </div>
 
-                    {searchResults[codigo1].marcas &&
-                      Object.values(searchResults[codigo1].marcas).map(
-                        (producto, marcaIndex) => (
-                          <>
-                            <div className="propiedades2" key={marcaIndex}>
-                              <Image
-                                style={{ marginRight: "100px" }}
-                                alt=""
-                                src={`/${producto.marca.toLowerCase()}Logo.png`}
-                                width={100}
-                                height={25}
-                              />
-
-                              <span style={{ fontWeight: "bold" }}>
+                      {searchResults[codigo1].marcas &&
+                        Object.values(searchResults[codigo1].marcas).map(
+                          (producto, marcaIndex) => (
+                            <div key={marcaIndex} className="variant-item">
+                              <div className="variant-brand">
+                                <Image
+                                  alt={producto.marca}
+                                  height={24}
+                                  width={96}
+                                  src={`/${producto.marca.toLowerCase()}Logo.png`}
+                                />
+                              </div>
+                              <span className="variant-price">
                                 ${producto.precio}
                               </span>
-                              <span
-                                className="span-2"
-                                style={{
-                                  fontWeight: "bold",
-                                  color:
-                                    producto.stock.toLowerCase() == "disponible"
-                                      ? "green"
-                                      : producto.stock == "No disponible"
-                                      ? "red"
-                                      : "rgb(215, 215, 58)",
-                                }}
-                              >
-                                {producto.stock
-                                  ? producto.stock.toUpperCase()
-                                  : ""}
-                              </span>
-
-                              {admin === "rodamientosbb@admin.com" ? (
-                                <button
-                                  onClick={() =>
-                                    handleClickAgregar(
-                                      producto,
-                                      searchResults[codigo1]
-                                    )
-                                  }
+                              <div className="variant-stock">
+                                <span
+                                  className={`stock-status ${
+                                    producto.stock.toLowerCase() ===
+                                    "disponible"
+                                      ? "stock-available"
+                                      : producto.stock.toLowerCase() ===
+                                        "no disponible"
+                                      ? "stock-unavailable"
+                                      : "stock-limited"
+                                  }`}
                                 >
-                                  AGREGAR
-                                </button>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </>
-                        )
-                      )}
-                  </div>
+                                  {producto.stock.toUpperCase()}
+                                </span>
 
-                  <div></div>
+                                {/* {admin === "rodamientosbb@admin.com" && (
+                                  <button
+                                    className="add-button"
+                                    onClick={() =>
+                                      console.log("Add clicked", producto)
+                                    }
+                                  >
+                                    AGREGAR
+                                  </button>
+                                )} */}
+                              </div>
+                            </div>
+                          )
+                        )}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       {abierto ? (
@@ -432,6 +454,6 @@ export default function BusquedaAplicacion() {
           setCantidad={setCantidad}
         />
       ) : null}
-    </>
+    </div>
   );
 }

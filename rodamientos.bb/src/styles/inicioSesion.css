@@ -17,25 +17,14 @@
    
     
 }
-.formulario-inicio{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    border: 2px solid black;
-    width: 500px;
-    height: 300px;
-    background-color: white;
-    margin-left: 50px;
-    border-radius: 5px;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='400' height='300' preserveAspectRatio='none' viewBox='0 0 400 300'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1041%26quot%3b)' fill='none'%3e%3crect width='400' height='300' x='0' y='0' fill='rgba(38%2c 133%2c 193%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c132.992C25.052%2c135.663%2c51.336%2c125.874%2c70.063%2c109.021C87.784%2c93.073%2c87.989%2c66.392%2c98.031%2c44.769C108.158%2c22.962%2c131.885%2c5.313%2c129.328%2c-18.595C126.77%2c-42.514%2c101.808%2c-56.413%2c85.336%2c-73.944C69.583%2c-90.71%2c56.63%2c-111.334%2c34.953%2c-119.038C12.773%2c-126.92%2c-12.32%2c-125.14%2c-34.184%2c-116.419C-55.06%2c-108.092%2c-69.944%2c-90.222%2c-83.054%2c-71.966C-95.235%2c-55.004%2c-103.488%2c-35.975%2c-106.763%2c-15.35C-110.075%2c5.505%2c-109.943%2c27.011%2c-101.868%2c46.522C-93.621%2c66.449%2c-77.52%2c81.084%2c-61.079%2c95.04C-42.427%2c110.872%2c-24.327%2c130.399%2c0%2c132.992' fill='%231f6c9c'%3e%3c/path%3e%3cpath d='M400 446.425C434.733 452.251 475.248 481.851 502.655 459.735 531.153 436.73900000000003 505.546 388.051 515.876 352.919 524.082 325.01 553.158 306.465 556.229 277.538 559.682 245.014 553.644 210.06 533.8050000000001 184.05700000000002 513.533 157.487 481.021 142.101 448.178 135.919 417.014 130.053 386.32 140.891 356.137 150.617 326.694 160.105 295.896 168.876 275.031 191.714 253.907 214.836 241.409 245.774 240.6 277.082 239.832 306.78 257.289 332.541 270.706 359.046 283.578 384.474 293.711 412.688 317.324 428.64599999999996 341.162 444.756 371.625 441.66499999999996 400 446.425' fill='%233b9bd8'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1041'%3e%3crect width='400' height='300' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
-}
+
 .input-inicio{
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
-    height: 50px;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin: 10px auto;
     width: 90%;
     border-radius: 5px;
 }
@@ -66,7 +55,7 @@
 }
 
 .sinCuenta{
-    font-size: 1.5rem;
+    font-size: 1.1rem;
 }
 .contenedor-flex button{
     background-color: white !important;

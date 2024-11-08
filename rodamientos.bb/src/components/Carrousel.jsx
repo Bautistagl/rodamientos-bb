@@ -2,33 +2,39 @@ import Image from 'next/image'
 import React from 'react'
 
 const Carrousel = () => {
+
+  const brands = [
+    "nskLogo.png",
+    "skfLogo.png",
+    "ntnLogo.png",
+    "hchLogo.png",
+    "cortecoLogo2.png",
+    "dbhLogo.png",
+    "timkenLogo2.png",
+    "inaLogo.png",
+  ];
   return (
-    <div className='logos'>
-        <div className='logos-slide'>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/nskLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/skfLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/ntnLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/hchLogo.png'/>          
-            <Image  className='img-carrousel' alt='' width={300} height={200} src='/cortecoLogo2.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/dbhLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/timkenLogo2.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/inaLogo.png'/>
-
+    <section className="brands-section">
+      <div className="brands-carousel">
+        <div className="brands-track">
+          {[...Array(2)].map((_, trackIndex) => (
+            <div key={trackIndex} className="brands-slide">
+              {brands.map((brand, index) => (
+                <Image
+                  key={`${trackIndex}-${index}`}
+                  src={`/${brand}`}
+                  alt={`Brand logo ${index + 1}`}
+                  width={300}
+                  height={70}
+                  className="brand-logo"
+                />
+              ))}
+            </div>
+          ))}
         </div>
-        <div className='logos-slide'>
-        <Image className='img-carrousel' alt='' width={300} height={10} src='/nskLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/skfLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/ntnLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/hchLogo.png'/>
-            <Image  className='img-carrousel' alt='' width={300} height={200} src='/cortecoLogo2.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={70} src='/dbhLogo.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={200} src='/timkenLogo2.png'/>
-            <Image className='img-carrousel' alt='' width={300} height={10} src='/inaLogo.png'/>
-
-        </div>
-
-    </div>
-  )
+      </div>
+    </section>
+  );
 }
 
 export default Carrousel

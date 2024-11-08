@@ -2,15 +2,15 @@ import Link from "next/link"
 
 const NavAplicacion = () => {
     return (
-      <div className='navCarrito2'>
-         
-              <span> <Link href='busquedaCodigo2'> Buscar por Codigo </Link></span>
-              <span> <Link href='busquedaMedidas2'> Buscar por Medida </Link></span>
-             
-         
-  
+      <div className="search-nav">
+        <Link href="busquedaCodigo2" className="search-nav-button">
+          Buscar por Codigo
+        </Link>
+        <Link href="busquedaMedidas2" className="search-nav-button">
+          Buscar por Medida
+        </Link>
       </div>
-    )
+    );
   }
   
   export default NavAplicacion

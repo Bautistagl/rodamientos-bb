@@ -14,6 +14,7 @@ import '../styles/inicioProducto.css'
 import '../styles/carrousel.css'
 import '../styles/edicionMasiva.css'
 import '../styles/popUp.css'
+import "../styles/productoV2.css";
 import Head from 'next/head'
 
 export default function App({ Component, pageProps }) {

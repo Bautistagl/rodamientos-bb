@@ -14,181 +14,29 @@ import NavCodigo from '@/components/NavCodigobautista';
 import { listAll } from 'firebase/storage';
 
 export default function BusquedaCodigo2() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [fotosData, setFotosData] = useState([]);
-  const [usuario, setUsuario] = useState('');
+  const [usuario, setUsuario] = useState("");
   const [user, setUser] = useState(null);
-  const [rol, setRol] = useState('');
-  const [nuevoPrecio, setNuevoPrecio] = useState('');
+  const [rol, setRol] = useState("");
+  const [nuevoPrecio, setNuevoPrecio] = useState("");
   const [cantidad, setCantidad] = useState(null);
   const [abierto, setAbierto] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [totalCarrito, setTotalCarrito] = useState(0);
-  const [admin, setAdmin] = useState('');
+  const [admin, setAdmin] = useState("");
   const [selectedMarca, setSelectedMarca] = useState(null);
 
-  const usuarioRef = ref(db, 'usuarios');
-  const productosRef = ref(db, 'productos');
-  const carritoRef = ref(db, 'usuarios/' + `${usuario}` + '/carrito');
+  const usuarioRef = ref(db, "usuarios");
+  const productosRef = ref(db, "productos");
+  const carritoRef = ref(db, "usuarios/" + `${usuario}` + "/carrito");
 
   const handleClickAgregar = (producto, marca) => {
     setSelectedMarca(marca);
     setSelectedProduct(producto);
     setAbierto(true);
-  };
-
-  const tiposMotores = {
-    Chery: ["TIGGO"],
-    Chevrolet: [
-      "AGILE",
-      "ASTRA",
-      "AVEO",
-      "BLAZER",
-      "CAPTIVA",
-      "CELTA",
-      "CORSA",
-      "COBALT",
-      "CRUZE",
-      "MERIVA",
-      "ONIX",
-      "PRISMA",
-      "SONIC",
-      "SPARK",
-      "SPIN",
-      "TRACKER",
-      "BLAZER",
-      "VECTRA",
-      "ZAFIRA",
-      "S 10",
-      "C 10",
-    ],
-    Chrysler: ["NEON", "PT CTRUISER"],
-    Citroen: ["BERLINGO", "C3", "C4", "C4 CACTUS", "C4 PICASSO", "JUMPER"],
-    Fiat: [
-      "128",
-      "147",
-      "ARGO",
-      "DUNA",
-      "DUCATO",
-      "FIORINO",
-      "FIORUNO",
-      "GRAND SIENA",
-      "IDEA",
-      "LINEA",
-      "MOBY",
-      "PALIO",
-      "REGATTA",
-      "SIENA",
-      "SPAZIO",
-      "STILO",
-      "STRADA",
-      "TEMPRA",
-      "TIPO",
-      "TORO",
-      "QUBO",
-      "UNO",
-    ],
-    Ford: [
-      "COURIER",
-      "ECOSPORT",
-      "ECOSPORT 2",
-      "ESCORT",
-      "F100",
-      "FALCON",
-      "FIESTA",
-      "FOCUS",
-      "GALAXY",
-      "KA",
-      "KUGA",
-      "MONDEO",
-      "ORION",
-      "SIERRA",
-      "TAUNUS",
-      "TRANSIT",
-      "RANGER",
-    ],
-    MercedezBenz: ["SPRINTER", "MB 180"],
-    Peugot: [
-      "106",
-      "2008",
-      "205",
-      "206",
-      "207",
-      "208",
-      "3008",
-      "306",
-      "307",
-      "308",
-      "404",
-      "405",
-      "5008",
-      "505",
-      "BOXER",
-      "EXPERT",
-      "PARTNER",
-    ],
-    Renault: [
-      "CAPTUR",
-      "CLIO",
-      "DUSTER",
-      "EXPRESS",
-      "FLUENCE",
-      "FUEGO",
-      "KANGOO",
-      "KOLEOS",
-      "KWID",
-      "LAGUNA",
-      "LOGAN",
-      "MASTER",
-      "MEGANE",
-      "R11",
-      "R 12",
-      "R 18",
-      "R 19",
-      "R 21",
-      "R 9",
-      "SANDERO",
-      "SCENIC",
-      "SYMBOL",
-      "TRAFIC",
-      "TWINGO",
-    ],
-    Suzuki: ["FUN"],
-    Toyota: ["COROLA", "CORONA", "ETIOS", "HILUX"],
-    Volskwagen: [
-      "1500",
-      "AMAROK",
-      "BORA",
-      "CADDY",
-      "CARAT",
-      "FOX",
-      "GACEL",
-      "GOL",
-      "GOLD TREND",
-      "GOLF",
-      "NEW BEATLE",
-      "NIVUS",
-      "PASSAT",
-      "POINTER",
-      "POLO",
-      "POLO CLASSIC",
-      "QUANTUM",
-      "SANTANA",
-      "SAVEIRO",
-      "SCIROCCO",
-      "SENDA",
-      "SHARAN",
-      "SURAN",
-      "TIGUAN",
-      "TOUAREG",
-      "TRANSPORTER",
-      "UP",
-      "VENTO",
-      "VIRTUS",
-      "VOYAGE",
-    ],
   };
 
   // const createApplicationsData = async () => {
@@ -394,129 +242,140 @@ export default function BusquedaCodigo2() {
   };
 
   return (
-    <>
+    <div className="fondo-busqueda">
       <div className={abierto ? "blureado" : ""}>
         <Navbar />
         <NavCodigo />
-        <div className="fondo-busqueda">
+        <div>
           <>.</>
 
-          <div className="barra-busqueda">
-            <Image
-              className="icono-busqueda"
-              width={30}
-              height={30}
-              alt=""
-              src="/iconoBusqueda.png"
-            />
-            <input
-              className="input-busqueda"
-              type="text"
-              value={searchTerm}
-              onChange={handleSearch}
-              placeholder="CÓDIGO"
-            />
+          <div className="search-bar">
+            <div className="search-input-wrapper">
+              <input
+                className="search-input"
+                type="text"
+                value={searchTerm}
+                onChange={handleSearch}
+                placeholder="CÓDIGO"
+              />
+              <Image
+                className="search-icon"
+                width={20}
+                height={20}
+                alt="Search Icon"
+                src="/iconoBusqueda.png"
+              />
+            </div>
           </div>
 
-          {Object.keys(searchResults).map((codigo1, index) => (
-            <div className="contenedor-cards" key={index}>
-              <>
-                <Image
-                  style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                    marginLeft: "20px",
-                  }}
-                  alt=""
-                  src={searchResults[codigo1].imageUrl || "/rodamiento.webp"}
-                  width={80}
-                  height={80}
-                />
-              </>
-              {/* <button onClick={()=>{ obtenerCodigosDisponibles() }}> VER CODIGOS</button> */}
-
-              <div className="textos-completo2">
-                <div className="codigo-medidas2">
-                  <div className="titulo-singular2">
-                    {searchResults[codigo1].codigo1}
+          <div className="product-list">
+            {Object.keys(searchResults).map((codigo1, index) => (
+              <div key={index} className="product-card">
+                <div className="product-content">
+                  <div className="product-image">
+                    <Image
+                      alt="Product"
+                      height={128}
+                      width={128}
+                      src={
+                        searchResults[codigo1].imageUrl || "/rodamiento.webp"
+                      }
+                    />
                   </div>
-                  <div className="medidas">
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo2}
-                    </div>
-                    <div className="titulo-singular2">
-                      {searchResults[codigo1].codigo3}
+
+                  <div className="product-details">
+                    <div>
+                      <div className="product-header">
+                        <h1 className="product-code">
+                          {searchResults[codigo1].codigo1}
+                        </h1>
+                        <h1 className="product-code">
+                          {searchResults[codigo1].codigo2}
+                        </h1>
+                        <h1 className="product-code">
+                          {searchResults[codigo1].codigo3}
+                        </h1>
+                      </div>
+
+                      <div className="product-specs">
+                        <div className="spec-item">
+                          <span className="spec-label">Interior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].interior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Exterior:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].exterior} mm
+                          </span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Altura:</span>
+                          <span className="spec-value">
+                            {searchResults[codigo1].altura} mm
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    <span>INTERIOR: {searchResults[codigo1].interior} mm</span>
-                    <span>EXTERIOR: {searchResults[codigo1].exterior} mm</span>
-                    <span>ALTURA: {searchResults[codigo1].altura} mm</span>
-                  </div>
-                </div>
-                <div className="contenedor-propiedades3">
-                  <div>
-                    <div className="propiedades-principales2">
-                      <span> MARCA</span>
-                      <span>PRECIO</span>
-                      <span>STOCK </span>
-                    </div>
+                    <div className="product-variants">
+                      <div className="variant-header">
+                        <span>MARCA</span>
+                        <span>PRECIO</span>
+                        <span>STOCK</span>
+                      </div>
 
-                    {searchResults[codigo1].marcas &&
-                      Object.values(searchResults[codigo1].marcas).map(
-                        (producto, marcaIndex) => (
-                          <>
-                            <div className="propiedades2" key={marcaIndex}>
-                              <Image
-                                style={{ marginRight: "100px" }}
-                                alt=""
-                                src={`/${producto.marca.toLowerCase()}Logo.png`}
-                                width={100}
-                                height={25}
-                              />
-
-                              <span style={{ fontWeight: "bold" }}>
+                      {searchResults[codigo1].marcas &&
+                        Object.values(searchResults[codigo1].marcas).map(
+                          (producto, marcaIndex) => (
+                            <div key={marcaIndex} className="variant-item">
+                              <div className="variant-brand">
+                                <Image
+                                  alt={producto.marca}
+                                  height={24}
+                                  width={96}
+                                  src={`/${producto.marca.toLowerCase()}Logo.png`}
+                                />
+                              </div>
+                              <span className="variant-price">
                                 ${producto.precio}
                               </span>
-                              <span
-                                className="span-2"
-                                style={{
-                                  fontWeight: "bold",
-                                  color:
-                                    producto.stock.toLowerCase() == "disponible"
-                                      ? "green"
-                                      : producto.stock == "No disponible"
-                                      ? "red"
-                                      : "rgb(215, 215, 58)",
-                                }}
-                              >
-                                {producto.stock
-                                  ? producto.stock.toUpperCase()
-                                  : ""}
-                              </span>
-
-                              {admin === "rodamientosbb@admin.com" ? (
-                                <button
-                                  onClick={() =>
-                                    handleClickAgregar(
-                                      producto,
-                                      searchResults[codigo1]
-                                    )
-                                  }
+                              <div className="variant-stock">
+                                <span
+                                  className={`stock-status ${
+                                    producto.stock.toLowerCase() ===
+                                    "disponible"
+                                      ? "stock-available"
+                                      : producto.stock.toLowerCase() ===
+                                        "no disponible"
+                                      ? "stock-unavailable"
+                                      : "stock-limited"
+                                  }`}
                                 >
-                                  AGREGAR
-                                </button>
-                              ) : (
-                                ""
-                              )}
+                                  {producto.stock.toUpperCase()}
+                                </span>
+
+                                {/* {admin === "rodamientosbb@admin.com" && (
+                                  <button
+                                    className="add-button"
+                                    onClick={() =>
+                                      console.log("Add clicked", producto)
+                                    }
+                                  >
+                                    AGREGAR
+                                  </button>
+                                )} */}
+                              </div>
                             </div>
-                          </>
-                        )
-                      )}
+                          )
+                        )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       {abierto ? (
@@ -532,7 +391,7 @@ export default function BusquedaCodigo2() {
           setCantidad={setCantidad}
         />
       ) : null}
-    </>
+    </div>
   );
 }
 
