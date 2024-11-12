@@ -5,7 +5,7 @@ import {
   getModelsByBrand,
   getUbicaciones,
 } from "@/firebasebautista";
-import { child, get, ref, set } from "firebase/database";
+import { child, get, ref, set, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -82,28 +82,32 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
 
   const dbRef2 = ref(db);
   const writeData = async () => {
-    const aplicacionesRef = ref(
-      db,
-      `productos/ ${producto.codigo1}/aplicaciones`
-    );
+    // Modifica `producto.codigo1` si incluye "POL" o "VIT"
+    let codigo = producto.codigo1;
+    if (codigo.includes("POL")) {
+      codigo = codigo.replace("POL", "Pol");
+    } else if (codigo.includes("VIT")) {
+      codigo = codigo.replace("VIT", "Vit");
+    }
+  
+    const aplicacionesRef = ref(db, `productos/ ${codigo}/aplicaciones`);
     const aplicacionesSnapshot = await get(aplicacionesRef);
     const aplicacionesData = aplicacionesSnapshot.val();
-    const aplicacionesRef1 = ref(
-      db,
-      `productos/ ${producto.codigo1}/aplicaciones/1`
-    );
-
-    get(
-      child(dbRef2, "productos/" + ` ${producto.codigo1}/aplicaciones/`)
-    ).then((snapshot) => {
-      if (!snapshot.exists()) {
-        set(aplicacionesRef1, {
-          marcasAuto: marcaAutos,
-          modelosAuto: modelosAutos,
-          ubicaciones: ubicaciones,
-          motores: motores,
-        });
-
+    const aplicacionesRef1 = ref(db, `productos/ ${codigo}/aplicaciones/1`);
+  
+    get(child(dbRef2, `productos/ ${codigo}/aplicaciones/`)).then(async (snapshot) => {
+      if (snapshot.exists()) {
+        const currentData = (await get(aplicacionesRef1)).val();
+  
+        const updatedData = {
+          marcasAuto: [...(currentData?.marcasAuto || []), ...marcaAutos],
+          modelosAuto: [...(currentData?.modelosAuto || []), ...modelosAutos],
+          ubicaciones: [...(currentData?.ubicaciones || []), ...ubicaciones],
+          motores: [...(currentData?.motores || []), ...motores],
+        };
+  
+        update(aplicacionesRef1, updatedData);
+  
         Swal.fire({
           title: "Aplicacion Creada",
           icon: "success",
@@ -111,24 +115,22 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
           timerProgressBar: true,
           showConfirmButton: false,
         });
-
+  
         setMarcaAutos("");
         setModelosAutos("");
         setUbicaciones("");
+        setMotores("");
       } else {
         const aplicacionesCount = Object.keys(aplicacionesData || {}).length;
-
-        const newAplicacionRef = ref(
-          db,
-          `productos/ ${producto.codigo1}/aplicaciones/${aplicacionesCount + 1}`
-        );
+  
+        const newAplicacionRef = ref(db, `productos/ ${codigo}/aplicaciones/${aplicacionesCount + 1}`);
         set(newAplicacionRef, {
           marcasAuto: marcaAutos,
           modelosAuto: modelosAutos,
           ubicaciones: ubicaciones,
           motores: motores,
         });
-
+  
         Swal.fire({
           title: "Aplicacion Creada",
           icon: "success",
@@ -136,7 +138,7 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
           timerProgressBar: true,
           showConfirmButton: false,
         });
-
+  
         setMarcaAutos("");
         setModelosAutos("");
         setUbicaciones("");
@@ -176,7 +178,7 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
       <div className="popUp3">
         <div className="textos-popUp3">
           <h1> Agregar nueva aplicacion de {producto.codigo1} </h1>
-
+          
           <div className="contenedor-input2">
             <span>Ubicación:</span>
             <ul className="checkbox-list">

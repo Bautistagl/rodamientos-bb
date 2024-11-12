@@ -11,8 +11,13 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
     const dbRef = ref(db, `/productos/ ${producto.codigo1}/marcas/${marca}`);
     const dbRef2 = ref(db)
     const writeData = () => {
-    
-        get(child(dbRef2,'productos/' + ` ${producto.codigo1}/marcas/${marca}`))
+      let codigo = producto.codigo1;
+      if (codigo.includes("POL")) {
+        codigo = codigo.replace("POL", "Pol");
+      } else if (codigo.includes("VIT")) {
+        codigo = codigo.replace("VIT", "Vit");
+      }
+        get(child(dbRef2,'productos/' + ` ${codigo}/marcas/${marca}`))
         .then((snapshot) => {
           if (snapshot.exists()) {
             Swal.fire({
@@ -29,7 +34,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
               
             
           } else {
-            set(ref(db,'productos/' + ` ${producto.codigo1}/marcas/${marca}`), {
+            set(ref(db,'productos/' + ` ${codigo}/marcas/${marca}`), {
              marca:marca,
              precio:precio,
              stock:stock,

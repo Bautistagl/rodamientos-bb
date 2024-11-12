@@ -240,7 +240,13 @@ export default function EdicionProducto() {
   const handleModal = () => {
     setMostrarModal(true);
   };
-  const handleDeleteApplication = (codigo, aplicacionKey) => {
+  const handleDeleteApplication = (codigo1, aplicacionKey) => {
+    let codigo = codigo1;
+    if (codigo.includes("POL")) {
+      codigo = codigo.replace("POL", "Pol");
+    } else if (codigo.includes("VIT")) {
+      codigo = codigo.replace("VIT", "Vit");
+    }
     const dbRef = ref(db, `/productos/ ${codigo}/aplicaciones/${aplicacionKey}`);
     remove(dbRef)
       .then(() => {

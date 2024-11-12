@@ -52,14 +52,14 @@
 }
 .aplicaciones-grid{
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto ;
     
 }
 .aplicaciones-grid p{
     display: flex;
     font-weight: lighter;
     font-size: 0.8rem;
-    margin: auto 10px;
+    margin: auto 10px;      
 }
 .aplicaciones-grid button{
 

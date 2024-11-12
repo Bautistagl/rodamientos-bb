@@ -196,17 +196,18 @@ export default function BusquedaAplicacion() {
   };
 
   const handleSearch = () => {
-    // Realiza la búsqueda en los datos del catálogo
+    
     const results = searchProducts(
       selectedUbicacion,
       selectedModelo,
-      selectedMarca
+      selectedMarca,
+      selectedMotor
     );
 
     setSearchResults(results);
   };
 
-  const searchProducts = (selectedUbicacion, selectedModelo, selectedMarca) => {
+  const searchProducts = (selectedUbicacion, selectedModelo, selectedMarca,selectedMotor) => {
     if (!catalogData) {
       return [];
     }
