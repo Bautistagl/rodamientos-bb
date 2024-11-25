@@ -14,7 +14,7 @@ export default function ExcelUpdater2() {
   const [status, setStatus] = useState('Ningun archivo seleccionado');
   const [fileSelected, setFileSelected] = useState(false);
   const [csvData, setCsvData] = useState(null);
-  const [selectedMarca, setSelectedMarca] = useState('');
+  const [selectedMarca, setSelectedMarca] = useState('SKF');
 
   const handleFileUpload = async (event) => {
     setFileSelected(true);
@@ -64,7 +64,7 @@ export default function ExcelUpdater2() {
 
           if (snapshot.exists()) {
             console.log('existe el item');
-            // El elemento ya existe, así que actualízalo
+            
             if (nuevoPrecio !== '') {
               await update(dbRef, {
                 stock: 'Disponible',
@@ -75,7 +75,7 @@ export default function ExcelUpdater2() {
           } else {
             console.log('no existe el item', nuevoPrecio);
             if (nuevoPrecio !== '') {
-              // Crea la estructura completa con los campos vacíos
+              
               await set(dbRef3, {
                 altura: '',
                 codigo1: codigo,

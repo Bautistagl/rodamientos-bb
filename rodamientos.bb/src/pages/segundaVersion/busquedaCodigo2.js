@@ -147,7 +147,7 @@ export default function BusquedaCodigo2() {
         .then((snapshot) => {
           if (snapshot.exists()) {
             const productos = snapshot.val();
-
+              
             setCatalogData(productos);
           } else {
             console.log("No se encontraron productos en la rama especificada");
@@ -186,8 +186,8 @@ export default function BusquedaCodigo2() {
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
     const first30 = results.slice(0, 50);
+    setSearchResults(first30)
 
-    setSearchResults(first30);
   };
 
   const searchProducts = (term) => {
