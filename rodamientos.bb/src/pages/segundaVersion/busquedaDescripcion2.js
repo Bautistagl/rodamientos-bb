@@ -10,22 +10,23 @@ import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
+import FotoProducto from "@/components/FotoProductosbautista";
 
 export default function BusquedaDescripcion() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [user, setUser] = useState(null);
-  const [rol, setRol] = useState('');
-  const [nuevoPrecio, setNuevoPrecio] = useState('');
+  const [rol, setRol] = useState("");
+  const [nuevoPrecio, setNuevoPrecio] = useState("");
   const [cantidad, setCantidad] = useState(null);
   const [abierto, setAbierto] = useState(false);
-  const [admin, setAdmin] = useState('');
+  const [admin, setAdmin] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedMarca, setSelectedMarca] = useState(null);
-  const [usuario, setUsuario] = useState('');
+  const [usuario, setUsuario] = useState("");
 
-  const usuarioRef = ref(db, 'usuarios');
+  const usuarioRef = ref(db, "usuarios");
 
   const handleClickAgregar = (producto, marca) => {
     setSelectedProduct(producto);
@@ -37,7 +38,7 @@ export default function BusquedaDescripcion() {
     cantidades,
     usuario,
     selectedMarca,
-    descripcion
+    descripcion,
   ) => {
     const { codigo1 } = producto;
     const { precio, marca, stock } = selectedMarca;
@@ -46,8 +47,8 @@ export default function BusquedaDescripcion() {
       const snapshot = await get(
         ref(
           db,
-          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
-        )
+          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
+        ),
       );
 
       if (snapshot.exists()) {
@@ -62,9 +63,9 @@ export default function BusquedaDescripcion() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       } else {
         const productoEnCarrito = {
@@ -78,28 +79,28 @@ export default function BusquedaDescripcion() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       }
 
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Producto agregado',
+        position: "top-end",
+        icon: "success",
+        title: "Producto agregado",
         showConfirmButton: false,
         timer: 1000,
       });
       setCantidad(0);
       setAbierto(false);
     } catch (error) {
-      console.log('Error al agregar el producto al carrito:', error);
+      console.log("Error al agregar el producto al carrito:", error);
     }
   };
 
   useEffect(() => {
-    const productosRef = ref(db, 'productos'); // Ruta de los productos en la base de datos
+    const productosRef = ref(db, "productos"); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
     const getCatalogData = async () => {
       await get(productosRef)
@@ -108,13 +109,13 @@ export default function BusquedaDescripcion() {
             const productos = snapshot.val();
             setCatalogData(productos);
           } else {
-            console.log('No se encontraron productos en la rama especificada');
+            console.log("No se encontraron productos en la rama especificada");
           }
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Debe iniciar sesión para ver los productos',
+            icon: "error",
+            title: "Debe iniciar sesión para ver los productos",
 
             footer:
               '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>',
@@ -123,14 +124,14 @@ export default function BusquedaDescripcion() {
 
       //   setCatalogData(snapshot.val());
     };
-    const id = localStorage.getItem('idRodamientos');
+    const id = localStorage.getItem("idRodamientos");
     if (id) {
       setUsuario(id);
     } else {
-      alert('nadie logeado');
+      alert("nadie logeado");
     }
-    if (window.localStorage.getItem('email')) {
-      const adminData = JSON.parse(window.localStorage.getItem('email'));
+    if (window.localStorage.getItem("email")) {
+      const adminData = JSON.parse(window.localStorage.getItem("email"));
       if (adminData) {
         setAdmin(adminData.email);
       }
@@ -152,7 +153,7 @@ export default function BusquedaDescripcion() {
   };
 
   const searchProducts = (term) => {
-    if (!catalogData || term === '') {
+    if (!catalogData || term === "") {
       return [];
     }
 
@@ -218,16 +219,9 @@ export default function BusquedaDescripcion() {
           {Object.keys(searchResults).map((codigo1, index) => (
             <div className="contenedor-cards" key={index}>
               <>
-                <Image
-                  style={{
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                    marginLeft: '20px',
-                  }}
-                  alt=""
-                  src={searchResults[codigo1].imageUrl || '/rodamiento.webp'}
-                  width={80}
-                  height={80}
+                <FotoProducto
+                  codigo1={searchResults[codigo1].codigo1}
+                  imageUrl={searchResults[codigo1].imageUrl}
                 />
               </>
               <div className="textos-completo2">
@@ -246,8 +240,8 @@ export default function BusquedaDescripcion() {
                     <span>Exterior: {searchResults[codigo1].exterior} mm</span>
                     <span>Altura: {searchResults[codigo1].altura} mm</span>
                     <span className="span-3">
-                      {' '}
-                      {searchResults[codigo1].descripcion}{' '}
+                      {" "}
+                      {searchResults[codigo1].descripcion}{" "}
                     </span>
                   </div>
                 </div>
@@ -265,48 +259,50 @@ export default function BusquedaDescripcion() {
                           <>
                             <div className="propiedades2" key={marcaIndex}>
                               <Image
-                                style={{ marginRight: '100px' }}
+                                style={{ marginRight: "100px" }}
                                 alt=""
                                 src={`/${producto.marca.toLowerCase()}Logo.png`}
                                 width={100}
                                 height={25}
                               />
 
-                              <span style={{ fontWeight: 'bold' }}>
+                              <span style={{ fontWeight: "bold" }}>
                                 ${producto.precio}
                               </span>
                               <span
                                 className="span-2"
                                 style={{
-                                  fontWeight: 'bold',
+                                  fontWeight: "bold",
                                   color:
-                                    producto.stock.toLowerCase() == 'disponible'
-                                      ? 'green'
-                                      : producto.stock == 'No disponible'
-                                      ? 'red'
-                                      : 'rgb(215, 215, 58)',
-                                }}>
+                                    producto.stock.toLowerCase() == "disponible"
+                                      ? "green"
+                                      : producto.stock == "No disponible"
+                                        ? "red"
+                                        : "rgb(215, 215, 58)",
+                                }}
+                              >
                                 {producto.stock
                                   ? producto.stock.toUpperCase()
-                                  : ''}
+                                  : ""}
                               </span>
 
-                              {admin === 'rodamientosbb@admin.com' ? (
+                              {admin === "rodamientosbb@admin.com" ? (
                                 <button
                                   onClick={() =>
                                     handleClickAgregar(
                                       searchResults[codigo1],
-                                      producto
+                                      producto,
                                     )
-                                  }>
+                                  }
+                                >
                                   AGREGAR
                                 </button>
                               ) : (
-                                ''
+                                ""
                               )}
                             </div>
                           </>
-                        )
+                        ),
                       )}
                   </div>
                 </div>

@@ -12,6 +12,7 @@ import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
 import NavCodigo from '@/components/NavCodigobautista';
 import { listAll } from 'firebase/storage';
+import FotoProducto from "@/components/FotoProductosbautista";
 
 export default function BusquedaCodigo2() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,7 +80,7 @@ export default function BusquedaCodigo2() {
     cantidades,
     usuario,
     selectedMarca,
-    descripcion
+    descripcion,
   ) => {
     const { codigo1 } = producto;
     const { precio, marca, stock } = selectedMarca;
@@ -88,8 +89,8 @@ export default function BusquedaCodigo2() {
       const snapshot = await get(
         ref(
           db,
-          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
-        )
+          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
+        ),
       );
 
       if (snapshot.exists()) {
@@ -104,9 +105,9 @@ export default function BusquedaCodigo2() {
         update(
           ref(
             db,
-            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       } else {
         const productoEnCarrito = {
@@ -120,9 +121,9 @@ export default function BusquedaCodigo2() {
         update(
           ref(
             db,
-            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       }
 
@@ -147,7 +148,7 @@ export default function BusquedaCodigo2() {
         .then((snapshot) => {
           if (snapshot.exists()) {
             const productos = snapshot.val();
-              
+
             setCatalogData(productos);
           } else {
             console.log("No se encontraron productos en la rama especificada");
@@ -186,8 +187,7 @@ export default function BusquedaCodigo2() {
     // Realiza la búsqueda en los datos del catálogo
     const results = searchProducts(term);
     const first30 = results.slice(0, 50);
-    setSearchResults(first30)
-
+    setSearchResults(first30);
   };
 
   const searchProducts = (term) => {
@@ -273,13 +273,9 @@ export default function BusquedaCodigo2() {
               <div key={index} className="product-card">
                 <div className="product-content">
                   <div className="product-image">
-                    <Image
-                      alt="Product"
-                      height={128}
-                      width={128}
-                      src={
-                        searchResults[codigo1].imageUrl || "/rodamiento.webp"
-                      }
+                    <FotoProducto
+                      codigo1={searchResults[codigo1].codigo1}
+                      imageUrl={searchResults[codigo1].imageUrl}
                     />
                   </div>
 
@@ -348,9 +344,9 @@ export default function BusquedaCodigo2() {
                                     "disponible"
                                       ? "stock-available"
                                       : producto.stock.toLowerCase() ===
-                                        "no disponible"
-                                      ? "stock-unavailable"
-                                      : "stock-limited"
+                                          "no disponible"
+                                        ? "stock-unavailable"
+                                        : "stock-limited"
                                   }`}
                                 >
                                   {producto.stock.toUpperCase()}
@@ -368,7 +364,7 @@ export default function BusquedaCodigo2() {
                                 )} */}
                               </div>
                             </div>
-                          )
+                          ),
                         )}
                     </div>
                   </div>

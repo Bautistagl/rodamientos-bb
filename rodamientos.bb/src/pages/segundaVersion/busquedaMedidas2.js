@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbarbautista';
 import Link from 'next/link';
 import PopUp from '@/components/PopUpbautista';
 import NavMedida from '@/components/NavMedidasbautista';
+import FotoProducto from "@/components/FotoProductosbautista";
 
 export default function BusquedaAltura() {
   const [searchAltura, setSearchAltura] = useState(null);
@@ -18,16 +19,16 @@ export default function BusquedaAltura() {
   const [searchResults, setSearchResults] = useState([]);
   const [catalogData, setCatalogData] = useState([]);
   const [user, setUser] = useState(null);
-  const [rol, setRol] = useState('');
-  const [nuevoPrecio, setNuevoPrecio] = useState('');
-  const [usuario, setUsuario] = useState('');
-  const [admin, setAdmin] = useState('');
+  const [rol, setRol] = useState("");
+  const [nuevoPrecio, setNuevoPrecio] = useState("");
+  const [usuario, setUsuario] = useState("");
+  const [admin, setAdmin] = useState("");
   const [abierto, setAbierto] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedMarca, setSelectedMarca] = useState(null);
   const [cantidad, setCantidad] = useState(null);
 
-  const usuarioRef = ref(db, 'usuarios');
+  const usuarioRef = ref(db, "usuarios");
 
   const handleClickAgregar = (producto) => {
     setSelectedProduct(producto);
@@ -41,7 +42,7 @@ export default function BusquedaAltura() {
     cantidades,
     usuario,
     selectedMarca,
-    descripcion
+    descripcion,
   ) => {
     const { codigo1 } = producto;
     const { precio, marca, stock } = selectedMarca;
@@ -50,8 +51,8 @@ export default function BusquedaAltura() {
       const snapshot = await get(
         ref(
           db,
-          'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
-        )
+          "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
+        ),
       );
 
       if (snapshot.exists()) {
@@ -66,9 +67,9 @@ export default function BusquedaAltura() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       } else {
         const productoEnCarrito = {
@@ -82,28 +83,28 @@ export default function BusquedaAltura() {
         update(
           ref(
             db,
-            'usuarios/' + `${usuario}` + '/carrito2/' + codigo1 + '' + marca
+            "usuarios/" + `${usuario}` + "/carrito2/" + codigo1 + "" + marca,
           ),
-          productoEnCarrito
+          productoEnCarrito,
         );
       }
 
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Producto agregado',
+        position: "top-end",
+        icon: "success",
+        title: "Producto agregado",
         showConfirmButton: false,
         timer: 1000,
       });
       setCantidad(0);
       setAbierto(false);
     } catch (error) {
-      console.log('Error al agregar el producto al carrito:', error);
+      console.log("Error al agregar el producto al carrito:", error);
     }
   };
 
   useEffect(() => {
-    const productosRef = ref(db, 'productos'); // Ruta de los productos en la base de datos
+    const productosRef = ref(db, "productos"); // Ruta de los productos en la base de datos
     // Obtiene los datos del catálogo desde la base de datos
     const getCatalogData = async () => {
       await get(productosRef)
@@ -112,13 +113,13 @@ export default function BusquedaAltura() {
             const productos = snapshot.val();
             setCatalogData(productos);
           } else {
-            console.log('No se encontraron productos en la rama especificada');
+            console.log("No se encontraron productos en la rama especificada");
           }
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Debe iniciar sesión para ver los productos',
+            icon: "error",
+            title: "Debe iniciar sesión para ver los productos",
 
             footer:
               '<a href="https://wa.me/1137660939"> Clickea aca y pedi tu cuenta gratis! </a>',
@@ -127,14 +128,14 @@ export default function BusquedaAltura() {
 
       //   setCatalogData(snapshot.val());
     };
-    const id = localStorage.getItem('idRodamientos');
+    const id = localStorage.getItem("idRodamientos");
     if (id) {
       setUsuario(id);
     } else {
-      alert('nadie logeado');
+      alert("nadie logeado");
     }
-    if (window.localStorage.getItem('email')) {
-      const adminData = JSON.parse(window.localStorage.getItem('email'));
+    if (window.localStorage.getItem("email")) {
+      const adminData = JSON.parse(window.localStorage.getItem("email"));
       if (adminData) {
         setAdmin(adminData.email);
       }
@@ -148,7 +149,7 @@ export default function BusquedaAltura() {
     const results = searchProducts(
       searchAltura,
       searchInterior,
-      searchExterior
+      searchExterior,
     );
     const first30 = results.slice(0, 50);
 
@@ -282,13 +283,9 @@ export default function BusquedaAltura() {
               <div key={index} className="product-card">
                 <div className="product-content">
                   <div className="product-image">
-                    <Image
-                      alt="Product"
-                      height={128}
-                      width={128}
-                      src={
-                        searchResults[codigo1].imageUrl || "/rodamiento.webp"
-                      }
+                    <FotoProducto
+                      codigo1={searchResults[codigo1].codigo1}
+                      imageUrl={searchResults[codigo1].imageUrl}
                     />
                   </div>
 
@@ -357,9 +354,9 @@ export default function BusquedaAltura() {
                                     "disponible"
                                       ? "stock-available"
                                       : producto.stock.toLowerCase() ===
-                                        "no disponible"
-                                      ? "stock-unavailable"
-                                      : "stock-limited"
+                                          "no disponible"
+                                        ? "stock-unavailable"
+                                        : "stock-limited"
                                   }`}
                                 >
                                   {producto.stock.toUpperCase()}
@@ -377,7 +374,7 @@ export default function BusquedaAltura() {
                                 )} */}
                               </div>
                             </div>
-                          )
+                          ),
                         )}
                     </div>
                   </div>
