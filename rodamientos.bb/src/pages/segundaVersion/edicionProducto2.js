@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 import { db } from '../../firebase';
+import { pathProducto } from '../../utils/productoKey';
 import 'firebase/database';
 import { ref, get, update, remove } from 'firebase/database';
 
@@ -73,12 +74,34 @@ export default function EdicionProducto() {
     setInterior(e.target.value);
   };
 
-  const handleConfirmacion = (codigo, marca) => {
-    const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marca}`);
+  // Vuelve a leer UN producto y actualiza la pantalla, para que el cambio se vea
+  // sin recargar ni volver a bajar todo el catálogo.
+  const refrescarProducto = async (key) => {
+    try {
+      const snap = await get(ref(db, pathProducto(key)));
+      const val = snap.val();
+      setCatalogData((prev) => {
+        const next = { ...prev };
+        if (val) next[key] = val;
+        else delete next[key];
+        return next;
+      });
+      setSearchResults((prev) =>
+        val
+          ? prev.map((p) => (p._key === key ? { ...val, _key: key } : p))
+          : prev.filter((p) => p._key !== key)
+      );
+    } catch (error) {
+      console.error('Error al refrescar el producto:', error);
+    }
+  };
+
+  // key = clave real del nodo en Firebase; marcaKey = clave dentro de /marcas
+  const handleConfirmacion = (key, marcaKey) => {
+    const dbRef2 = ref(db, `${pathProducto(key)}/marcas/${marcaKey}`);
 
     get(dbRef2)
       .then((snapshot) => {
-        console.log(snapshot)
         if (snapshot.exists()) {
           remove(dbRef2)
             .then((data) => {
@@ -90,6 +113,8 @@ export default function EdicionProducto() {
                 showConfirmButton: false,
               });
               setProductToDelete(null);
+              setCodigoToDelete(null);
+              refrescarProducto(key);
             })
             .catch((error) => {
               alert('Error al actualizar los valores:', error);
@@ -103,11 +128,10 @@ export default function EdicionProducto() {
       });
   };
 
-  const actualizarItems = async (codigo, marca) => {
-
-    const marcaActualizada = marca === 'economica' ? 'Economica' : marca;
-
-    const dbRef2 = ref(db, `/productos/ ${codigo}/marcas/${marcaActualizada}`);
+  // Antes la ruta se armaba con codigo1, por eso al editar la tarjeta duplicada
+  // se escribía en el OTRO nodo y el duplicado nunca cambiaba de precio.
+  const actualizarItems = async (key, marcaKey) => {
+    const dbRef2 = ref(db, `${pathProducto(key)}/marcas/${marcaKey}`);
 
     const nuevosValores = {};
     if (nuevoPrecio !== '') {
@@ -135,7 +159,7 @@ export default function EdicionProducto() {
               });
               setNuevoPrecio('');
               setNuevoStock('');
-             
+              refrescarProducto(key);
             })
             .catch((error) => {
               console.error('Error al actualizar los valores:', error);
@@ -207,9 +231,9 @@ export default function EdicionProducto() {
       var filtro = product.codigo1;
       if (filtro) {
         if (filtro.includes(term)) {
-          // Agrega el producto a los resultados si encuentra coincidencia
-
-          results.push(product);
+          // Se guarda la clave real del nodo para que toda edición escriba en
+          // ESTE producto y no en otro con el mismo codigo1.
+          results.push({ ...product, _key: productId });
         }
       }
     });
@@ -240,14 +264,8 @@ export default function EdicionProducto() {
   const handleModal = () => {
     setMostrarModal(true);
   };
-  const handleDeleteApplication = (codigo1, aplicacionKey) => {
-    let codigo = codigo1;
-    if (codigo.includes("POL")) {
-      codigo = codigo.replace("POL", "Pol");
-    } else if (codigo.includes("VIT")) {
-      codigo = codigo.replace("VIT", "Vit");
-    }
-    const dbRef = ref(db, `/productos/ ${codigo}/aplicaciones/${aplicacionKey}`);
+  const handleDeleteApplication = (key, aplicacionKey) => {
+    const dbRef = ref(db, `${pathProducto(key)}/aplicaciones/${aplicacionKey}`);
     remove(dbRef)
       .then(() => {
         Swal.fire({
@@ -256,8 +274,7 @@ export default function EdicionProducto() {
           showConfirmButton: false,
           timer: 1000,
         })
-       
-        console.log("Aplicación eliminada con éxito");
+        refrescarProducto(key);
       })
       .catch((error) => {
         console.error("Error al eliminar la aplicación:", error);
@@ -384,7 +401,7 @@ export default function EdicionProducto() {
                                 className="buscar2"
                                 onClick={() =>
                                   handleDeleteApplication(
-                                    searchResults[codigo1].codigo1,
+                                    searchResults[codigo1]._key,
                                     appKey
                                   )
                                 }
@@ -425,11 +442,11 @@ export default function EdicionProducto() {
 
                     <div className="contenedor-propiedades2">
                       {searchResults[codigo1].marcas &&
-                        Object.values(searchResults[codigo1].marcas).map(
-                          (producto, marcaIndex) => (
+                        Object.entries(searchResults[codigo1].marcas).map(
+                          ([marcaKey, producto], marcaIndex) => (
                             <div
                               className="propiedades-edicion"
-                              key={marcaIndex}
+                              key={`${searchResults[codigo1]._key}-${marcaKey}`}
                             >
                               <h2 className="falso-span-edicion3">
                                 {" "}
@@ -465,10 +482,8 @@ export default function EdicionProducto() {
                                   style={{ marginRight: "5px" }}
                                   onClick={() => {
                                     actualizarItems(
-                                      searchResults[codigo1].codigo1,
-                                      producto.marca,
-                                      nuevoPrecio,
-                                      nuevoStock
+                                      searchResults[codigo1]._key,
+                                      marcaKey
                                     );
                                   }}
                                 />
@@ -479,8 +494,11 @@ export default function EdicionProducto() {
                                   style={{ marginRight: "5px" }}
                                   onClick={() => {
                                     handleArticulo(
-                                      producto,
-                                      searchResults[codigo1].codigo1
+                                      { ...producto, marcaKey },
+                                      {
+                                        key: searchResults[codigo1]._key,
+                                        codigo1: searchResults[codigo1].codigo1,
+                                      }
                                     );
                                   }}
                                 />
@@ -495,7 +513,7 @@ export default function EdicionProducto() {
               {productToDelete ? (
                 <div className="modal">
                   <div className="textos-modal">
-                    Desea borrar {productToDelete.marca} de {codigoToDelete}?
+                    Desea borrar {productToDelete.marca} de {codigoToDelete?.codigo1}?
                   </div>
 
                   <div className="contenedor-flex2">
@@ -503,8 +521,8 @@ export default function EdicionProducto() {
                       className="boton-modal"
                       onClick={() =>
                         handleConfirmacion(
-                          codigoToDelete,
-                          productToDelete.marca
+                          codigoToDelete.key,
+                          productToDelete.marcaKey
                         )
                       }
                     >
@@ -531,12 +549,20 @@ export default function EdicionProducto() {
           ""
         )}
         {nuevaMarca ? (
-          <NuevaMarca producto={nuevaMarca} setNuevaMarca={setNuevaMarca} />
+          <NuevaMarca
+            producto={nuevaMarca}
+            setNuevaMarca={setNuevaMarca}
+            onGuardado={refrescarProducto}
+          />
         ) : (
           ""
         )}
         {modificar ? (
-          <ModificarProd producto={modificar} setModificar={setModificar} />
+          <ModificarProd
+            producto={modificar}
+            setModificar={setModificar}
+            onGuardado={refrescarProducto}
+          />
         ) : (
           ""
         )}
@@ -544,6 +570,7 @@ export default function EdicionProducto() {
           <NuevaAplicacion
             producto={aplicacion}
             setAplicacion={setAplicacion}
+            onGuardado={refrescarProducto}
           />
         ) : (
           ""

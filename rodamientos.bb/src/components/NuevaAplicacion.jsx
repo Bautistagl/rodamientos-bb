@@ -6,10 +6,11 @@ import {
   getUbicaciones,
 } from "@/firebasebautista";
 import { child, get, ref, set, update } from "firebase/database";
+import { keyDeProducto, pathProducto } from "@/utils/productoKeybautista";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const NuevaAplicacion = ({ producto, setAplicacion }) => {
+const NuevaAplicacion = ({ producto, setAplicacion, onGuardado }) => {
   const [ubicaciones, setUbicaciones] = useState([]);
   const [marcaAutos, setMarcaAutos] = useState("");
   const [modelosAutos, setModelosAutos] = useState([]);
@@ -82,20 +83,16 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
 
   const dbRef2 = ref(db);
   const writeData = async () => {
-    // Modifica `producto.codigo1` si incluye "POL" o "VIT"
-    let codigo = producto.codigo1;
-    if (codigo.includes("POL")) {
-      codigo = codigo.replace("POL", "Pol");
-    } else if (codigo.includes("VIT")) {
-      codigo = codigo.replace("VIT", "Vit");
-    }
-  
-    const aplicacionesRef = ref(db, `productos/ ${codigo}/aplicaciones`);
+    // Clave real del nodo (antes se adivinaba cambiando POL->Pol / VIT->Vit)
+    const key = keyDeProducto(producto);
+    const base = pathProducto(key);
+
+    const aplicacionesRef = ref(db, `${base}/aplicaciones`);
     const aplicacionesSnapshot = await get(aplicacionesRef);
     const aplicacionesData = aplicacionesSnapshot.val();
-    const aplicacionesRef1 = ref(db, `productos/ ${codigo}/aplicaciones/1`);
-  
-    get(child(dbRef2, `productos/ ${codigo}/aplicaciones/`)).then(async (snapshot) => {
+    const aplicacionesRef1 = ref(db, `${base}/aplicaciones/1`);
+
+    get(child(dbRef2, `${base}/aplicaciones/`)).then(async (snapshot) => {
       if (snapshot.exists()) {
         const currentData = (await get(aplicacionesRef1)).val();
   
@@ -106,7 +103,8 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
           motores: [...(currentData?.motores || []), ...motores],
         };
   
-        update(aplicacionesRef1, updatedData);
+        await update(aplicacionesRef1, updatedData);
+        if (onGuardado) onGuardado(key);
   
         Swal.fire({
           title: "Aplicacion Creada",
@@ -123,13 +121,14 @@ const NuevaAplicacion = ({ producto, setAplicacion }) => {
       } else {
         const aplicacionesCount = Object.keys(aplicacionesData || {}).length;
   
-        const newAplicacionRef = ref(db, `productos/ ${codigo}/aplicaciones/${aplicacionesCount + 1}`);
-        set(newAplicacionRef, {
+        const newAplicacionRef = ref(db, `${base}/aplicaciones/${aplicacionesCount + 1}`);
+        await set(newAplicacionRef, {
           marcasAuto: marcaAutos,
           modelosAuto: modelosAutos,
           ubicaciones: ubicaciones,
           motores: motores,
         });
+        if (onGuardado) onGuardado(key);
   
         Swal.fire({
           title: "Aplicacion Creada",

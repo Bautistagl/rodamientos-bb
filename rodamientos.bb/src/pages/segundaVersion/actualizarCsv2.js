@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Papa from 'papaparse';
 import { ref, get, set, update } from 'firebase/database';
 import { db } from '../../firebase';
+import { normalizarCodigo, keyProducto, pathProducto } from '../../utils/productoKey';
 import { uid } from 'uid';
 import Navbar from '@/components/Navbarbautista';
 import NavCsv from '@/components/NavCsvbautista';
@@ -48,58 +49,65 @@ export default function ExcelUpdater2() {
       setStatus('Procesando archivo...');
       const { data } = Papa.parse(csvData, {
         header: true,
+        skipEmptyLines: true,
+        // Excel suele agregar un BOM invisible y espacios en los encabezados
+        transformHeader: (h) => h.replace(/^﻿/, '').trim().toUpperCase(),
       });
 
+      let actualizados = 0;
+      let creados = 0;
+      let errores = 0;
+
       for (const row of data) {
-        const codigo = row["CODIGO"].toUpperCase();
-        const nuevoPrecio = row['PRECIO'];
+        const codigo = normalizarCodigo(row['CODIGO']);
+        const nuevoPrecio = String(row['PRECIO'] ?? '').trim();
+        if (!codigo || nuevoPrecio === '') continue;
 
         try {
-          const dbRef = ref(
-            db,
-            `/productos/ ${codigo}/marcas/${selectedMarca}`
-          );
-          const dbRef3 = ref(db, `/productos/ ${codigo}`);
-          const snapshot = await get(dbRef);
+          const productoPath = pathProducto(keyProducto(codigo));
+          const marcaRef = ref(db, `${productoPath}/marcas/${selectedMarca}`);
+          const productoSnap = await get(ref(db, productoPath));
 
-          if (snapshot.exists()) {
-            console.log('existe el item');
-            
-            if (nuevoPrecio !== '') {
-              await update(dbRef, {
-                stock: 'Disponible',
-                marca: selectedMarca,
-                precio: nuevoPrecio,
-              });
-            }
+          if (productoSnap.exists()) {
+            // El producto ya existe: solo se toca esta marca. Antes, si el
+            // producto no tenía la marca, se pisaba el producto entero
+            // (descripción, medidas, foto, aplicaciones y las otras marcas).
+            await update(marcaRef, {
+              stock: 'Disponible',
+              marca: selectedMarca,
+              precio: nuevoPrecio,
+            });
+            actualizados++;
           } else {
-            console.log('no existe el item', nuevoPrecio);
-            if (nuevoPrecio !== '') {
-              
-              await set(dbRef3, {
-                altura: '',
-                codigo1: codigo,
-                codigo2: '',
-                codigo3: '',
-                descripcion: '',
-                exterior: '',
-                familia: '',
-                interior: '',
-                marcas: {
-                  [selectedMarca]: {
-                    stock: 'Disponible',
-                    marca: selectedMarca,
-                    precio: nuevoPrecio,
-                  },
+            await set(ref(db, productoPath), {
+              altura: '',
+              codigo1: codigo,
+              codigo2: '',
+              codigo3: '',
+              descripcion: '',
+              exterior: '',
+              familia: '',
+              interior: '',
+              marcas: {
+                [selectedMarca]: {
+                  stock: 'Disponible',
+                  marca: selectedMarca,
+                  precio: nuevoPrecio,
                 },
-              });
-            }
+              },
+            });
+            creados++;
           }
         } catch (error) {
-          console.error('Error updating/creating database:', error);
+          errores++;
+          console.error(`Error actualizando ${codigo}:`, error);
         }
       }
-      setStatus('Actualización completada.');
+      setStatus(
+        `Actualización completada: ${actualizados} actualizados, ${creados} nuevos` +
+          (errores ? `, ${errores} con error (ver consola)` : '') +
+          '.'
+      );
     } else {
       setStatus('No se ha cargado ningún archivo.');
     }

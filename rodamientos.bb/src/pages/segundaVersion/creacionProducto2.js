@@ -1,4 +1,5 @@
 import { db } from '../../firebase';
+import { normalizarCodigo, keyProducto, pathProducto } from '../../utils/productoKey';
 import { uid } from 'uid';
 import { set, ref, onValue, update, get, child } from 'firebase/database';
 import { useState, useEffect } from 'react';
@@ -105,7 +106,10 @@ function escapeFirebasePath(path) {
     const uuid = uid();
 
 const dbRef = ref(db)
-    get(child(dbRef,'productos/' + ` ${codigo1}/`))
+    const codigoNorm = normalizarCodigo(codigo1);
+    if (!codigoNorm) return;
+    const productoPath = pathProducto(keyProducto(codigoNorm));
+    get(child(dbRef, productoPath))
     .then((snapshot) => {
       if (snapshot.exists()) {
         Swal.fire({
@@ -126,10 +130,10 @@ const dbRef = ref(db)
           setDescripcion('')
         
       } else {
-        set(ref(db, 'productos/' + ` ${codigo1}/`), {
+        set(ref(db, productoPath), {
           uuid,
           // modelo,
-          codigo1,
+          codigo1: codigoNorm,
           codigo2,
           codigo3,
           altura,

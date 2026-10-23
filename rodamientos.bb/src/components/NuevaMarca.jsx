@@ -1,23 +1,20 @@
 import { db } from '@/firebasebautista';
 import { child, get, ref, set } from 'firebase/database';
+import { keyDeProducto, pathProducto } from '@/utils/productoKeybautista';
 import React, { useState } from 'react'
 import Swal from 'sweetalert2';
 
-const NuevaMarca = ({producto,setNuevaMarca}) => {
+const NuevaMarca = ({producto,setNuevaMarca,onGuardado}) => {
     const [marca,setMarca] = useState('')
     const [precio,setPrecio] = useState('')
     const [stock,setStock] = useState('')
 
-    const dbRef = ref(db, `/productos/ ${producto.codigo1}/marcas/${marca}`);
     const dbRef2 = ref(db)
     const writeData = () => {
-      let codigo = producto.codigo1;
-      if (codigo.includes("POL")) {
-        codigo = codigo.replace("POL", "Pol");
-      } else if (codigo.includes("VIT")) {
-        codigo = codigo.replace("VIT", "Vit");
-      }
-        get(child(dbRef2,'productos/' + ` ${codigo}/marcas/${marca}`))
+      if (!marca) return;
+      // Clave real del nodo (antes se adivinaba cambiando POL->Pol / VIT->Vit)
+      const key = keyDeProducto(producto);
+        get(child(dbRef2, `${pathProducto(key)}/marcas/${marca}`))
         .then((snapshot) => {
           if (snapshot.exists()) {
             Swal.fire({
@@ -34,7 +31,7 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
               
             
           } else {
-            set(ref(db,'productos/' + ` ${codigo}/marcas/${marca}`), {
+            set(ref(db, `${pathProducto(key)}/marcas/${marca}`), {
              marca:marca,
              precio:precio,
              stock:stock,
@@ -53,7 +50,8 @@ const NuevaMarca = ({producto,setNuevaMarca}) => {
               setPrecio('')
               setStock('')
               setNuevaMarca(null)
-          
+              if (onGuardado) onGuardado(key)
+
             })
             
             .catch(function () {

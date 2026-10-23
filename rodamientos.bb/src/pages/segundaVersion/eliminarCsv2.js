@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { ref, get, remove } from 'firebase/database';
 import { db } from '../../firebase';
+import { normalizarCodigo, keyProducto, pathProducto } from '../../utils/productoKey';
 import {
   getStorage,
   ref as storageRef,
@@ -59,18 +60,21 @@ export default function EliminarCsv() {
       setStatus('Procesando archivo...');
       const { data } = Papa.parse(csvData, {
         header: true,
+        skipEmptyLines: true,
+        transformHeader: (h) => h.replace(/^\uFEFF/, '').trim().toUpperCase(),
       });
 
       for (const row of data) {
-        const codigo = row['CODIGO'];
-        const precio = row['PRECIO'];
+        const codigo = normalizarCodigo(row['CODIGO']);
+        const precio = String(row['PRECIO'] ?? '').trim();
+        if (!codigo) continue;
 
         try {
           const dbRef = ref(
             db,
-            `/productos/ ${codigo}/marcas/${selectedMarca}`
+            `${pathProducto(keyProducto(codigo))}/marcas/${selectedMarca}`
           );
-          const dbRef2 = ref(db, `/productos/ ${codigo}`);
+          const dbRef2 = ref(db, pathProducto(keyProducto(codigo)));
           const snapshot = await get(dbRef);
 
           if (snapshot.exists()) {

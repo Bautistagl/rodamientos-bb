@@ -1,10 +1,16 @@
 import { db, storage } from "@/firebasebautista";
-import { ref, update } from "firebase/database";
+import { get, ref, update } from "firebase/database";
+import {
+  normalizarCodigo,
+  keyProducto,
+  keyDeProducto,
+  pathProducto,
+} from "@/utils/productoKeybautista";
 import { ref as sRef, uploadString, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-const ModificarProd = ({ producto, setModificar }) => {
+const ModificarProd = ({ producto, setModificar, onGuardado }) => {
   const [altura, setAltura] = useState("");
   const [codigo1, setCodigo1] = useState("");
   const [codigo2, setCodigo2] = useState("");
@@ -62,12 +68,13 @@ const ModificarProd = ({ producto, setModificar }) => {
     try {
       const updatedData = {
         altura: altura,
-        codigo1: codigo1,
-        codigo2: codigo2,
-        codigo3: codigo3,
+        codigo1: normalizarCodigo(codigo1),
+        codigo2: codigo2.trim().toUpperCase(),
+        codigo3: codigo3.trim().toUpperCase(),
         descripcion: descripcion,
         exterior: exterior,
         interior: interior,
+        familia: familia,
         marcaAuto: marcaAuto,
         modelos: modelos,
         ubicacion: ubicacion,
@@ -78,7 +85,37 @@ const ModificarProd = ({ producto, setModificar }) => {
         Object.entries(updatedData).filter(([key, value]) => value !== ""),
       );
 
-      await update(ref(db, "productos/" + `${producto.codigo1}`), filteredData);
+      // Clave REAL del nodo que se está editando. Antes se usaba
+      // "productos/" + codigo1 (sin el espacio), lo que creaba un producto
+      // nuevo en vez de modificar el existente.
+      const keyActual = keyDeProducto(producto);
+      const keyNueva = filteredData.codigo1
+        ? keyProducto(filteredData.codigo1)
+        : keyActual;
+      let keyFinal = keyActual;
+
+      if (keyNueva !== keyActual) {
+        // Cambió el código: se mueve el producto a la clave nueva para que el
+        // CSV y el buscador lo encuentren por el código nuevo.
+        const destino = await get(ref(db, pathProducto(keyNueva)));
+        if (destino.exists()) {
+          Swal.fire({
+            title: "Ese código ya existe",
+            text: `Ya hay un producto con el código ${filteredData.codigo1}.`,
+            icon: "error",
+          });
+          return;
+        }
+        const actual = (await get(ref(db, pathProducto(keyActual)))).val() || {};
+        await update(ref(db, "productos"), {
+          [keyNueva]: { ...actual, ...filteredData },
+          [keyActual]: null,
+        });
+        keyFinal = keyNueva;
+      } else {
+        await update(ref(db, pathProducto(keyActual)), filteredData);
+      }
+
       Swal.fire({
         title: "Producto Actualizado",
         icon: "success",
@@ -87,6 +124,10 @@ const ModificarProd = ({ producto, setModificar }) => {
         showConfirmButton: false,
       });
       setModificar(null);
+      if (onGuardado) {
+        if (keyFinal !== keyActual) await onGuardado(keyActual);
+        await onGuardado(keyFinal);
+      }
     } catch (error) {
       console.error("Error al escribir datos:", error);
     }
@@ -121,7 +162,7 @@ const ModificarProd = ({ producto, setModificar }) => {
             placeholder={`${producto.descripcion}(desc)`}
           />
           <select
-            value={producto.familia}
+            value={familia || producto.familia || ""}
             onChange={(e) => setFamilia(e.target.value)}
           >
             <option value="" disabled>
