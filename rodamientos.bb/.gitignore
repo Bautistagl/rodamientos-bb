@@ -30,3 +30,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+backup-productos-*.json
+limpieza-duplicados*.csv
+limpieza-duplicados-cambios.json
