@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { db } from '../../firebase';
+import { db, storage } from '../../firebase';
 import { pathProducto } from '../../utils/productoKey';
 import 'firebase/database';
 import { ref, get, update, remove } from 'firebase/database';
+import { ref as sRef, deleteObject } from 'firebase/storage';
 
 import Swal from 'sweetalert2';
 import Navbar from '@/components/Navbarbautista';
@@ -264,6 +265,71 @@ export default function EdicionProducto() {
   const handleModal = () => {
     setMostrarModal(true);
   };
+  // Borra el producto entero (el nodo productos/{key} con todas sus marcas y
+  // aplicaciones). Pide confirmación escribiendo el código para evitar
+  // borrados por error.
+  const handleEliminarProducto = async (producto) => {
+    const key = producto._key;
+    const codigo = producto.codigo1;
+    const cantMarcas = producto.marcas ? Object.keys(producto.marcas).length : 0;
+
+    const { isConfirmed } = await Swal.fire({
+      title: `¿Eliminar el producto ${codigo}?`,
+      html:
+        `Se va a borrar el producto completo` +
+        (cantMarcas ? `, con sus ${cantMarcas} marca(s)` : '') +
+        ` y sus aplicaciones. Esta acción no se puede deshacer.<br/><br/>` +
+        `Escribí <b>${codigo}</b> para confirmar:`,
+      icon: 'warning',
+      input: 'text',
+      inputPlaceholder: codigo,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar producto',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      preConfirm: (valor) => {
+        if (String(valor ?? '').trim().toUpperCase() !== String(codigo).toUpperCase()) {
+          Swal.showValidationMessage('El código no coincide');
+          return false;
+        }
+        return true;
+      },
+    });
+    if (!isConfirmed) return;
+
+    try {
+      await remove(ref(db, pathProducto(key)));
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      Swal.fire({ title: 'No se pudo eliminar', text: String(error?.message ?? error), icon: 'error' });
+      return;
+    }
+
+    // La foto se guarda como fotos/{codigo1}.jpg. Solo se borra si ningún otro
+    // producto usa el mismo codigo1 (los duplicados comparten la foto).
+    const otroConMismoCodigo = Object.entries(catalogData || {}).some(
+      ([k, p]) => k !== key && p?.codigo1 === codigo
+    );
+    if (producto.imageUrl && !otroConMismoCodigo) {
+      try {
+        await deleteObject(sRef(storage, `fotos/${codigo}.jpg`));
+      } catch (error) {
+        if (error?.code !== 'storage/object-not-found') {
+          console.error('El producto se borró, pero no la foto:', error);
+        }
+      }
+    }
+
+    Swal.fire({
+      title: 'Producto eliminado',
+      icon: 'success',
+      timer: 1200,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+    refrescarProducto(key);
+  };
+
   const handleDeleteApplication = (key, aplicacionKey) => {
     const dbRef = ref(db, `${pathProducto(key)}/aplicaciones/${aplicacionKey}`);
     remove(dbRef)
@@ -437,6 +503,15 @@ export default function EdicionProducto() {
                       >
                         {" "}
                         Agregar Aplicacion{" "}
+                      </button>
+                      <button
+                        style={{ backgroundColor: "#d33", color: "#fff" }}
+                        onClick={() => {
+                          handleEliminarProducto(searchResults[codigo1]);
+                        }}
+                      >
+                        {" "}
+                        Eliminar producto{" "}
                       </button>
                     </div>
 
