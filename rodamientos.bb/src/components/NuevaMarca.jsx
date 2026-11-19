@@ -92,6 +92,7 @@ const NuevaMarca = ({producto,setNuevaMarca,onGuardado}) => {
           <option value="DOLZ">DOLZ</option>
           <option value="DAYCO">DAYCO</option>
           <option value="DBH">DBH</option>
+          <option value="FAG">FAG</option>
           <option value="CORTECO">CORTECO</option>
           <option value="TIMKEN">TIMKEN</option>
                           </select>
